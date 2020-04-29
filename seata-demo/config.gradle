@@ -1,0 +1,7 @@
+ext {
+    mariadbJavaClientVersion = '2.1.2'
+    druidVersion = '1.1.9'
+    lombokVersion = '1.18.4'
+    seataVersion = '2.2.0.RELEASE'
+    mybatisPlusVersion = '3.3.1'
+}

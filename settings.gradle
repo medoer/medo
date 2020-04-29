@@ -1,0 +1,7 @@
+rootProject.name = 'medo'
+
+include('seata-demo')
+include('seata-demo:business-service')
+include('seata-demo:storage-service')
+include('seata-demo:order-service')
+include('seata-demo:account-service')

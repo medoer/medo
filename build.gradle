@@ -1,0 +1,38 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'java-library'
+}
+
+group 'tech.medo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    apply from: "${rootDir}/gradle/config/scripts/style.gradle"
+    apply from: "${rootDir}/gradle/config/scripts/coverage.gradle"
+
+    coverage.excludePackages = [
+    ]
+
+    coverage.excludeClasses = [
+    ]
+
+    style.excludePackages = [
+    ]
+
+    style.excludeClasses = [
+    ]
+}

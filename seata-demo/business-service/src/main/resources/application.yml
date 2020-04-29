@@ -1,0 +1,22 @@
+server:
+  port: 9101
+
+spring:
+  application:
+    name: business-service
+#  TODO remove the datasource config
+  datasource:
+    url: jdbc:mysql://localhost:3306/seata-demo?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+    driver-class-name: org.mariadb.jdbc.Driver
+  cloud:
+    alibaba:
+      seata:
+        application-id: business-service
+        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应，默认是${spring.application.name}-fescar-service-group
+        tx-service-group: business-service-group
+
+seata-demo:
+  order-service-endpoint: http://localhost:9102
+  storage-service-endpoint: http://localhost:9104
