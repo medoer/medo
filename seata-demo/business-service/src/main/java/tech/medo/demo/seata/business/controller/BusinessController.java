@@ -15,7 +15,7 @@ public class BusinessController {
     private BusinessService businessService;
 
     /**
-     * 下单场景测试-正常
+     * 下单场景测试-正常.
      */
     @RequestMapping(path = "/placeOrder")
     public Boolean placeOrder() {
@@ -24,7 +24,7 @@ public class BusinessController {
     }
 
     /**
-     * 下单场景测试-回滚
+     * 下单场景测试-回滚.
      */
     @RequestMapping(path = "/placeOrderFallBack")
     public Boolean placeOrderFallBack() {

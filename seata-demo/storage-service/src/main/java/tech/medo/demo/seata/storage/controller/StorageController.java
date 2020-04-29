@@ -15,7 +15,7 @@ public class StorageController {
     private StorageService storageService;
 
     /**
-     * 减库存
+     * 减库存.
      * @param commodityCode 商品代码
      * @param count 数量
      */

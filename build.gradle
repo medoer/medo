@@ -22,13 +22,13 @@ subprojects {
     }
 
     apply from: "${rootDir}/gradle/config/scripts/style.gradle"
-    apply from: "${rootDir}/gradle/config/scripts/coverage.gradle"
+    // apply from: "${rootDir}/gradle/config/scripts/coverage.gradle"
 
-    coverage.excludePackages = [
-    ]
+    // coverage.excludePackages = [
+    // ]
 
-    coverage.excludeClasses = [
-    ]
+    // coverage.excludeClasses = [
+    // ]
 
     style.excludePackages = [
     ]

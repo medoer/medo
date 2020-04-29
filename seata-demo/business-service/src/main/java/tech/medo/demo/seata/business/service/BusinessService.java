@@ -21,7 +21,7 @@ public class BusinessService {
     private StorageFeignClient storageFeignClient;
 
     /**
-     * 下订单
+     * 下订单.
      */
     @GlobalTransactional
     public void placeOrder(String userId) {

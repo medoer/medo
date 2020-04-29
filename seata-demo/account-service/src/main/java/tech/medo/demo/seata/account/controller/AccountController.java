@@ -13,7 +13,7 @@ public class AccountController {
     private AccountService accountService;
 
     /**
-     * 账号扣钱
+     * 账号扣钱.
      */
     @PostMapping(value = "/account/reduce")
     public Boolean reduce(String userId, Integer money) {

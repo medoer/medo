@@ -14,7 +14,7 @@ public class OrderController {
     private OrderService orderService;
 
     /**
-     * 创建订单
+     * 创建订单.
      * @param userId 用户id
      * @param commodityCode 订单编号
      * @param count 数量

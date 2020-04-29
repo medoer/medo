@@ -16,7 +16,7 @@ public class AccountService {
     private AccountMapper accountMapper;
 
     /**
-     * 减账号金额
+     * 减账号金额.
      */
     //@Transactional(rollbackFor = Exception.class)
     public void reduce(String userId, final int money) {

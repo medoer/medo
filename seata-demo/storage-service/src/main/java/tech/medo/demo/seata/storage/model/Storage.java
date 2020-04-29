@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 库存
+ * 库存.
  *
  */
 @Data

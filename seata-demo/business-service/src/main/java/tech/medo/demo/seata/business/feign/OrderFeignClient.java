@@ -8,5 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface OrderFeignClient {
 
     @GetMapping("order/create")
-    Boolean create(@RequestParam("userId") String userId, @RequestParam("commodityCode") String commodityCode, @RequestParam("count") Integer count);
+    Boolean create(@RequestParam("userId") String userId,
+            @RequestParam("commodityCode") String commodityCode,
+            @RequestParam("count") Integer count);
 }

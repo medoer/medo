@@ -15,8 +15,7 @@ public class StorageService {
     private StorageMapper storageMapper;
 
     /**
-     * 减库存
-     * 
+     * 减库存.
      * @param commodityCode 商品编号
      * @param count 数量
      */
