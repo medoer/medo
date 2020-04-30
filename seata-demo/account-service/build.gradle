@@ -1,6 +1,6 @@
 
 dependencies {
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${seataVersion}")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-seata"
+    implementation "org.springframework.boot:spring-boot-starter-web"
 }
 
