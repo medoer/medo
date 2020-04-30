@@ -1,7 +1,10 @@
-rootProject.name = 'medo'
+rootProject.name = "medo"
 
-include('seata-demo')
-include('seata-demo:business-service')
-include('seata-demo:storage-service')
-include('seata-demo:order-service')
-include('seata-demo:account-service')
+include "medo-dependencies"
+include "medo-dependencies:md-demo"
+
+include "seata-demo"
+include "seata-demo:business-service",
+        "seata-demo:storage-service",
+        "seata-demo:order-service",
+        "seata-demo:account-service"

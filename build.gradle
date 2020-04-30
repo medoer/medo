@@ -1,8 +1,16 @@
+// must be declare, and then can apply the 'io.spring.dependency-management'
+// equals to classpath()
+plugins {
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "org.springframework.boot" version "2.2.6.RELEASE"
+}
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'eclipse'
     apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
 }
 
 group 'tech.medo'
@@ -14,14 +22,22 @@ targetCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 }
-
 subprojects {
+
+    repositories {
+        mavenCentral()
+    }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
 
+    // global dependencies jar version
+    apply from: "${rootDir}/gradle/config/scripts/dependencies.gradle"
+
+    // checkstyle
     apply from: "${rootDir}/gradle/config/scripts/style.gradle"
+
     // apply from: "${rootDir}/gradle/config/scripts/coverage.gradle"
 
     // coverage.excludePackages = [

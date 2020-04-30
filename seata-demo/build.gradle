@@ -4,12 +4,6 @@ buildscript {
         springBootVersion = "2.2.1.RELEASE"
         springCloudVersion = "Greenwich.RELEASE"
     }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
 }
 
 allprojects {
@@ -17,40 +11,23 @@ allprojects {
     version = "0.0.1-SNAPSHOT"
 }
 
-apply from: "config.gradle"
-
 subprojects {
     apply plugin: "org.springframework.boot"
-    apply plugin: "io.spring.dependency-management"
-
-    configurations {
-        compile.exclude module: "spring-boot-starter-logging"
-    }
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
 
+        implementation "com.alibaba:druid-spring-boot-starter"
+        // mysql connection
+        runtime "org.mariadb.jdbc:mariadb-java-client"
+        // lombok
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+        implementation "com.baomidou:mybatis-plus-boot-starter"
+        implementation "com.baomidou:mybatis-plus-extension"
         runtime "org.springframework.boot:spring-boot-devtools"
         testCompile "org.springframework.boot:spring-boot-starter-test"
-        implementation "org.springframework.boot:spring-boot-starter-log4j2"
-        // mysql connection
-        runtime "org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}"
-        // lombok
-        compileOnly "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         // spring cloud
         implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
-        implementation "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
-        implementation "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
-        implementation "com.alibaba:druid-spring-boot-starter:${druidVersion}"
-    }
-    dependencyManagement {
-        imports {
-            //spring bom helps us to declare dependencies without specifying config numbers.
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
+
     }
 }

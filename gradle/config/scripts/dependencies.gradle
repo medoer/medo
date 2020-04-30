@@ -1,0 +1,27 @@
+apply plugin: "io.spring.dependency-management"
+
+ext {
+    commonsLang3Version = "3.10" 
+    druidVersion = '1.1.9'
+    lombokVersion = "1.18.4"
+    mariadbJavaClientVersion = '2.1.2'
+    mybatisPlusVersion = '3.3.1'
+    seataVersion = '2.2.0.RELEASE'
+    springCloudVersion = "Greenwich.RELEASE"
+}
+
+dependencyManagement {
+    dependencies {
+        dependency "org.apache.commons:commons-lang3:${commonsLang3Version}"
+        dependency "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+        dependency "org.projectlombok:lombok:${lombokVersion}"
+        dependency "org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}"
+        dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
+        dependency "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
+        dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${seataVersion}"
+    }
+    imports {
+        //spring bom helps us to declare dependencies without specifying config numbers.
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
