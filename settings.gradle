@@ -8,3 +8,5 @@ include "seata-demo:business-service",
         "seata-demo:storage-service",
         "seata-demo:order-service",
         "seata-demo:account-service"
+
+include "gateway-zuul"

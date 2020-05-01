@@ -1,0 +1,15 @@
+
+group = "tech.medo.gateway-zuul"
+version = "0.0.1-SNAPSHOT"
+
+dependencies {
+    apply plugin: "org.springframework.boot"
+
+    implementation "org.apache.commons:commons-lang3"
+    // lombok
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+    // implementation project(':common-lib')
+    // spring cloud zuul 改了名字了， spring-cloud-starter-zuul -> spring-cloud-starter-netflix-zuul
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-zuul"
+}
