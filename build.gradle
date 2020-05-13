@@ -21,6 +21,12 @@ targetCompatibility = JavaVersion.VERSION_1_8
 repositories {
     mavenCentral()
 }
+
+// exclude parent project's bootJar task
+bootJar {
+    enabled = false
+}
+
 subprojects {
 
     repositories {
