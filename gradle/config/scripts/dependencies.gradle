@@ -1,23 +1,30 @@
 apply plugin: "io.spring.dependency-management"
 
 ext {
-    commonsLang3Version = "3.10" 
+    commonsIOVersion = '2.7'
+    commonsLang3Version ='3.10' 
     druidVersion = '1.1.9'
     lombokVersion = "1.18.4"
     mariadbJavaClientVersion = '2.1.2'
     mybatisPlusVersion = '3.3.1'
     seataVersion = '2.2.0.RELEASE'
+    redissonVersion = '3.13.2'
     springCloudVersion = "Greenwich.RELEASE"
 }
 
+// java.lang.BootstrapMethodError: java.lang.NoClassDefFoundError: org/junit/platform/engine/EngineDiscoveryListener
+ext['junit-jupiter.version'] = '5.6.0'
+
 dependencyManagement {
     dependencies {
+        dependency "commons-io:commons-io:${commonsIOVersion}"
         dependency "org.apache.commons:commons-lang3:${commonsLang3Version}"
         dependency "com.alibaba:druid-spring-boot-starter:${druidVersion}"
         dependency "org.projectlombok:lombok:${lombokVersion}"
         dependency "org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}"
         dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
         dependency "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"
+        dependency "org.redisson:redisson-spring-boot-starter:${redissonVersion}"
         dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${seataVersion}"
     }
     imports {

@@ -10,3 +10,7 @@ include "seata-demo:business-service",
         "seata-demo:account-service"
 
 include "gateway-zuul"
+
+include "medo-common"
+include "medo-common:medo-common-core"
+include "medo-common:medo-redis-spring-boot-starter"

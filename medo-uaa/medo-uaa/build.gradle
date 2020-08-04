@@ -1,0 +1,6 @@
+description = 'User Account and Authorization' 
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+}
+

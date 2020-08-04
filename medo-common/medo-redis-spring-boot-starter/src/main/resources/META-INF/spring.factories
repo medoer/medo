@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+medo.common.redis.configuration.RedisAutoConfiguration,\
+medo.common.redis.lock.RedissonDistributedLock
