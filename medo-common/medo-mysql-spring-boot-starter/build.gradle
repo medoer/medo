@@ -1,0 +1,9 @@
+description = 'MySql Common Config' 
+
+dependencies {
+    compile project(":medo-common:medo-common-core")
+    implementation "com.baomidou:mybatis-plus-boot-starter"
+    implementation "com.baomidou:mybatis-plus-extension"
+    implementation "com.alibaba:druid-spring-boot-starter"
+    implementation "org.mariadb.jdbc:mariadb-java-client"
+}

@@ -1,6 +1,6 @@
 package medo.common.redis;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import medo.common.redis.lock.RedissonDistributedLock;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest
 @RunWith(SpringRunner.class)
 public class RedissonDistributedLockTest {
 

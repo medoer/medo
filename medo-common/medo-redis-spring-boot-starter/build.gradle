@@ -5,5 +5,5 @@ dependencies {
     implementation "org.redisson:redisson-spring-boot-starter"
     implementation "commons-io:commons-io"
     implementation "org.apache.commons:commons-pool2"
-    implementation "org.springframework.boot:spring-boot-configuration-processor"
 }
+

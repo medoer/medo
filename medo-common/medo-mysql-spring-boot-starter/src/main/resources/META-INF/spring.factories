@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+medo.common.mysql.configuration.TenantAutoConfiguration,\
+medo.common.mysql.configuration.MybatisPlusAutoConfiguration
