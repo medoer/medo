@@ -12,6 +12,7 @@ ext {
     redissonVersion = '3.13.2'
     swagger2Version = '2.9.2'
     springCloudVersion = "Greenwich.RELEASE"
+    transmittableVersion = "2.11.5"
 }
 
 // java.lang.BootstrapMethodError: java.lang.NoClassDefFoundError: org/junit/platform/engine/EngineDiscoveryListener
@@ -31,6 +32,7 @@ dependencyManagement {
         dependency "io.springfox:springfox-swagger-ui:${swagger2Version}"
         dependency "io.springfox:springfox-swagger2:${swagger2Version}"
         dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${seataVersion}"
+        dependency "com.alibaba:transmittable-thread-local:${transmittableVersion}"
     }
     imports {
         //spring bom helps us to declare dependencies without specifying config numbers.

@@ -1,0 +1,8 @@
+org.springframework.context.ApplicationContextInitializer=\
+medo.common.log.configuration.TtlMDCAdapterInitializer
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+medo.common.log.configuration.LogAutoConfiguration,\
+medo.common.log.service.impl.LoggerAuditServiceImpl,\
+medo.common.log.service.impl.DbAuditServiceImpl,\
+medo.common.log.aspect.AuditLogAspect

@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "medo.audit-log.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'medo.audit-log.enabled'"
+  },
+  {
+    "name": "medo.audit-log.log-type",
+    "type": "java.lang.String",
+    "description": "A description for 'medo.audit-log.log-type'"
+  },
+  {
+    "name": "medo.trace",
+    "type": "java.lang.String",
+    "description": "A description for 'medo.trace'"
+  }
+]}
