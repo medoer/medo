@@ -5,5 +5,7 @@ dependencies {
     implementation "com.baomidou:mybatis-plus-boot-starter"
     implementation "com.baomidou:mybatis-plus-extension"
     implementation "com.alibaba:druid-spring-boot-starter"
+    // transaction controller
+    implementation "org.springframework:spring-tx"
     implementation "org.mariadb.jdbc:mariadb-java-client"
 }

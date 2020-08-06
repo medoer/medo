@@ -25,7 +25,7 @@ public class MySqlConnectTest {
      */
     @Test
     @Transactional
-    @Rollback(false)
+    @Rollback(true)
     public void test() throws Exception {
         medo.common.mysql.domain.model.Test test = new medo.common.mysql.domain.model.Test();
         testMapper.insert(test);
