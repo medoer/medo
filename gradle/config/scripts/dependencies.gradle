@@ -4,6 +4,7 @@ ext {
     commonsIOVersion = '2.7'
     commonsLang3Version ='3.10' 
     druidVersion = '1.1.9'
+    fastjsonVersion = '1.2.62'
     guavaVersion = '29.0-jre'
     lombokVersion = "1.18.4"
     mariadbJavaClientVersion = '2.1.2'
@@ -12,6 +13,7 @@ ext {
     redissonVersion = '3.13.2'
     swagger2Version = '2.9.2'
     springCloudVersion = "Greenwich.RELEASE"
+    springSecurityOauth2Version = '2.2.6.RELEASE'
     transmittableVersion = "2.11.5"
 }
 
@@ -23,6 +25,7 @@ dependencyManagement {
         dependency "commons-io:commons-io:${commonsIOVersion}"
         dependency "org.apache.commons:commons-lang3:${commonsLang3Version}"
         dependency "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+        dependency "com.alibaba:fastjson:${fastjsonVersion}"
         dependency "com.google.guava:guava:${guavaVersion}"
         dependency "org.projectlombok:lombok:${lombokVersion}"
         dependency "org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}"
@@ -32,6 +35,8 @@ dependencyManagement {
         dependency "io.springfox:springfox-swagger-ui:${swagger2Version}"
         dependency "io.springfox:springfox-swagger2:${swagger2Version}"
         dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${seataVersion}"
+        dependency "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}"
+        dependency "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOauth2Version}"
         dependency "com.alibaba:transmittable-thread-local:${transmittableVersion}"
     }
     imports {

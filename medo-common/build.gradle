@@ -4,10 +4,15 @@ subprojects {
 
     apply plugin: "org.springframework.boot"
 
+    // all commons are plain java jar
+    bootJar {
+        enabled = false
+    }
+    jar {
+        enabled = true
+    }
+
     dependencies {
-        // lombok
-        compileOnly "org.projectlombok:lombok"
-        annotationProcessor "org.projectlombok:lombok"
         // test
         testCompile "org.springframework.boot:spring-boot-starter-test"
         implementation "org.springframework.boot:spring-boot-configuration-processor"

@@ -29,6 +29,14 @@ bootJar {
 
 subprojects {
 
+    dependencies {
+         // lombok
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+        testAnnotationProcessor 'org.projectlombok:lombok'
+        testCompileOnly 'org.projectlombok:lombok'
+    }
+
     repositories {
         mavenCentral()
     }
@@ -36,12 +44,13 @@ subprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
-
     // global dependencies jar version
     apply from: "${rootDir}/gradle/config/scripts/dependencies.gradle"
 
+
+    // TODO define the custom style
     // checkstyle
-    apply from: "${rootDir}/gradle/config/scripts/style.gradle"
+    // apply from: "${rootDir}/gradle/config/scripts/style.gradle"
 
     // apply from: "${rootDir}/gradle/config/scripts/coverage.gradle"
 
@@ -51,9 +60,9 @@ subprojects {
     // coverage.excludeClasses = [
     // ]
 
-    style.excludePackages = [
-    ]
+    // style.excludePackages = [
+    // ]
 
-    style.excludeClasses = [
-    ]
+    // style.excludeClasses = [
+    // ]
 }

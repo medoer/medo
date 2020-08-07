@@ -2,14 +2,14 @@ description = 'Common Log Configuration'
 
 dependencies {
 
-    implementation "org.mariadb.jdbc:mariadb-java-client"
-    implementation 'org.slf4j:slf4j-api'
-    implementation 'org.springframework:spring-web'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    api "org.mariadb.jdbc:mariadb-java-client"
+    api 'org.slf4j:slf4j-api'
+    api 'org.springframework:spring-web'
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-starter-aop'
+    api 'org.springframework.boot:spring-boot-starter-jdbc'
     // refresh scope
-    implementation 'org.springframework.cloud:spring-cloud-context'
-    implementation 'com.alibaba:transmittable-thread-local'
-    implementation 'javax.servlet:javax.servlet-api'
+    api 'org.springframework.cloud:spring-cloud-context'
+    api 'com.alibaba:transmittable-thread-local'
+    api 'javax.servlet:javax.servlet-api'
 }

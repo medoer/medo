@@ -1,9 +1,9 @@
 description = 'Redis Starter' 
 
 dependencies {
-    compile project(":medo-common:medo-common-core")
-    implementation "org.redisson:redisson-spring-boot-starter"
-    implementation "commons-io:commons-io"
-    implementation "org.apache.commons:commons-pool2"
+    api project(":medo-common:medo-common-core")
+    api "org.redisson:redisson-spring-boot-starter"
+    api "commons-io:commons-io"
+    api "org.apache.commons:commons-pool2"
 }
 

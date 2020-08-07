@@ -1,10 +1,10 @@
 package tech.medo.common.core.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * 
@@ -46,4 +46,12 @@ public class BaseResponse<T> implements Serializable {
     public static <T> BaseResponse<T> failed(T model, String msg) {
         return of(model, ResponseCodeEnum.ERROR.getCode(), msg);
     }
+    public static <T> BaseResponse<T> succeedWith(T datas, Integer code, String msg) {
+        return new BaseResponse<>(datas, code, msg);
+    }
+
+    public static <T> BaseResponse<T> failedWith(T datas, Integer code, String msg) {
+        return new BaseResponse<>(datas, code, msg);
+    }
+
 }
