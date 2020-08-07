@@ -1,0 +1,13 @@
+description = 'Auth Client Starter' 
+
+dependencies {
+    api project(":medo-common:medo-common-core")
+    api project(":medo-common:medo-redis-spring-boot-starter")
+    api project(":medo-common:medo-mysql-spring-boot-starter")
+    api "org.springframework.cloud:spring-cloud-context"
+    api "org.springframework.cloud:spring-cloud-starter-oauth2"
+    api "org.springframework.boot:spring-boot-starter-web"
+    api "org.springframework.security.oauth:spring-security-oauth2"
+    api "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
+    api 'javax.servlet:javax.servlet-api'
+}
