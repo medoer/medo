@@ -18,3 +18,7 @@ include "medo-common:medo-swagger2-spring-boot-starter"
 include "medo-common:medo-mysql-spring-boot-starter"
 include "medo-common:medo-log-spring-boot-starter"
 include "medo-common:medo-auth-spring-boot-starter"
+include "medo-common:medo-rest-client-autoconfigure"
+
+include "medo-demo"
+include "medo-demo:medo-rest-client-autoconfigure-test"

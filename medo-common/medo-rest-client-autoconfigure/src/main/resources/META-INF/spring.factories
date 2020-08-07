@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+medo.common.rest.configuration.FeignConfiguration,\
+medo.common.rest.configuration.RestTemplateConfiguration

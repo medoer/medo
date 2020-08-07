@@ -1,0 +1,6 @@
+description = 'Swagger2 Starter' 
+
+dependencies {
+    api project(":medo-common:medo-common-core")
+    api "org.springframework.cloud:spring-cloud-starter-openfeign"
+}

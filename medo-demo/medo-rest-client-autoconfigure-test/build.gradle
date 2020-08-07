@@ -1,0 +1,6 @@
+description = 'Rest Client Test' 
+
+dependencies {
+    implementation project(":medo-common:medo-rest-client-autoconfigure")
+    implementation project(":medo-common:medo-log-spring-boot-starter")
+}

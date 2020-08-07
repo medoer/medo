@@ -23,9 +23,7 @@ repositories {
 }
 
 // exclude parent project's bootJar task
-bootJar {
-    enabled = false
-}
+bootJar.enabled = false
 
 subprojects {
 
