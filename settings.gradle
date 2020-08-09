@@ -1,8 +1,5 @@
 rootProject.name = "medo"
 
-include "medo-dependencies"
-include "medo-dependencies:md-demo"
-
 include "seata-demo"
 include "seata-demo:business-service",
         "seata-demo:storage-service",
