@@ -23,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.client.RestTemplate;
 
 import medo.common.auth.converter.CustomUserAuthenticationConverter;
-import tech.medo.common.core.constant.AuthConstant;
+import medo.common.core.constant.AuthConstant;
 
 /**
  * 资源服务器 TokenStore 配置类，使用 JWT RSA 非对称加密

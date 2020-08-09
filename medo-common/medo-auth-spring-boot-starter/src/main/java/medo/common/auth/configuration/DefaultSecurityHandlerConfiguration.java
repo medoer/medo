@@ -17,7 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import tech.medo.common.core.utils.ResponseUtil;
+import medo.common.core.utils.ResponseUtil;
 
 public class DefaultSecurityHandlerConfiguration {
     @Resource

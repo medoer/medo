@@ -27,7 +27,7 @@ import org.springframework.util.ReflectionUtils;
 
 
 import medo.common.auth.properties.SecurityProperties;
-import tech.medo.common.core.constant.AuthConstant;
+import medo.common.core.constant.AuthConstant;
 
 /**
  * 优化自Spring Security的RedisTokenStore

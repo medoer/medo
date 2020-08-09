@@ -9,11 +9,11 @@ import com.baomidou.mybatisplus.core.parser.ISqlParserFilter;
 import com.baomidou.mybatisplus.core.parser.SqlParserHelper;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 
+import medo.common.core.context.TenantContextHolder;
+import medo.common.core.properties.TenantProperties;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.NullValue;
 import net.sf.jsqlparser.expression.StringValue;
-import tech.medo.common.core.context.TenantContextHolder;
-import tech.medo.common.core.properties.TenantProperties;
 
 /**
  * multi Tenatn auto configuration

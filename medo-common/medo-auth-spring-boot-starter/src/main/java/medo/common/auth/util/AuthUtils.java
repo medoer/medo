@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAut
 
 import lombok.extern.slf4j.Slf4j;
 import medo.common.auth.model.SysUser;
-import tech.medo.common.core.constant.CommonConstant;
+import medo.common.core.constant.CommonConstant;
 
 @Slf4j
 public class AuthUtils {

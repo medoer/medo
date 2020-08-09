@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-import tech.medo.common.core.constant.CommonConstant;
-import tech.medo.common.core.exception.LockException;
-import tech.medo.common.core.lock.DistributedLock;
+import medo.common.core.constant.CommonConstant;
+import medo.common.core.exception.LockException;
+import medo.common.core.lock.DistributedLock;
 
 /**
  * Distributed Lock By Redisson. TODO 优化先检查本地锁

@@ -13,8 +13,8 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 
+import medo.common.core.properties.TenantProperties;
 import medo.common.mysql.properties.MybatisPlusAutoFillProperties;
-import tech.medo.common.core.properties.TenantProperties;
 
 /**
  * MybatisPlus Auto Configuration

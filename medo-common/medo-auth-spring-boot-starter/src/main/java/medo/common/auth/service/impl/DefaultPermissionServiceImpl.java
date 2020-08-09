@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import medo.common.auth.model.SysMenu;
 import medo.common.auth.properties.SecurityProperties;
 import medo.common.auth.util.AuthUtils;
-import tech.medo.common.core.constant.CommonConstant;
-import tech.medo.common.core.context.TenantContextHolder;
+import medo.common.core.constant.CommonConstant;
+import medo.common.core.context.TenantContextHolder;
 
 /**
  * 请求权限判断service
