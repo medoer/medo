@@ -2,9 +2,8 @@ description = ''
 
 dependencies {
     api project(":medo-framework:medo-message:medo-messaging")
+    api project(":medo-common:medo-common-spring")
     api "io.eventuate.common:eventuate-common-jdbc"
     api "io.eventuate.common:eventuate-common-json-mapper"
-    api "io.eventuate.common:eventuate-common-id"
-    api "io.eventuate.common:eventuate-common-spring-id"
     api "io.eventuate.common:eventuate-common-spring-jdbc"
 }

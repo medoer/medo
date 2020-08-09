@@ -1,8 +1,8 @@
 package medo.framework.message.messaging.producer.jdbc;
 
-import io.eventuate.common.id.IdGenerator;
 import io.eventuate.common.jdbc.EventuateCommonJdbcOperations;
 import io.eventuate.common.jdbc.EventuateSchema;
+import medo.common.core.id.IdGenerator;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.common.MessageProducerImplementation;
 
@@ -25,7 +25,7 @@ public class MessageProducerJdbcImpl implements MessageProducerImplementation {
 
     @Override
     public String generateMessageId() {
-        return idGenerator.genId().asString();
+        return idGenerator.generateId().asString();
     }
 
     @Override

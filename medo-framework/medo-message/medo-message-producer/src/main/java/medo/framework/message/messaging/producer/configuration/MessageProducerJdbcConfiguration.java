@@ -6,19 +6,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.eventuate.common.id.IdGenerator;
 import io.eventuate.common.jdbc.EventuateCommonJdbcOperations;
 import io.eventuate.common.jdbc.EventuateSchema;
 import io.eventuate.common.jdbc.sqldialect.SqlDialectSelector;
-import io.eventuate.common.spring.id.IdGeneratorConfiguration;
 import io.eventuate.common.spring.jdbc.EventuateCommonJdbcOperationsConfiguration;
 import io.eventuate.common.spring.jdbc.sqldialect.SqlDialectConfiguration;
+import medo.common.core.id.IdGenerator;
 import medo.framework.message.messaging.producer.common.MessageProducerImplementation;
 import medo.framework.message.messaging.producer.jdbc.MessageProducerJdbcImpl;
 
 @Configuration
 @Import({ SqlDialectConfiguration.class, MessagingCommonProducerConfiguration.class,
-        EventuateCommonJdbcOperationsConfiguration.class, IdGeneratorConfiguration.class })
+        EventuateCommonJdbcOperationsConfiguration.class, medo.common.spring.id.configuration.IdGeneratorConfiguration.class })
 public class MessageProducerJdbcConfiguration {
 
     @Value("${spring.datasource.driver-class-name}")
