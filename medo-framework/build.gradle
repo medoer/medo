@@ -1,0 +1,17 @@
+description = 'Medo Framework' 
+
+subprojects {
+
+    apply plugin: "org.springframework.boot"
+
+    // all commons are plain java jar
+    bootJar.enabled = false
+    jar.enabled = true
+
+    dependencies {
+        // test
+        testCompile "org.springframework.boot:spring-boot-starter-test"
+        api "org.apache.commons:commons-lang3"
+    }
+
+}

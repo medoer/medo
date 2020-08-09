@@ -22,3 +22,9 @@ include "medo-common:medo-rest-client-autoconfigure"
 
 include "medo-demo"
 include "medo-demo:medo-rest-client-autoconfigure-test"
+
+include "medo-framework"
+include "medo-framework:medo-message"
+include "medo-framework:medo-message:medo-messaging"
+include "medo-framework:medo-message:medo-message-producer"
+include "medo-framework:medo-message:medo-message-spring-boot-starter"
