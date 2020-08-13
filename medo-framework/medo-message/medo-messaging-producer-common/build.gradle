@@ -1,0 +1,7 @@
+description = 'Message Producer - send the message to local database' 
+
+dependencies {
+
+    api project(":medo-framework:medo-message:medo-messaging")
+
+}

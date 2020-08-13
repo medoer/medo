@@ -9,6 +9,7 @@ subprojects {
     jar.enabled = true
 
     dependencies {
+        // api project(":medo-common:medo-log-spring-boot-starter")
         // test
         testCompile "org.springframework.boot:spring-boot-starter-test"
     }
