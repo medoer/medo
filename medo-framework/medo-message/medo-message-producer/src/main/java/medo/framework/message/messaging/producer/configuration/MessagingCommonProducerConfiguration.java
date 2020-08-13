@@ -10,7 +10,7 @@ import medo.framework.message.messaging.common.DefaultChannelMapping;
 import medo.framework.message.messaging.common.MessageInterceptor;
 import medo.framework.message.messaging.producer.MessageProducer;
 import medo.framework.message.messaging.producer.common.MessageProducerImpl;
-import medo.framework.message.messaging.producer.common.MessageProducerImplementation;
+import medo.framework.message.messaging.producer.common.PersistentMessage;
 
 @Configuration
 public class MessagingCommonProducerConfiguration {
@@ -26,7 +26,7 @@ public class MessagingCommonProducerConfiguration {
 
     @Bean
     public MessageProducer messageProducer(ChannelMapping channelMapping,
-            MessageProducerImplementation implementation) {
+            PersistentMessage implementation) {
         return new MessageProducerImpl(messageInterceptors, channelMapping, implementation);
     }
 }

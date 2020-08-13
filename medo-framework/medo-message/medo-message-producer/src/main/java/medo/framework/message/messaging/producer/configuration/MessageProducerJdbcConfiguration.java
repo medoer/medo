@@ -1,34 +1,27 @@
 package medo.framework.message.messaging.producer.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import io.eventuate.common.jdbc.EventuateCommonJdbcOperations;
-import io.eventuate.common.jdbc.EventuateSchema;
-import io.eventuate.common.jdbc.sqldialect.SqlDialectSelector;
-import io.eventuate.common.spring.jdbc.EventuateCommonJdbcOperationsConfiguration;
-import io.eventuate.common.spring.jdbc.sqldialect.SqlDialectConfiguration;
 import medo.common.core.id.IdGenerator;
-import medo.framework.message.messaging.producer.common.MessageProducerImplementation;
-import medo.framework.message.messaging.producer.jdbc.MessageProducerJdbcImpl;
+import medo.common.spring.id.configuration.IdGeneratorConfiguration;
+import medo.framework.message.messaging.producer.common.PersistentMessage;
+import medo.framework.message.messaging.producer.jdbc.MessageJdbcOptions;
+import medo.framework.message.messaging.producer.jdbc.PersistentMessageJdbcImpl;
 
 @Configuration
-@Import({ SqlDialectConfiguration.class, MessagingCommonProducerConfiguration.class,
-        EventuateCommonJdbcOperationsConfiguration.class, medo.common.spring.id.configuration.IdGeneratorConfiguration.class })
+@Import({ MessagingCommonProducerConfiguration.class,
+        IdGeneratorConfiguration.class })
 public class MessageProducerJdbcConfiguration {
 
-    @Value("${spring.datasource.driver-class-name}")
-    private String driver;
+    // TODO mysql, config more driven
+    private static final String CURRENT_TIME_IN_MILLISECONDS_SQL = "ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000)";
 
     @Bean
-    @ConditionalOnMissingBean(MessageProducerImplementation.class)
-    public MessageProducerImplementation messageProducerImplementation(
-            EventuateCommonJdbcOperations eventuateCommonJdbcOperations, IdGenerator idGenerator,
-            EventuateSchema eventuateSchema, SqlDialectSelector sqlDialectSelector) {
-        return new MessageProducerJdbcImpl(eventuateCommonJdbcOperations, idGenerator, eventuateSchema,
-                sqlDialectSelector.getDialect(driver).getCurrentTimeInMillisecondsExpression());
+    @ConditionalOnMissingBean(PersistentMessage.class)
+    public PersistentMessage persistentMessage(MessageJdbcOptions messageJdbcOptions, IdGenerator idGenerator) {
+        return new PersistentMessageJdbcImpl(messageJdbcOptions, idGenerator, CURRENT_TIME_IN_MILLISECONDS_SQL);
     }
 }

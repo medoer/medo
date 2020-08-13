@@ -4,5 +4,5 @@ dependencies {
     api "org.apache.commons:commons-lang3"
     // TODO rplace the fastjson
     api "com.alibaba:fastjson"
-    api "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-web"
 }

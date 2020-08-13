@@ -27,11 +27,6 @@ import medo.common.log.service.IAuditService;
 /**
  * 审计日志切面
  *
- * @author zlt
- * @date 2020/2/3
- * <p>
- * Blog: https://zlt2000.gitee.io
- * Github: https://github.com/zlt2000
  */
 @Slf4j
 @Aspect

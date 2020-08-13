@@ -1,0 +1,9 @@
+description = 'Message Consumer JDBC' 
+
+dependencies {
+
+    api project(":medo-framework:medo-message:medo-message-consumer-common")
+    api "io.eventuate.common:eventuate-common-jdbc"
+    api 'org.springframework:spring-jdbc'
+
+}

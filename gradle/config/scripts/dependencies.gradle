@@ -5,6 +5,7 @@ ext {
     commonsLang3Version ='3.10' 
     druidVersion = '1.1.9'
     eventuateCommonVersion = '0.12.0.RELEASE'
+    eventuateTramVersion= '0.24.0.RELEASE'
     fastjsonVersion = '1.2.62'
     guavaVersion = '29.0-jre'
     lombokVersion = "1.18.4"
@@ -26,11 +27,13 @@ dependencyManagement {
         dependency "commons-io:commons-io:${commonsIOVersion}"
         dependency "org.apache.commons:commons-lang3:${commonsLang3Version}"
         dependency "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+        dependency "io.eventuate.common:eventuate-common-coordination-leadership:${eventuateCommonVersion}"
         dependency "io.eventuate.common:eventuate-common-jdbc:${eventuateCommonVersion}"
         dependency "io.eventuate.common:eventuate-common-json-mapper:${eventuateCommonVersion}"
-        dependency "io.eventuate.common:eventuate-common-id:${eventuateCommonVersion}"
-        dependency "io.eventuate.common:eventuate-common-spring-id:${eventuateCommonVersion}"
         dependency "io.eventuate.common:eventuate-common-spring-jdbc:${eventuateCommonVersion}"
+        dependency "io.eventuate.tram.core:eventuate-tram-spring-jdbc-kafka:${eventuateTramVersion}"
+        dependency "io.eventuate.messaging.kafka:eventuate-messaging-kafka-consumer:${eventuateCommonVersion}"
+        dependency "io.eventuate.messaging.kafka:eventuate-messaging-kafka-spring-consumer:${eventuateCommonVersion}"
         dependency "com.alibaba:fastjson:${fastjsonVersion}"
         dependency "com.google.guava:guava:${guavaVersion}"
         dependency "org.projectlombok:lombok:${lombokVersion}"

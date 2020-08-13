@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import medo.framework.message.messaging.common.Message;
-import medo.framework.message.messaging.common.MessageImpl;
 
 /**
  * Builds a message
@@ -36,15 +35,14 @@ public class MessageBuilder {
     }
 
     public MessageBuilder withExtraHeaders(String prefix, Map<String, String> headers) {
-
-        for (Map.Entry<String, String> entry : headers.entrySet())
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
             this.headers.put(prefix + entry.getKey(), entry.getValue());
-
+        }
         return this;
     }
 
     public Message build() {
-        return new MessageImpl(body, headers);
+        return new Message(body, headers);
     }
 
     public static MessageBuilder withMessage(Message message) {

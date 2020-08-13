@@ -4,7 +4,7 @@ dependencies {
 
     api "org.mariadb.jdbc:mariadb-java-client"
     api 'org.slf4j:slf4j-api'
-    api 'org.springframework:spring-web'
+    implementation 'org.springframework:spring-web'
     api 'org.springframework.boot:spring-boot-starter'
     api 'org.springframework.boot:spring-boot-starter-aop'
     api 'org.springframework.boot:spring-boot-starter-jdbc'

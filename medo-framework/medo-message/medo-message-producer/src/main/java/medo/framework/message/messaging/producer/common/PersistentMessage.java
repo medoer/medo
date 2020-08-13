@@ -2,9 +2,9 @@ package medo.framework.message.messaging.producer.common;
 
 import medo.framework.message.messaging.common.Message;
 
-public interface MessageProducerImplementation {
+public interface PersistentMessage {
 
-    void send(Message message);
+    void save(Message message);
 
     String generateMessageId();
 

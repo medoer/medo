@@ -24,7 +24,7 @@ public class MessageProducerImplTest {
 
         ChannelMapping channelMapping = mock(ChannelMapping.class);
 
-        MessageProducerImplementation implementation = mock(MessageProducerImplementation.class);
+        PersistentMessage implementation = mock(PersistentMessage.class);
 
         MessageProducerImpl mp = new MessageProducerImpl(new MessageInterceptor[0], channelMapping, implementation);
 
@@ -43,7 +43,7 @@ public class MessageProducerImplTest {
         mp.send("Destination", MessageBuilder.withPayload("x").build());
 
         ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
-        verify(implementation).send(messageArgumentCaptor.capture());
+        verify(implementation).save(messageArgumentCaptor.capture());
         Message sendMessage = messageArgumentCaptor.getValue();
 
         assertEquals(messageID, sendMessage.getRequiredHeader(Message.ID));

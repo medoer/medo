@@ -1,9 +1,10 @@
-description = '' 
+description = 'Message Producer - send the message to local database' 
 
 dependencies {
+
     api project(":medo-framework:medo-message:medo-messaging")
     api project(":medo-common:medo-common-spring")
-    api "io.eventuate.common:eventuate-common-jdbc"
-    api "io.eventuate.common:eventuate-common-json-mapper"
-    api "io.eventuate.common:eventuate-common-spring-jdbc"
+    api 'org.springframework.boot:spring-boot-starter-jdbc'
+    api 'org.mariadb.jdbc:mariadb-java-client'
+
 }
