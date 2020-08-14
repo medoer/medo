@@ -9,10 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class JdbcTemplateConfiguration {
 
-//
-//    @Bean
-//    public JdbcTemplate jebcTemplate(DataSource dataSource) {
-//        return new JdbcTemplate(dataSource);
-//    }
+    @Bean
+    public JdbcTemplate jebcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
 }

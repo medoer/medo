@@ -50,7 +50,9 @@ medo
         - medo-messaging-producer-jdbc -- 基础消息 生产者 - 事务性发件箱
         - medo-messaging-producer-jdbc-spring -- 基础消息 生产者 Spring 集成
         - medo-messaging-consumer-common -- 基础消息 消费者
+        - medo-messaging-consumer-common-spring -- 基础消息 消费者 Spring 集成
         - medo-messaging-consumer-jdbc -- 基础消息 重复消息处理 Handler 实现
+        - medo-messaging-consumer-jdbc-spring -- 基础消息 重复消息处理 Handler 实现 Spring 集成
         - medo-messaging-consumer-kafka -- 基础消息 Kafka 消息代理消费者封装
         - medo-messaging-consumer-kafka-spring -- 基础消息 Kafka Spring 集成
         - medo-messaging-spring-boot-starter -- 基础消息 Spring Starter
