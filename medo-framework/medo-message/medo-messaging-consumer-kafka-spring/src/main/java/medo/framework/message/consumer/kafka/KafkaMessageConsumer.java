@@ -2,8 +2,8 @@ package medo.framework.message.consumer.kafka;
 
 import java.util.Set;
 
-import io.eventuate.common.json.mapper.JSonMapper;
 import lombok.extern.slf4j.Slf4j;
+import medo.common.core.json.JSONMapper;
 import medo.framework.message.consumer.common.consumer.MessageBrokerConsumer;
 import medo.framework.message.consumer.kafka.subscription.KafkaSubscription;
 import medo.framework.message.messaging.common.Message;
@@ -24,7 +24,7 @@ public class KafkaMessageConsumer implements MessageBrokerConsumer {
         log.info("Subscribing: subscriberId = {}, channels = {}", subscriberId, channels);
 
         KafkaSubscription subscription = messageConsumerKafka.subscribe(subscriberId, channels,
-                message -> handler.accept(JSonMapper.fromJson(message.getPayload(), Message.class)));
+                message -> handler.accept(JSONMapper.fromJSON(message.getPayload(), Message.class)));
 
         log.info("Subscribed: subscriberId = {}, channels = {}", subscriberId, channels);
 

@@ -1,10 +1,9 @@
 package medo.framework.message.consumer.jdbc;
 
-import io.eventuate.common.jdbc.EventuateDuplicateKeyException;
-import io.eventuate.common.jdbc.EventuateJdbcStatementExecutor;
-import io.eventuate.common.jdbc.EventuateSchema;
-import io.eventuate.common.jdbc.EventuateTransactionTemplate;
+import org.springframework.dao.DuplicateKeyException;
+
 import lombok.extern.slf4j.Slf4j;
+import medo.common.spring.transactional.TransactionHelper;
 import medo.framework.message.consumer.common.consumer.SubscriberIdAndMessage;
 import medo.framework.message.consumer.common.handler.DuplicateMessageDetector;
 
@@ -16,33 +15,23 @@ import medo.framework.message.consumer.common.handler.DuplicateMessageDetector;
 @Slf4j
 public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDetector {
 
-    private EventuateSchema eventuateSchema;
-    private String currentTimeInMillisecondsSql;
-    // jdbcTemplate update、query、queryList method
-    private EventuateJdbcStatementExecutor eventuateJdbcStatementExecutor;
-    private EventuateTransactionTemplate eventuateTransactionTemplate;
+    private MessageConsumerJdbcOptions messageConsumerJdbcOptions;
+    private TransactionHelper<?, ?> transactionHelper;
+    private String receivedMessageTable;
 
-    public SqlTableBasedDuplicateMessageDetector(EventuateSchema eventuateSchema, String currentTimeInMillisecondsSql,
-            EventuateJdbcStatementExecutor eventuateJdbcStatementExecutor,
-            EventuateTransactionTemplate eventuateTransactionTemplate) {
-        this.eventuateSchema = eventuateSchema;
-        this.currentTimeInMillisecondsSql = currentTimeInMillisecondsSql;
-        this.eventuateJdbcStatementExecutor = eventuateJdbcStatementExecutor;
-        this.eventuateTransactionTemplate = eventuateTransactionTemplate;
+    public SqlTableBasedDuplicateMessageDetector(MessageConsumerJdbcOptions messageConsumerJdbcOptions,
+            TransactionHelper<?, ?> transactionHelper, String receivedMessageTable) {
+        this.messageConsumerJdbcOptions = messageConsumerJdbcOptions;
+        this.transactionHelper = transactionHelper;
+        this.receivedMessageTable = receivedMessageTable;
     }
 
     @Override
     public boolean isDuplicate(String consumerId, String messageId) {
         try {
-            // database.table_name - eventuate.received_messages
-            String table = eventuateSchema.qualifyTable("received_messages");
-
-            eventuateJdbcStatementExecutor
-                    .update(String.format("insert into %s(consumer_id, message_id, creation_time) values(?, ?, %s)",
-                            table, currentTimeInMillisecondsSql), consumerId, messageId);
-
+            messageConsumerJdbcOptions.saveReveivedMessage(consumerId, messageId, receivedMessageTable);
             return false;
-        } catch (EventuateDuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
             log.info("Message duplicate: consumerId = {}, messageId = {}", consumerId, messageId);
             return true;
         }
@@ -50,10 +39,10 @@ public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDe
 
     @Override
     public void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback) {
-        eventuateTransactionTemplate.executeInTransaction(() -> {
+        // excute in same transaction
+        transactionHelper.requires(() -> {
             if (!isDuplicate(subscriberIdAndMessage.getSubscriberId(), subscriberIdAndMessage.getMessage().getId()))
                 callback.run();
-            return null;
         });
     }
 }

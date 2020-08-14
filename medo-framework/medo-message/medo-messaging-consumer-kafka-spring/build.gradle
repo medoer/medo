@@ -2,8 +2,9 @@ description = 'Message Consumer JDBC'
 
 dependencies {
 
+    implementation project(":medo-common:medo-common-core")
     api project(":medo-common:medo-kafka-spring-boot-starter")
-    api project(":medo-framework:medo-message:medo-messaging-consumer-common")
+    api project(":medo-framework:medo-message:medo-messaging-consumer-kafka")
     
     // TODO use medo kafka client
     api "io.eventuate.messaging.kafka:eventuate-messaging-kafka-consumer"

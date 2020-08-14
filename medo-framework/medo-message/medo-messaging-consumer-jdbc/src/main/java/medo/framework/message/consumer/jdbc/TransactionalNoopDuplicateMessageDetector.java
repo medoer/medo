@@ -1,18 +1,15 @@
 package medo.framework.message.consumer.jdbc;
 
-import org.springframework.transaction.support.TransactionTemplate;
-
-import lombok.extern.slf4j.Slf4j;
+import medo.common.spring.transactional.TransactionHelper;
 import medo.framework.message.consumer.common.consumer.SubscriberIdAndMessage;
 import medo.framework.message.consumer.common.handler.DuplicateMessageDetector;
 
-@Slf4j
 public class TransactionalNoopDuplicateMessageDetector implements DuplicateMessageDetector {
 
-    private TransactionTemplate transactionTemplate;
+    private TransactionHelper<?, ?> transactionHelper;
 
-    public TransactionalNoopDuplicateMessageDetector(TransactionTemplate transactionTemplate) {
-        this.transactionTemplate = transactionTemplate;
+    public TransactionalNoopDuplicateMessageDetector(TransactionHelper<?, ?> transactionHelper) {
+        this.transactionHelper = transactionHelper;
     }
 
     @Override
@@ -22,15 +19,8 @@ public class TransactionalNoopDuplicateMessageDetector implements DuplicateMessa
 
     @Override
     public void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback) {
-        transactionTemplate.execute(ts -> {
-            try {
-                callback.run();
-                return null;
-            } catch (Throwable e) {
-                log.error("Got exception - marking for rollback only", e);
-                ts.setRollbackOnly();
-                throw e;
-            }
+        transactionHelper.requires(() -> {
+            callback.run();
         });
 
     }

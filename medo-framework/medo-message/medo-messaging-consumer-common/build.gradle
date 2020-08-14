@@ -3,8 +3,5 @@ description = ''
 dependencies {
 
     api project(":medo-framework:medo-message:medo-messaging")
-    // TODO implement this local
-    api "io.eventuate.common:eventuate-common-coordination-leadership"
-    api "io.eventuate.common:eventuate-common-json-mapper"
-    implementation "org.springframework.boot:spring-boot-starter"
+
 }

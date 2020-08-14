@@ -12,8 +12,7 @@ import medo.framework.message.messaging.producer.jdbc.MessageJdbcOptions;
 import medo.framework.message.messaging.producer.jdbc.PersistentMessageJdbcImpl;
 
 @Configuration
-@Import({ MessagingCommonProducerConfiguration.class,
-        IdGeneratorConfiguration.class })
+@Import({ MessageJdbcOptionsConfiguration.class, MessagingCommonProducerConfiguration.class, IdGeneratorConfiguration.class })
 public class MessageProducerJdbcConfiguration {
 
     // TODO mysql, config more driven

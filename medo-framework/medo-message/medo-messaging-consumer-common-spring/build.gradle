@@ -1,0 +1,9 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-framework:medo-message:medo-messaging-consumer-common")
+    // TODO implement this local
+    // api "io.eventuate.common:eventuate-common-coordination-leadership"
+    implementation "org.springframework.boot:spring-boot-starter"
+}
