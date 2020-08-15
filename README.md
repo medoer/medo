@@ -1,26 +1,42 @@
-# A Demo Project
+# MEDO
 
-微服务架构基本功能实现。 
+> A demo project
 
-- 进程间通信
-- 事务管理
-- 事件溯源
-- 聚合查询、CQRS
-- 监控
+基于 Springboot + K8S + istio 的微服务脚手架。
+
+项目参考 [Eventuate Core](https://github.com/eventuate-tram/eventuate-tram-core)
+
+## 目的
+
+积累、学习微服务关键技术。
 
 ## 架构
 
-## Branch 
+TODO
+
+## GIT 分支 
 
 ### platform
 
-平台基础功能
+平台基础功能。
 
 ### master
 
-结合业务
+在 platform 基础上实现一个业务场景。
 
 ## 模块
+
+| 模块                               | 功能描述           | 进度       |
+| ---------------------------------- | ------------------ | ---------- |
+| gateway-zuul                       | API 网关           | 待使用调整 |
+| medo-common                        | 通用组件           | 待完善     |
+| medo-demo                          | 测试样例相关      | 待补充     |
+| medo-uaa                           | 用户账户和授权中心 | 待测试完善 |
+| medo-framework                     | 框架封装           | 待补充     |
+| medo-framework:medo-message-core   | 核心消息模块       | 测试中     |
+| medo-framework:medo-message-spring | 消息 Spring 集成   | 测试中     |
+
+> medo-message 功能拆分为 medo-message-core 和 medo-message-spring 两个模块，解偶领域模型和具体实现，以方便集成其他 aop 框架， 如：microuat
 
 ```lua
 
@@ -73,3 +89,23 @@ medo
 
 ```
 
+## TODO List
+
+> 优先级：高、中、低
+
+| 框架功能                                | 描述                                  | 优先级 |
+| --------------------------------------- | ------------------------------------- | ------ |
+| CQRS                                    | 封装 CQRS                             | 高     |
+| SAGA                                    | 基于 SAGA 的长事务机制                | 高     |
+| 事件溯源                                |                                       | 高     |
+| 监控                                    | ELK、APM 等监控告警集成               | 高     |
+| docker compose 集成                     | 集成调试 docker compose，方便本地测试 | 高     |
+| 业务样例                                | 具体需求待定                          | 中     |
+| K8S                                     | K8S 集成，可能和监控模块一起实现      | 中     |
+| CI/CD                                   | 自动化部署                            | 中     |
+| 实现基于数据库 polling 的 message relay | ---                                   | 低     |
+| 支持更多的消息代理                      | ---                                   | 低     |
+
+## 使用手册
+
+TODO
