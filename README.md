@@ -46,6 +46,7 @@ medo
 - medo-framework -- 框架
     - medo-message -- 异步通信消息模块 - 事务发件箱模式
         - medo-messaging -- 基础消息领域模型
+        - medo-messaging-spring -- 基础消息 ChannelMapping 实例化
         - medo-messaging-producer-common -- 基础消息 生产者
         - medo-messaging-producer-jdbc -- 基础消息 生产者 - 事务性发件箱
         - medo-messaging-producer-jdbc-spring -- 基础消息 生产者 Spring 集成
@@ -58,12 +59,11 @@ medo
         - medo-messaging-spring-boot-starter -- 基础消息 Spring Starter
 
         - medo-event -- 领域事件
-        - medo-event-common-spring -- 领域事件 Spring 集成
+        - medo-event-common-spring -- 领域事件 Spring 集成, domain event name mapping 实例化
         - medo-event-publisher-spring -- 领域事件发布者
         - medo-event-publisher-spring-boot-starter -- 领域事件发布者 Spring Starter
         - medo-event-subscriber-spring -- 领域事件订阅者
         - medo-event-sbuscriber-spring-boot-starter -- 领域事件订阅者 Spring Starter
-        - medo-event-spring-boot-starter -- 领域事件 Spring Starter
 
         - medo-command -- 命令消息
         - medo-command-producer-spring -- 命令消息生产者

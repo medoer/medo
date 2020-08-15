@@ -1,0 +1,19 @@
+package medo.framework.message.messaging.configuration;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import medo.framework.message.messaging.common.ChannelMapping;
+import medo.framework.message.messaging.common.DefaultChannelMapping;
+
+@Configuration
+public class MessagingCommonAutoConfiguration {
+
+    @ConditionalOnMissingBean(ChannelMapping.class)
+    @Bean
+    public ChannelMapping channelMapping() {
+        return DefaultChannelMapping.builder().build();
+    }
+
+}
