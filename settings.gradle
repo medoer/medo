@@ -48,3 +48,7 @@ include "medo-framework:medo-message-spring:medo-event-publisher-spring"
 include "medo-framework:medo-message-spring:medo-event-subscriber-spring"
 include "medo-framework:medo-message-spring:medo-event-publisher-spring-boot-starter"
 include "medo-framework:medo-message-spring:medo-event-subscriber-spring-boot-starter"
+
+include "medo-framework:medo-message-spring:medo-command-spring"
+include "medo-framework:medo-message-spring:medo-command-spring-boot-starter"
+
