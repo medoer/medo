@@ -1,0 +1,7 @@
+description = '' 
+
+dependencies {
+    // JSONMapper
+    api project(":medo-common:medo-common-core")
+    api project(":medo-framework:medo-message-core:medo-messaging")
+}

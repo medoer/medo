@@ -44,28 +44,29 @@ medo
     - order-service -- 订单服务
     - storage-service -- 仓储服务
 - medo-framework -- 框架
-    - medo-message -- 异步通信消息模块 - 事务发件箱模式
+    - medo-message-core -- 异步通信消息核心模块
         - medo-messaging -- 基础消息领域模型
-        - medo-messaging-spring -- 基础消息 ChannelMapping 实例化
         - medo-messaging-producer-common -- 基础消息 生产者
         - medo-messaging-producer-jdbc -- 基础消息 生产者 - 事务性发件箱
-        - medo-messaging-producer-jdbc-spring -- 基础消息 生产者 Spring 集成
         - medo-messaging-consumer-common -- 基础消息 消费者
-        - medo-messaging-consumer-common-spring -- 基础消息 消费者 Spring 集成
         - medo-messaging-consumer-jdbc -- 基础消息 重复消息处理 Handler 实现
-        - medo-messaging-consumer-jdbc-spring -- 基础消息 重复消息处理 Handler 实现 Spring 集成
         - medo-messaging-consumer-kafka -- 基础消息 Kafka 消息代理消费者封装
+        - medo-event -- 领域事件
+        - medo-command -- 命令消息
+    - medo-message-spring -- 异步通信消息 spring 集成
+        - medo-messaging-spring -- 基础消息 ChannelMapping 实例化
+        - medo-messaging-producer-jdbc-spring -- 基础消息 生产者 Spring 集成
+        - medo-messaging-consumer-common-spring -- 基础消息 消费者 Spring 集成
+        - medo-messaging-consumer-jdbc-spring -- 基础消息 重复消息处理 Handler 实现 Spring 集成
         - medo-messaging-consumer-kafka-spring -- 基础消息 Kafka Spring 集成
         - medo-messaging-spring-boot-starter -- 基础消息 Spring Starter
 
-        - medo-event -- 领域事件
         - medo-event-common-spring -- 领域事件 Spring 集成, domain event name mapping 实例化
         - medo-event-publisher-spring -- 领域事件发布者
         - medo-event-publisher-spring-boot-starter -- 领域事件发布者 Spring Starter
         - medo-event-subscriber-spring -- 领域事件订阅者
         - medo-event-sbuscriber-spring-boot-starter -- 领域事件订阅者 Spring Starter
 
-        - medo-command -- 命令消息
         - medo-command-producer-spring -- 命令消息生产者
         - medo-command-consumer-spring -- 命令消息消费者
         - medo-command-spring-boot-starter -- 命令消息 Spring Starter

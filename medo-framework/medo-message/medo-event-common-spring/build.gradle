@@ -1,7 +1,0 @@
-description = '' 
-
-dependencies {
-    api project(":medo-framework:medo-message:medo-event")
-    api project(":medo-framework:medo-message:medo-messaging-spring")
-    implementation "org.springframework.boot:spring-boot-configuration-processor"
-}

@@ -1,0 +1,8 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
+    api project(":medo-framework:medo-message-spring:medo-event-publisher-spring")
+
+}

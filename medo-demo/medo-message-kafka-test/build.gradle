@@ -1,6 +1,6 @@
 description = 'Rest Client Test' 
 
 dependencies {
-    implementation project(":medo-framework:medo-message:medo-messaging-spring-boot-starter")
+    implementation project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
     implementation "com.alibaba:druid-spring-boot-starter"
 }

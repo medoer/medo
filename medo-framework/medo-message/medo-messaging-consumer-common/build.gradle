@@ -1,7 +1,0 @@
-description = '' 
-
-dependencies {
-
-    api project(":medo-framework:medo-message:medo-messaging")
-
-}

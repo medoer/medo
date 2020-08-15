@@ -1,7 +1,0 @@
-description = '' 
-
-dependencies {
-    implementation project(":medo-framework:medo-message:medo-messaging")
-    api "org.springframework.boot:spring-boot-starter"
-}
-

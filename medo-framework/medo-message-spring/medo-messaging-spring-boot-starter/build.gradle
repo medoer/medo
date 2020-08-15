@@ -1,0 +1,10 @@
+description = '' 
+
+dependencies {
+    api project(":medo-framework:medo-message-spring:medo-messaging-producer-jdbc-spring")
+    api project(":medo-framework:medo-message-core:medo-messaging-consumer-common")
+    api project(":medo-framework:medo-message-core:medo-messaging-consumer-kafka")
+    testImplementation "org.mariadb.jdbc:mariadb-java-client"
+    implementation "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-starter"
+}

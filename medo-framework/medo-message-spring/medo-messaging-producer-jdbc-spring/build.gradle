@@ -1,0 +1,9 @@
+description = 'Message Producer - send the message to local database' 
+
+dependencies {
+
+    api project(":medo-framework:medo-message-spring:medo-messaging-spring")
+    api project(":medo-framework:medo-message-core:medo-messaging-producer-jdbc")
+    api project(":medo-common:medo-common-spring")
+
+}
