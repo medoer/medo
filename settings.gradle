@@ -1,11 +1,5 @@
 rootProject.name = "medo"
 
-include "seata-demo"
-include "seata-demo:business-service",
-        "seata-demo:storage-service",
-        "seata-demo:order-service",
-        "seata-demo:account-service"
-
 include "gateway-zuul"
 
 include "medo-common"
@@ -22,6 +16,11 @@ include "medo-common:medo-kafka-spring-boot-starter"
 include "medo-demo"
 include "medo-demo:medo-rest-client-autoconfigure-test"
 include "medo-demo:medo-message-kafka-test"
+// include "medo-demo:seata-demo"
+// include "medo-demo:seata-demo:business-service",
+//         "medo-demo:seata-demo:storage-service",
+//         "medo-demo:seata-demo:order-service",
+//         "medo-demo:seata-demo:account-service"
 
 include "medo-framework"
 include "medo-framework:medo-message-core"
