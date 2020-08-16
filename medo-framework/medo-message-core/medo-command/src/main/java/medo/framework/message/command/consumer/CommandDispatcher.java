@@ -10,9 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.command.common.Failure;
@@ -25,9 +23,8 @@ import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
 
+@Slf4j
 public class CommandDispatcher {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String commandDispatcherId;
     private CommandHandlers commandHandlers;
@@ -50,7 +47,7 @@ public class CommandDispatcher {
     }
 
     public void messageHandler(Message message) {
-        logger.trace("Received message {} {}", commandDispatcherId, message);
+        log.trace("Received message {} {}", commandDispatcherId, message);
 
         Optional<CommandHandler> possibleMethod = commandHandlers.findTargetMethod(message);
         if (!possibleMethod.isPresent()) {
@@ -71,10 +68,10 @@ public class CommandDispatcher {
         try {
             CommandMessage cm = new CommandMessage(message.getId(), param, correlationHeaders, message);
             replies = invoke(m, cm, pathVars);
-            logger.trace("Generated replies {} {} {}", commandDispatcherId, message, replies);
+            log.trace("Generated replies {} {} {}", commandDispatcherId, message, replies);
         } catch (Exception e) {
-            logger.error("Generated error {} {} {}", commandDispatcherId, message, e.getClass().getName());
-            logger.error("Generated error", e);
+            log.error("Generated error {} {} {}", commandDispatcherId, message, e.getClass().getName());
+            log.error("Generated error", e);
             handleException(message, param, m, e, pathVars, defaultReplyChannel);
             return;
         }
@@ -82,7 +79,7 @@ public class CommandDispatcher {
         if (replies != null) {
             sendReplies(correlationHeaders, replies, defaultReplyChannel);
         } else {
-            logger.trace("Null replies - not publishling");
+            log.trace("Null replies - not publishling");
         }
     }
 
@@ -130,7 +127,7 @@ public class CommandDispatcher {
             Map<String, String> pathVars, Optional<String> defaultReplyChannel) {
         Optional<CommandExceptionHandler> m = commandHandlers.findExceptionHandler(commandHandler, cause);
 
-        logger.info("Handler for {} is {}", cause.getClass(), m);
+        log.info("Handler for {} is {}", cause.getClass(), m);
 
         if (m.isPresent()) {
             List<Message> replies = m.get().invoke(cause);

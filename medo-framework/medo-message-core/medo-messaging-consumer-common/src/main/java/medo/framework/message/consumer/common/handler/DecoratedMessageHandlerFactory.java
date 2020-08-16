@@ -32,12 +32,12 @@ public class DecoratedMessageHandlerFactory {
         for (MessageHandlerDecorator mhd : decorators.subList(1, decorators.size())) {
             builder = builder.andThen(mhd);
         }
-
         MessageHandlerDecoratorChain chain = builder.andFinally((smh) -> {
             String subscriberId = smh.getSubscriberId();
             Message message = smh.getMessage();
             try {
                 log.trace("Invoking handler {} {}", subscriberId, message.getId());
+                // 递归出口，调用 handler
                 mh.accept(smh.getMessage());
                 log.trace("handled message {} {}", subscriberId, message.getId());
             } catch (Exception e) {
@@ -46,6 +46,7 @@ public class DecoratedMessageHandlerFactory {
                 throw e;
             }
         });
+        // 递归
         return chain::invokeNext;
     }
 }

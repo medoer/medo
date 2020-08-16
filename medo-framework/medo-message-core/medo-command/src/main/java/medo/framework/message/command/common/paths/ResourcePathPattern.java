@@ -34,11 +34,14 @@ public class ResourcePathPattern {
     }
 
     public boolean isSatisfiedBy(ResourcePath mr) {
-        if (splits.length != mr.splits.length)
+        if (splits.length != mr.splits.length) {
             return false;
-        for (int i = 0; i < mr.splits.length; i++)
-            if (!pathSegmentMatches(splits[i], mr.splits[i]))
+        }
+        for (int i = 0; i < mr.splits.length; i++) {
+            if (!pathSegmentMatches(splits[i], mr.splits[i])) {
                 return false;
+            }
+        }
         return true;
     }
 

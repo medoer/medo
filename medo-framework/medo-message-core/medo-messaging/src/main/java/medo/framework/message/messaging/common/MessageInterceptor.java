@@ -1,5 +1,11 @@
 package medo.framework.message.messaging.common;
 
+/**
+ * 消息拦截器，为业务服务自定义行为提供入口。
+ * 
+ * @author: bryce
+ * @date: 2020-08-16
+ */
 public interface MessageInterceptor {
 
     default void preSend(Message message) {

@@ -1,4 +1,4 @@
-package medo.framework.message.command;
+package medo.framework.message.command.common;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

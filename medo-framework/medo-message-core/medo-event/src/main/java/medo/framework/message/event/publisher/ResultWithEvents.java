@@ -5,6 +5,13 @@ import java.util.List;
 
 import medo.framework.message.event.common.DomainEvent;
 
+/**
+ * TODO 框架未使用。
+ * 
+ * @author: bryce
+ * @date: 2020-08-16
+ * @param <T>
+ */
 public class ResultWithEvents<T> {
 
     public final T result;

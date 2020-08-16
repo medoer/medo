@@ -2,6 +2,9 @@ package medo.framework.message.command.producer;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import lombok.AllArgsConstructor;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.Command;
 import medo.framework.message.command.common.CommandMessageHeader;
@@ -9,13 +12,10 @@ import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
 
+@AllArgsConstructor
 public class CommandProducerImpl implements CommandProducer {
 
     private MessageProducer messageProducer;
-
-    public CommandProducerImpl(MessageProducer messageProducer) {
-        this.messageProducer = messageProducer;
-    }
 
     @Override
     public String send(String channel, Command command, String replyTo, Map<String, String> headers) {
@@ -36,7 +36,7 @@ public class CommandProducerImpl implements CommandProducer {
                 .withHeader(CommandMessageHeader.DESTINATION, channel)
                 .withHeader(CommandMessageHeader.COMMAND_TYPE, command.getClass().getName())
                 .withHeader(CommandMessageHeader.REPLY_TO, replyTo);
-        if (resource != null) {
+        if (StringUtils.isNoneEmpty(resource)) {
             builder.withHeader(CommandMessageHeader.RESOURCE, resource);
         }
         return builder.build();

@@ -10,6 +10,12 @@ import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.common.MessageInterceptor;
 import medo.framework.message.messaging.producer.MessageProducer;
 
+/**
+ * 消息生产者代理实现，构造基本消息头，执行消息拦截器。
+ * 
+ * @author: bryce
+ * @date: 2020-08-16
+ */
 @AllArgsConstructor
 @Slf4j
 public final class MessageProducerImpl implements MessageProducer {
@@ -21,9 +27,11 @@ public final class MessageProducerImpl implements MessageProducer {
     @Override
     public void send(String channel, Message message) {
         prepareMessageHeaders(channel, message);
+        // 这个方法起什么作用？ TODO
         persistentMessage.withContext(() -> send(message));
     }
 
+    // PARTITION_ID ?
     private void prepareMessageHeaders(String channel, Message message) {
         String id = persistentMessage.generateMessageId();
         if (id == null) {

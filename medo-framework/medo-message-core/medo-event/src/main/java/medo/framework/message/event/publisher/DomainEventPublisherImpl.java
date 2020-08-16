@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.DomainEventNameMapping;
@@ -13,16 +14,12 @@ import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
 
+@AllArgsConstructor
 public class DomainEventPublisherImpl implements DomainEventPublisher {
 
     private MessageProducer messageProducer;
 
     private DomainEventNameMapping domainEventNameMapping;
-
-    public DomainEventPublisherImpl(MessageProducer messageProducer, DomainEventNameMapping domainEventNameMapping) {
-        this.messageProducer = messageProducer;
-        this.domainEventNameMapping = domainEventNameMapping;
-    }
 
     @Override
     public void publish(String aggregateType, Object aggregateId, List<DomainEvent> domainEvents) {
@@ -33,6 +30,7 @@ public class DomainEventPublisherImpl implements DomainEventPublisher {
     public void publish(String aggregateType, Object aggregateId, Map<String, String> headers,
             List<DomainEvent> domainEvents) {
         for (DomainEvent event : domainEvents) {
+            // aggrateType == destination
             messageProducer.send(aggregateType, makeMessageForDomainEvent(aggregateType, aggregateId, headers, event,
                     domainEventNameMapping.eventToExternalEventType(aggregateType, event)));
         }
