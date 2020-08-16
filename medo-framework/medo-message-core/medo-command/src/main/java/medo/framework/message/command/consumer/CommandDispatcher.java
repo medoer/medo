@@ -20,6 +20,7 @@ import medo.framework.message.command.common.ReplyMessageHeaders;
 import medo.framework.message.command.common.paths.ResourcePath;
 import medo.framework.message.command.common.paths.ResourcePathPattern;
 import medo.framework.message.messaging.common.Message;
+import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
@@ -121,7 +122,7 @@ public class CommandDispatcher {
         Map<String, String> m = headers.entrySet().stream()
                 .filter(e -> e.getKey().startsWith(CommandMessageHeaders.COMMAND_HEADER_PREFIX))
                 .collect(Collectors.toMap(e -> CommandMessageHeaders.inReply(e.getKey()), Map.Entry::getValue));
-        m.put(ReplyMessageHeaders.IN_REPLY_TO, headers.get(Message.ID));
+        m.put(ReplyMessageHeaders.IN_REPLY_TO, headers.get(MessageHeader.ID));
         return m;
     }
 

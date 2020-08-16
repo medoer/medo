@@ -10,6 +10,7 @@ import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.DomainEventNameMapping;
 import medo.framework.message.event.common.EventMessageHeaders;
 import medo.framework.message.messaging.common.Message;
+import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 
 @Slf4j
@@ -54,7 +55,7 @@ public class DomainEventDispatcher {
         handler.get()
                 .invoke(new DomainEventEnvelopeImpl<>(message, aggregateType,
                         message.getRequiredHeader(EventMessageHeaders.AGGREGATE_ID),
-                        message.getRequiredHeader(Message.ID), param));
+                        message.getRequiredHeader(MessageHeader.ID), param));
 
     }
 

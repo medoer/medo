@@ -2,6 +2,7 @@ package medo.framework.message.messaging.producer.jdbc;
 
 import medo.common.core.id.IdGenerator;
 import medo.framework.message.messaging.common.Message;
+import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.producer.common.PersistentMessage;
 
 public class PersistentMessageJdbcImpl implements PersistentMessage {
@@ -26,6 +27,6 @@ public class PersistentMessageJdbcImpl implements PersistentMessage {
     @Override
     public void save(Message message) {
         messageJdbcOptions.saveMessage(message.getId(), message.getPayload(),
-                message.getRequiredHeader(Message.DESTINATION), currentTimeInMillisecondsSql, message.getHeaders());
+                message.getRequiredHeader(MessageHeader.DESTINATION), currentTimeInMillisecondsSql, message.getHeaders());
     }
 }

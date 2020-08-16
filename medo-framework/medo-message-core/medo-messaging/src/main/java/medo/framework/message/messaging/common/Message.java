@@ -13,11 +13,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class Message {
 
-    public static String ID = "ID";
-    public static String PARTITION_ID = "PARTITION_ID";
-    public static String DESTINATION = "DESTINATION";
-    public static String DATE = "DATE";
-
     private String payload;
     private Map<String, String> headers;
 
@@ -55,7 +50,7 @@ public class Message {
     }
 
     public String getId() {
-        return getRequiredHeader(ID);
+        return getRequiredHeader(MessageHeader.ID);
     }
 
     public Map<String, String> getHeaders() {

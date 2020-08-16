@@ -14,6 +14,7 @@ import org.mockito.stubbing.Answer;
 
 import medo.framework.message.messaging.common.ChannelMapping;
 import medo.framework.message.messaging.common.Message;
+import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.common.MessageInterceptor;
 import medo.framework.message.messaging.producer.MessageBuilder;
 
@@ -46,8 +47,8 @@ public class MessageProducerImplTest {
         verify(implementation).save(messageArgumentCaptor.capture());
         Message sendMessage = messageArgumentCaptor.getValue();
 
-        assertEquals(messageID, sendMessage.getRequiredHeader(Message.ID));
-        assertEquals(transformedDestination, sendMessage.getRequiredHeader(Message.DESTINATION));
-        assertNotNull(sendMessage.getRequiredHeader(Message.DATE));
+        assertEquals(messageID, sendMessage.getRequiredHeader(MessageHeader.ID));
+        assertEquals(transformedDestination, sendMessage.getRequiredHeader(MessageHeader.DESTINATION));
+        assertNotNull(sendMessage.getRequiredHeader(MessageHeader.DATE));
     }
 }

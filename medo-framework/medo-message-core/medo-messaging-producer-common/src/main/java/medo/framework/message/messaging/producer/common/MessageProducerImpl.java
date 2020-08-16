@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import medo.framework.message.messaging.common.ChannelMapping;
 import medo.framework.message.messaging.common.Message;
+import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.common.MessageInterceptor;
 import medo.framework.message.messaging.producer.MessageProducer;
 
@@ -26,15 +27,15 @@ public final class MessageProducerImpl implements MessageProducer {
     private void prepareMessageHeaders(String channel, Message message) {
         String id = persistentMessage.generateMessageId();
         if (id == null) {
-            if (!message.getHeader(Message.ID).isPresent())
+            if (!message.getHeader(MessageHeader.ID).isPresent())
                 throw new IllegalArgumentException("message needs an id");
         } else {
-            message.getHeaders().put(Message.ID, id);
+            message.getHeaders().put(MessageHeader.ID, id);
         }
 
-        message.getHeaders().put(Message.DESTINATION, channelMapping.transform(channel));
+        message.getHeaders().put(MessageHeader.DESTINATION, channelMapping.transform(channel));
 
-        message.getHeaders().put(Message.DATE, HttpDateHeaderFormatUtil.nowAsHttpDateString());
+        message.getHeaders().put(MessageHeader.DATE, HttpDateHeaderFormatUtil.nowAsHttpDateString());
     }
 
     private void send(Message message) {

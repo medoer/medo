@@ -33,7 +33,7 @@ TODO
 | medo-demo                          | 测试样例相关      | 待补充     |
 | medo-uaa                           | 用户账户和授权中心 | 待测试完善 |
 | medo-framework                     | 框架封装           | 待补充     |
-| medo-framework:medo-message-core   | 核心消息模块       | 测试中     |
+| medo-framework:medo-message-core   | 核心消息模块       | ---     |
 | medo-framework:medo-message-spring | 消息 Spring 集成   | 测试中     |
 
 > medo-message 功能拆分为 medo-message-core 和 medo-message-spring 两个模块，解偶领域模型和具体实现，以方便集成其他 aop 框架， 如：microuat
