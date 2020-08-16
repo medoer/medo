@@ -7,7 +7,7 @@ import java.util.Map;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.DomainEventNameMapping;
-import medo.framework.message.event.common.EventMessageHeaders;
+import medo.framework.message.event.common.EventMessageHeader;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.producer.MessageBuilder;
@@ -43,9 +43,9 @@ public class DomainEventPublisherImpl implements DomainEventPublisher {
         String aggregateIdAsString = aggregateId.toString();
         return MessageBuilder.withPayload(JSONMapper.toJSON(event)).withExtraHeaders("", headers)
                 .withHeader(MessageHeader.PARTITION_ID, aggregateIdAsString)
-                .withHeader(EventMessageHeaders.AGGREGATE_ID, aggregateIdAsString)
-                .withHeader(EventMessageHeaders.AGGREGATE_TYPE, aggregateType)
-                .withHeader(EventMessageHeaders.EVENT_TYPE, eventType).build();
+                .withHeader(EventMessageHeader.AGGREGATE_ID, aggregateIdAsString)
+                .withHeader(EventMessageHeader.AGGREGATE_TYPE, aggregateType)
+                .withHeader(EventMessageHeader.EVENT_TYPE, eventType).build();
     }
 
 }

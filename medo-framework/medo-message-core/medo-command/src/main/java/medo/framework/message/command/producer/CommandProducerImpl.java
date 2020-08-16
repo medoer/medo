@@ -4,7 +4,7 @@ import java.util.Map;
 
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.Command;
-import medo.framework.message.command.common.CommandMessageHeaders;
+import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
@@ -33,11 +33,11 @@ public class CommandProducerImpl implements CommandProducer {
             Map<String, String> headers) {
         // TODO should these be prefixed??!
         MessageBuilder builder = MessageBuilder.withPayload(JSONMapper.toJSON(command)).withExtraHeaders("", headers)
-                .withHeader(CommandMessageHeaders.DESTINATION, channel)
-                .withHeader(CommandMessageHeaders.COMMAND_TYPE, command.getClass().getName())
-                .withHeader(CommandMessageHeaders.REPLY_TO, replyTo);
+                .withHeader(CommandMessageHeader.DESTINATION, channel)
+                .withHeader(CommandMessageHeader.COMMAND_TYPE, command.getClass().getName())
+                .withHeader(CommandMessageHeader.REPLY_TO, replyTo);
         if (resource != null) {
-            builder.withHeader(CommandMessageHeaders.RESOURCE, resource);
+            builder.withHeader(CommandMessageHeader.RESOURCE, resource);
         }
         return builder.build();
     }

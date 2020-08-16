@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.DomainEventNameMapping;
-import medo.framework.message.event.common.EventMessageHeaders;
+import medo.framework.message.event.common.EventMessageHeader;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.consumer.MessageConsumer;
@@ -39,10 +39,10 @@ public class DomainEventDispatcher {
     }
 
     public void messageHandler(Message message) {
-        String aggregateType = message.getRequiredHeader(EventMessageHeaders.AGGREGATE_TYPE);
+        String aggregateType = message.getRequiredHeader(EventMessageHeader.AGGREGATE_TYPE);
 
-        message.setHeader(EventMessageHeaders.EVENT_TYPE, domainEventNameMapping.externalEventTypeToEventClassName(
-                aggregateType, message.getRequiredHeader(EventMessageHeaders.EVENT_TYPE)));
+        message.setHeader(EventMessageHeader.EVENT_TYPE, domainEventNameMapping.externalEventTypeToEventClassName(
+                aggregateType, message.getRequiredHeader(EventMessageHeader.EVENT_TYPE)));
 
         Optional<DomainEventHandler> handler = domainEventHandlers.findTargetMethod(message);
 
@@ -54,7 +54,7 @@ public class DomainEventDispatcher {
 
         handler.get()
                 .invoke(new DomainEventEnvelopeImpl<>(message, aggregateType,
-                        message.getRequiredHeader(EventMessageHeaders.AGGREGATE_ID),
+                        message.getRequiredHeader(EventMessageHeader.AGGREGATE_ID),
                         message.getRequiredHeader(MessageHeader.ID), param));
 
     }

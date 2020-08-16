@@ -3,7 +3,7 @@ package medo.framework.message.command.consumer;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.CommandReplyOutcome;
 import medo.framework.message.command.common.Failure;
-import medo.framework.message.command.common.ReplyMessageHeaders;
+import medo.framework.message.command.common.ReplyMessageHeader;
 import medo.framework.message.command.common.Success;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.MessageBuilder;
@@ -12,8 +12,8 @@ public class CommandHandlerReplyBuilder {
 
     private static <T> Message with(T reply, CommandReplyOutcome outcome) {
         MessageBuilder messageBuilder = MessageBuilder.withPayload(JSONMapper.toJSON(reply))
-                .withHeader(ReplyMessageHeaders.REPLY_OUTCOME, outcome.name())
-                .withHeader(ReplyMessageHeaders.REPLY_TYPE, reply.getClass().getName());
+                .withHeader(ReplyMessageHeader.REPLY_OUTCOME, outcome.name())
+                .withHeader(ReplyMessageHeader.REPLY_TYPE, reply.getClass().getName());
         return messageBuilder.build();
     }
 

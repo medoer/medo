@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-import medo.framework.message.command.common.CommandMessageHeaders;
+import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.command.common.paths.ResourcePath;
 import medo.framework.message.command.common.paths.ResourcePathPattern;
 import medo.framework.message.messaging.common.Message;
@@ -34,12 +34,12 @@ public class CommandHandler {
     }
 
     private boolean resourceMatches(Message message) {
-        return !resource.isPresent() || message.getHeader(CommandMessageHeaders.RESOURCE)
+        return !resource.isPresent() || message.getHeader(CommandMessageHeader.RESOURCE)
                 .map(m -> resourceMatches(m, resource.get())).orElse(false);
     }
 
     private boolean commandTypeMatches(Message message) {
-        return commandClass.getName().equals(message.getRequiredHeader(CommandMessageHeaders.COMMAND_TYPE));
+        return commandClass.getName().equals(message.getRequiredHeader(CommandMessageHeader.COMMAND_TYPE));
     }
 
     private boolean resourceMatches(String messageResource, String methodPath) {

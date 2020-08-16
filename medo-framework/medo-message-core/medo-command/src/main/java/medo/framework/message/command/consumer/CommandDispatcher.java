@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import medo.common.core.json.JSONMapper;
-import medo.framework.message.command.common.CommandMessageHeaders;
+import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.command.common.Failure;
-import medo.framework.message.command.common.ReplyMessageHeaders;
+import medo.framework.message.command.common.ReplyMessageHeader;
 import medo.framework.message.command.common.paths.ResourcePath;
 import medo.framework.message.command.common.paths.ResourcePathPattern;
 import medo.framework.message.messaging.common.Message;
@@ -65,7 +65,7 @@ public class CommandDispatcher {
 
         Map<String, String> pathVars = getPathVars(message, m);
 
-        Optional<String> defaultReplyChannel = message.getHeader(CommandMessageHeaders.REPLY_TO);
+        Optional<String> defaultReplyChannel = message.getHeader(CommandMessageHeader.REPLY_TO);
 
         List<Message> replies;
         try {
@@ -98,7 +98,7 @@ public class CommandDispatcher {
     private Map<String, String> getPathVars(Message message, CommandHandler handler) {
         return handler.getResource().flatMap(res -> {
             ResourcePathPattern r = ResourcePathPattern.parse(res);
-            return message.getHeader(CommandMessageHeaders.RESOURCE).map(h -> {
+            return message.getHeader(CommandMessageHeader.RESOURCE).map(h -> {
                 ResourcePath mr = ResourcePath.parse(h);
                 return r.getPathVariableValues(mr);
             });
@@ -120,9 +120,9 @@ public class CommandDispatcher {
 
     private Map<String, String> correlationHeaders(Map<String, String> headers) {
         Map<String, String> m = headers.entrySet().stream()
-                .filter(e -> e.getKey().startsWith(CommandMessageHeaders.COMMAND_HEADER_PREFIX))
-                .collect(Collectors.toMap(e -> CommandMessageHeaders.inReply(e.getKey()), Map.Entry::getValue));
-        m.put(ReplyMessageHeaders.IN_REPLY_TO, headers.get(MessageHeader.ID));
+                .filter(e -> e.getKey().startsWith(CommandMessageHeader.COMMAND_HEADER_PREFIX))
+                .collect(Collectors.toMap(e -> CommandMessageHeader.inReply(e.getKey()), Map.Entry::getValue));
+        m.put(ReplyMessageHeader.IN_REPLY_TO, headers.get(MessageHeader.ID));
         return m;
     }
 

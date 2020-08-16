@@ -3,7 +3,7 @@ package medo.framework.message.event.subscriber;
 import java.util.function.Consumer;
 
 import medo.framework.message.event.common.DomainEvent;
-import medo.framework.message.event.common.EventMessageHeaders;
+import medo.framework.message.event.common.EventMessageHeader;
 import medo.framework.message.messaging.common.Message;
 
 public class DomainEventHandler {
@@ -20,8 +20,8 @@ public class DomainEventHandler {
     }
 
     public boolean handles(Message message) {
-        return aggregateType.equals(message.getRequiredHeader(EventMessageHeaders.AGGREGATE_TYPE))
-                && eventClass.getName().equals(message.getRequiredHeader(EventMessageHeaders.EVENT_TYPE));
+        return aggregateType.equals(message.getRequiredHeader(EventMessageHeader.AGGREGATE_TYPE))
+                && eventClass.getName().equals(message.getRequiredHeader(EventMessageHeader.EVENT_TYPE));
     }
 
     public void invoke(DomainEventEnvelope<DomainEvent> dee) {
