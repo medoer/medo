@@ -25,6 +25,6 @@ spring:
       connectionProperties: druid.stat.mergeSql=true; druid.stat.slowSqlMillis=2000
       useGlobalDataSourceStat: true
 
-eventuate:
+medo:
   database:
     schema: test

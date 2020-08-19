@@ -2,9 +2,11 @@ package medo.framework.message.event.subscriber;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import lombok.AllArgsConstructor;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.messaging.common.Message;
 
+@AllArgsConstructor
 public class DomainEventEnvelopeImpl<T extends DomainEvent> implements DomainEventEnvelope<T> {
 
     private Message message;
@@ -12,14 +14,6 @@ public class DomainEventEnvelopeImpl<T extends DomainEvent> implements DomainEve
     private String aggregateId;
     private final String eventId;
     private T event;
-
-    public DomainEventEnvelopeImpl(Message message, String aggregateType, String aggregateId, String eventId, T event) {
-        this.message = message;
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
-        this.eventId = eventId;
-        this.event = event;
-    }
 
     @Override
     public String getAggregateId() {

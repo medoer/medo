@@ -2,22 +2,17 @@ package medo.framework.message.event.subscriber;
 
 import java.util.function.Consumer;
 
+import lombok.AllArgsConstructor;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.EventMessageHeader;
 import medo.framework.message.messaging.common.Message;
 
+@AllArgsConstructor
 public class DomainEventHandler {
 
     private String aggregateType;
     private final Class<DomainEvent> eventClass;
     private final Consumer<DomainEventEnvelope<DomainEvent>> handler;
-
-    public DomainEventHandler(String aggregateType, Class<DomainEvent> eventClass,
-            Consumer<DomainEventEnvelope<DomainEvent>> handler) {
-        this.aggregateType = aggregateType;
-        this.eventClass = eventClass;
-        this.handler = handler;
-    }
 
     public boolean handles(Message message) {
         return aggregateType.equals(message.getRequiredHeader(EventMessageHeader.AGGREGATE_TYPE))

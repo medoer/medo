@@ -27,6 +27,12 @@ public class DecoratedMessageHandlerFactory {
     }
 
     public Consumer<SubscriberIdAndMessage> decorate(MessageHandler mh) {
+        MessageHandlerDecoratorChain chain = buildMessageHandlerDecoratorChain(mh);
+        // new a Consumer Object
+        return chain::invokeNext;
+    }
+
+    private MessageHandlerDecoratorChain buildMessageHandlerDecoratorChain(MessageHandler mh) {
         MessageHandlerDecoratorChainBuilder builder = MessageHandlerDecoratorChainBuilder
                 .startingWith(decorators.get(0));
         for (MessageHandlerDecorator mhd : decorators.subList(1, decorators.size())) {
@@ -37,7 +43,6 @@ public class DecoratedMessageHandlerFactory {
             Message message = smh.getMessage();
             try {
                 log.trace("Invoking handler {} {}", subscriberId, message.getId());
-                // 递归出口，调用 handler
                 mh.accept(smh.getMessage());
                 log.trace("handled message {} {}", subscriberId, message.getId());
             } catch (Exception e) {
@@ -46,7 +51,6 @@ public class DecoratedMessageHandlerFactory {
                 throw e;
             }
         });
-        // 递归
-        return chain::invokeNext;
+        return chain;
     }
 }

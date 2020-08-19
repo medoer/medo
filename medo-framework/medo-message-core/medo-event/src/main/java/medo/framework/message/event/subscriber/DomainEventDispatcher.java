@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.event.common.DomainEvent;
@@ -13,22 +14,14 @@ import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 
+@AllArgsConstructor
 @Slf4j
 public class DomainEventDispatcher {
 
     private final String eventDispatcherId;
     private DomainEventHandlers domainEventHandlers;
     private MessageConsumer messageConsumer;
-
     private DomainEventNameMapping domainEventNameMapping;
-
-    public DomainEventDispatcher(String eventDispatcherId, DomainEventHandlers domainEventHandlers,
-            MessageConsumer messageConsumer, DomainEventNameMapping domainEventNameMapping) {
-        this.eventDispatcherId = eventDispatcherId;
-        this.domainEventHandlers = domainEventHandlers;
-        this.messageConsumer = messageConsumer;
-        this.domainEventNameMapping = domainEventNameMapping;
-    }
 
     @PostConstruct
     public void initialize() {
@@ -56,7 +49,6 @@ public class DomainEventDispatcher {
                 .invoke(new DomainEventEnvelopeImpl<>(message, aggregateType,
                         message.getRequiredHeader(EventMessageHeader.AGGREGATE_ID),
                         message.getRequiredHeader(MessageHeader.ID), param));
-
     }
 
 }

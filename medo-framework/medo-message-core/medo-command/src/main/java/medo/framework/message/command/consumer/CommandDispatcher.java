@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.CommandMessageHeader;
@@ -23,23 +24,14 @@ import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
 
+@AllArgsConstructor
 @Slf4j
 public class CommandDispatcher {
 
     private String commandDispatcherId;
     private CommandHandlers commandHandlers;
-
     private MessageConsumer messageConsumer;
-
     private MessageProducer messageProducer;
-
-    public CommandDispatcher(String commandDispatcherId, CommandHandlers commandHandlers,
-            MessageConsumer messageConsumer, MessageProducer messageProducer) {
-        this.commandDispatcherId = commandDispatcherId;
-        this.commandHandlers = commandHandlers;
-        this.messageConsumer = messageConsumer;
-        this.messageProducer = messageProducer;
-    }
 
     @PostConstruct
     public void initialize() {
@@ -53,20 +45,14 @@ public class CommandDispatcher {
         if (!possibleMethod.isPresent()) {
             throw new RuntimeException("No method for " + message);
         }
-
         CommandHandler m = possibleMethod.get();
-
         Object param = convertPayload(m, message.getPayload());
-
         Map<String, String> correlationHeaders = correlationHeaders(message.getHeaders());
-
         Map<String, String> pathVars = getPathVars(message, m);
-
         Optional<String> defaultReplyChannel = message.getHeader(CommandMessageHeader.REPLY_TO);
-
         List<Message> replies;
         try {
-            CommandMessage cm = new CommandMessage(message.getId(), param, correlationHeaders, message);
+            CommandMessage<?> cm = new CommandMessage<>(message.getId(), param, correlationHeaders, message);
             replies = invoke(m, cm, pathVars);
             log.trace("Generated replies {} {} {}", commandDispatcherId, message, replies);
         } catch (Exception e) {
@@ -75,7 +61,6 @@ public class CommandDispatcher {
             handleException(message, param, m, e, pathVars, defaultReplyChannel);
             return;
         }
-
         if (replies != null) {
             sendReplies(correlationHeaders, replies, defaultReplyChannel);
         } else {
@@ -83,7 +68,7 @@ public class CommandDispatcher {
         }
     }
 
-    protected List<Message> invoke(CommandHandler commandHandler, CommandMessage cm, Map<String, String> pathVars) {
+    protected List<Message> invoke(CommandHandler commandHandler, CommandMessage<?> cm, Map<String, String> pathVars) {
         return commandHandler.invokeMethod(cm, pathVars);
     }
 

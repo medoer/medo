@@ -12,7 +12,7 @@ import medo.framework.message.consumer.kafka.configuration.KafkaMessageConsumerC
  * @date: 2020-08-11
  */
 @Configuration
-//@Import(KafkaMessageConsumerConfiguration.class)
+@Import(KafkaMessageConsumerConfiguration.class)
 public class MessageConsumerConfiguration {
 
 }
