@@ -86,7 +86,16 @@ medo
         - medo-command-producer-spring -- 命令消息生产者
         - medo-command-consumer-spring -- 命令消息消费者
         - medo-command-spring-boot-starter -- 命令消息 Spring Starter
-
+    - medo-saga-core -- saga 核心模块
+        - medo-saga-common -- 核心
+        - medo-saga-orchestration -- 编排模块
+        - medo-saga-participant -- 参与者
+        - medo-saga-event-sourcing -- 事件溯源
+    - medo-saga-spring -- saga Spring 集成
+        - medo-saga-common-spring -- 核心
+        - medo-saga-orchestration-spring -- 编排模块
+        - medo-saga-participant-spring -- 参与者模块
+        - medo-saga-spring-boot-starter -- 参与者模块
 ```
 
 ### Medo Message
@@ -117,8 +126,10 @@ medo
 | 弹性容错                                | 熔断/限流/降级                            | 中     |
 | 实现基于数据库 polling 的 message relay | ---                                       | 低     |
 | 支持更多的消息代理                      | ---                                       | 低     |
-| 加密模块                      | ---                                       | 低     |
 
 ## 快速启动
 
-TODO
+### docker compose 本地环境
+
+- 参考 .evn.example 文件，添加 .env 文件。
+- `docker-compose -f docker-compose.yml up -d` 启动 mysql、zookeeper、kafka、cdc 服务。

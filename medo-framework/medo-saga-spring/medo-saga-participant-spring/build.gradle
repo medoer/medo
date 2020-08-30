@@ -1,0 +1,10 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-framework:medo-saga-core:medo-saga-participant")
+    api project(":medo-framework:medo-saga-spring:medo-saga-common-spring")
+
+    api project(":medo-framework:medo-message-spring:medo-command-spring")
+
+}

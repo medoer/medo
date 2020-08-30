@@ -1,0 +1,9 @@
+description = 'data distribution/message product/message receive' 
+
+subprojects {
+
+    dependencies {
+        api 'org.slf4j:slf4j-api'
+    }
+
+}

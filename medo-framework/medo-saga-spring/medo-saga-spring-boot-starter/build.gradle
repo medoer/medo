@@ -1,0 +1,8 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-framework:medo-saga-spring:medo-saga-orchestration-spring")
+    api project(":medo-framework:medo-saga-spring:medo-saga-participant-spring")
+
+}

@@ -51,3 +51,13 @@ include "medo-framework:medo-message-spring:medo-event-subscriber-spring-boot-st
 include "medo-framework:medo-message-spring:medo-command-spring"
 include "medo-framework:medo-message-spring:medo-command-spring-boot-starter"
 
+
+include "medo-framework:medo-saga-core"
+include "medo-framework:medo-saga-core:medo-saga-common"
+include "medo-framework:medo-saga-core:medo-saga-participant"
+include "medo-framework:medo-saga-core:medo-saga-orchestration"
+
+include "medo-framework:medo-saga-spring:medo-saga-common-spring"
+include "medo-framework:medo-saga-spring:medo-saga-orchestration-spring"
+include "medo-framework:medo-saga-spring:medo-saga-participant-spring"
+include "medo-framework:medo-saga-spring:medo-saga-spring-boot-starter"

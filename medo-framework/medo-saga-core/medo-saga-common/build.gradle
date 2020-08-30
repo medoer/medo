@@ -1,0 +1,9 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-common:medo-common-core")
+    api project(":medo-framework:medo-message-core:medo-command")
+    api 'org.springframework:spring-jdbc'
+
+}

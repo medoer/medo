@@ -1,0 +1,7 @@
+description = '' 
+
+dependencies {
+
+    api project(":medo-framework:medo-saga-core:medo-saga-common")
+
+}
