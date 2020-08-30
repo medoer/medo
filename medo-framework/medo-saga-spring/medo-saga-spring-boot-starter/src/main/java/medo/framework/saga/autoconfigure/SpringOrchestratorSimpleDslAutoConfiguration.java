@@ -9,3 +9,4 @@ import medo.framework.saga.orchestration.spring.SagaOrchestratorConfiguration;
 @Import(SagaOrchestratorConfiguration.class)
 public class SpringOrchestratorSimpleDslAutoConfiguration {
 }
+ 
