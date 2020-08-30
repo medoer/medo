@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      SQL_MODE: STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    volumes:
+      - ${MYSQL_DATA_VOLUME_PATH}:/var/lib/mysql
+      - ${MYSQL_ETC_VOLUME_PATH}:/etc/mysql 
+    ports:
+      - 3306:3306
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.2.4
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+  kafka:
+    image: "confluentinc/cp-kafka:5.2.4"
+    container_name: kafka
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: LC://kafka:9093,LX://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: LC://kafka:9093,LX://${DOCKER_HOST_IP:-localhost}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LC
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ${KAFKA_DATA_VOLUME_PATH}:/kafka
+  cdc:
+    image: eventuateio/eventuate-cdc-service:0.9.0.RELEASE
+    container_name: cdc
+    depends_on:
+      - kafka
+      - zookeeper
+    ports:
+      - "8099:8080"
+    environment:
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE: eventuate-tram
+      EVENTUATE_CDC_PIPELINE_PIPELINE1_READER: reader1
+      EVENTUATE_CDC_PIPELINE_PIPELINE1_EVENTUATEDATABASESCHEMA: eventuate
+      EVENTUATE_CDC_READER_READER1_TYPE: mysql-binlog
+      EVENTUATE_CDC_READER_READER1_DATASOURCEURL: jdbc:mysql://mysql:3306/eventuate
+      EVENTUATE_CDC_READER_READER1_DATASOURCEUSERNAME: root
+      EVENTUATE_CDC_READER_READER1_DATASOURCEPASSWORD: ${MYSQL_ROOT_PASSWORD}
+      EVENTUATE_CDC_READER_READER1_DATASOURCEDRIVERCLASSNAME: com.mysql.jdbc.Driver
+      EVENTUATE_CDC_READER_READER1_LEADERSHIPLOCKPATH: /eventuate/cdc/leader/common
+      EVENTUATE_CDC_READER_READER1_CDCDBUSERNAME: root
+      EVENTUATE_CDC_READER_READER1_CDCDBPASSWORD: ${MYSQL_ROOT_PASSWORD}
+      EVENTUATE_CDC_READER_READER1_READOLDDEBEZIUMDBOFFSETSTORAGETOPIC: "false"
+      EVENTUATE_CDC_READER_READER1_MYSQLBINLOGCLIENTUNIQUEID: 1
+      EVENTUATE_CDC_READER_READER1_OFFSETSTOREKEY: MySqlBinlog
+      EVENTUATE_CDC_READER_READER1_OFFSETSTORAGETOPICNAME: db.history.common
+
