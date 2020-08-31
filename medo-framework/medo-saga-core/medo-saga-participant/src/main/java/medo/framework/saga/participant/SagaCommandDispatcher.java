@@ -16,9 +16,9 @@ import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
 import medo.framework.saga.common.LockTarget;
-import medo.framework.saga.common.SagaCommandHeaders;
+import medo.framework.saga.common.SagaCommandHeader;
 import medo.framework.saga.common.SagaLockManager;
-import medo.framework.saga.common.SagaReplyHeaders;
+import medo.framework.saga.common.SagaReplyHeader;
 import medo.framework.saga.common.SagaUnlockCommand;
 import medo.framework.saga.common.StashMessageRequiredException;
 
@@ -52,11 +52,11 @@ public class SagaCommandDispatcher extends CommandDispatcher {
     }
 
     private String getSagaId(Message message) {
-        return message.getRequiredHeader(SagaCommandHeaders.SAGA_ID);
+        return message.getRequiredHeader(SagaCommandHeader.SAGA_ID);
     }
 
     private String getSagaType(Message message) {
-        return message.getRequiredHeader(SagaCommandHeaders.SAGA_TYPE);
+        return message.getRequiredHeader(SagaCommandHeader.SAGA_TYPE);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SagaCommandDispatcher extends CommandDispatcher {
         // TODO - what about the isEmpty case??
         // TODO - sagas must return messages
         return messages.stream()
-                .map(m -> MessageBuilder.withMessage(m).withHeader(SagaReplyHeaders.REPLY_LOCKED, lockedTarget).build())
+                .map(m -> MessageBuilder.withMessage(m).withHeader(SagaReplyHeader.REPLY_LOCKED, lockedTarget).build())
                 .collect(Collectors.toList());
     }
 

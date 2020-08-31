@@ -6,7 +6,7 @@ import java.util.Map;
 
 import medo.framework.message.command.consumer.CommandWithDestination;
 import medo.framework.message.command.producer.CommandProducer;
-import medo.framework.saga.common.SagaCommandHeaders;
+import medo.framework.saga.common.SagaCommandHeader;
 
 public class SagaCommandProducer {
 
@@ -21,8 +21,8 @@ public class SagaCommandProducer {
         String messageId = null;
         for (CommandWithDestination command : commands) {
             Map<String, String> headers = new HashMap<>(command.getExtraHeaders());
-            headers.put(SagaCommandHeaders.SAGA_TYPE, sagaType);
-            headers.put(SagaCommandHeaders.SAGA_ID, sagaId);
+            headers.put(SagaCommandHeader.SAGA_TYPE, sagaType);
+            headers.put(SagaCommandHeader.SAGA_ID, sagaId);
             messageId = commandProducer.send(command.getDestinationChannel(), command.getResource(),
                     command.getCommand(), sagaReplyChannel, headers);
         }

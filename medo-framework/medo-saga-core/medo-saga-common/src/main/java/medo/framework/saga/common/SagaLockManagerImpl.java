@@ -79,7 +79,7 @@ public class SagaLockManagerImpl implements SagaLockManager {
 
     @Override
     public boolean claimLock(String sagaType, String sagaId, String target) {
-        while (true)
+        while (true) {
             try {
                 jdbcTemplate.update(insertIntoSagaLockTableSql, target, sagaType, sagaId);
                 log.debug("Saga {} {} has locked {}", sagaType, sagaId, target);
@@ -97,6 +97,7 @@ public class SagaLockManagerImpl implements SagaLockManager {
                 }
                 log.debug("{}  is repeating attempt to lock {}", sagaId, target);
             }
+        }
     }
 
     private Optional<String> selectForUpdate(String target) {

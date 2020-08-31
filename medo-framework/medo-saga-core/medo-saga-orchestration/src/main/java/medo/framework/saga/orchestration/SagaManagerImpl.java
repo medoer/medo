@@ -20,9 +20,9 @@ import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.saga.common.LockTarget;
-import medo.framework.saga.common.SagaCommandHeaders;
+import medo.framework.saga.common.SagaCommandHeader;
 import medo.framework.saga.common.SagaLockManager;
-import medo.framework.saga.common.SagaReplyHeaders;
+import medo.framework.saga.common.SagaReplyHeader;
 import medo.framework.saga.common.SagaUnlockCommand;
 
 @Slf4j
@@ -108,8 +108,8 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
     private void performEndStateActions(String sagaId, SagaInstance sagaInstance, boolean compensating, T sagaData) {
         for (DestinationAndResource dr : sagaInstance.getDestinationsAndResources()) {
             Map<String, String> headers = new HashMap<>();
-            headers.put(SagaCommandHeaders.SAGA_ID, sagaId);
-            headers.put(SagaCommandHeaders.SAGA_TYPE, getSagaType()); // FTGO SagaCommandHandler failed without this but
+            headers.put(SagaCommandHeader.SAGA_ID, sagaId);
+            headers.put(SagaCommandHeader.SAGA_TYPE, getSagaType()); // FTGO SagaCommandHandler failed without this but
                                                                       // the OrdersAndCustomersIntegrationTest was
                                                                       // fine?!?
             commandProducer.send(dr.getDestination(), dr.getResource(), new SagaUnlockCommand(), makeSagaReplyChannel(),
@@ -149,7 +149,7 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
 
     public void handleMessage(Message message) {
         log.debug("handle message invoked {}", message);
-        if (message.hasHeader(SagaReplyHeaders.REPLY_SAGA_ID)) {
+        if (message.hasHeader(SagaReplyHeader.REPLY_SAGA_ID)) {
             handleReply(message);
         } else {
             log.warn("Handle message doesn't know what to do with: {} ", message);
@@ -163,13 +163,13 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
 
         log.debug("Handle reply: {}", message);
 
-        String sagaId = message.getRequiredHeader(SagaReplyHeaders.REPLY_SAGA_ID);
-        String sagaType = message.getRequiredHeader(SagaReplyHeaders.REPLY_SAGA_TYPE);
+        String sagaId = message.getRequiredHeader(SagaReplyHeader.REPLY_SAGA_ID);
+        String sagaType = message.getRequiredHeader(SagaReplyHeader.REPLY_SAGA_TYPE);
 
         SagaInstance sagaInstance = sagaInstanceRepository.find(sagaType, sagaId);
         T sagaData = SagaDataSerde.deserializeSagaData(sagaInstance.getSerializedSagaData());
 
-        message.getHeader(SagaReplyHeaders.REPLY_LOCKED).ifPresent(lockedTarget -> {
+        message.getHeader(SagaReplyHeader.REPLY_LOCKED).ifPresent(lockedTarget -> {
             String destination = message
                     .getRequiredHeader(CommandMessageHeader.inReply(CommandMessageHeader.DESTINATION));
             sagaInstance.addDestinationsAndResources(singleton(new DestinationAndResource(destination, lockedTarget)));
@@ -238,6 +238,6 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
     }
 
     private Boolean isReplyForThisSagaType(Message message) {
-        return message.getHeader(SagaReplyHeaders.REPLY_SAGA_TYPE).map(x -> x.equals(getSagaType())).orElse(false);
+        return message.getHeader(SagaReplyHeader.REPLY_SAGA_TYPE).map(x -> x.equals(getSagaType())).orElse(false);
     }
 }
