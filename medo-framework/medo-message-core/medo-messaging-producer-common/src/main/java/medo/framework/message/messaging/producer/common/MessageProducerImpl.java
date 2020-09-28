@@ -52,7 +52,7 @@ public final class MessageProducerImpl implements MessageProducer {
             persistentMessage.save(message);
             postSend(message, null);
         } catch (RuntimeException e) {
-            log.error("Sending failed", e);
+//            log.error("Sending failed", e);
             postSend(message, e);
             throw e;
         }

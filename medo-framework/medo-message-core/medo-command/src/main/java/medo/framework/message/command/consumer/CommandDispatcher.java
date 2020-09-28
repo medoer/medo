@@ -1,15 +1,5 @@
 package medo.framework.message.command.consumer;
 
-import static java.util.Collections.EMPTY_MAP;
-import static java.util.Collections.singletonList;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.json.JSONMapper;
@@ -23,6 +13,15 @@ import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.EMPTY_MAP;
+import static java.util.Collections.singletonList;
 
 @AllArgsConstructor
 @Slf4j

@@ -1,10 +1,10 @@
 package medo.framework.message.event.subscriber;
 
+import medo.framework.message.event.common.DomainEvent;
+import medo.framework.message.messaging.common.Message;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import lombok.AllArgsConstructor;
-import medo.framework.message.event.common.DomainEvent;
-import medo.framework.message.messaging.common.Message;
 
 @AllArgsConstructor
 public class DomainEventEnvelopeImpl<T extends DomainEvent> implements DomainEventEnvelope<T> {

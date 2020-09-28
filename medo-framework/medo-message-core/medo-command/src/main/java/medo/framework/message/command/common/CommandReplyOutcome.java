@@ -1,4 +1,4 @@
-package medo.framework.message.command.common;
+package medo.payment.gateway.command.common;
 
 public enum CommandReplyOutcome {
     SUCCESS, FAILURE

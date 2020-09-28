@@ -1,0 +1,10 @@
+description = 'Channel Common API'
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+
+    api project(":medo-payment:medo-payment-common")
+
+}

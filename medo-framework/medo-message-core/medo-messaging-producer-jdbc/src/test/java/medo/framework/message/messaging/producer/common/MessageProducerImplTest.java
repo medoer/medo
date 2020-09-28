@@ -8,13 +8,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import medo.framework.message.messaging.common.MessageHeader;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
 import medo.framework.message.messaging.common.ChannelMapping;
 import medo.framework.message.messaging.common.Message;
-import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.common.MessageInterceptor;
 import medo.framework.message.messaging.producer.MessageBuilder;
 

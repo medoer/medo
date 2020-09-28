@@ -1,8 +1,8 @@
 package medo.framework.message.messaging.producer.jdbc;
 
 import medo.common.core.id.IdGenerator;
-import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
+import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.common.PersistentMessage;
 
 public class PersistentMessageJdbcImpl implements PersistentMessage {

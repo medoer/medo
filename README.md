@@ -10,7 +10,7 @@
 
 积累、学习微服务关键技术。
 
-以电商 SAAS 平台为业务需求点。
+聚合支付场景。
 
 ## 架构
 
@@ -40,7 +40,9 @@ TODO
 | medo-uaa                           | 用户账户和授权中心 | 待测试完善 |
 | medo-framework                     | 框架封装           | 待补充     |
 | medo-framework:medo-message-core   | 核心消息模块       | ---        |
-| medo-framework:medo-message-spring | 消息 Spring 集成   | 正在开发     |
+| medo-framework:medo-message-spring | 消息 Spring 集成   | 正在开发   |
+| medo-mall-manage                   | 电商后台管理系统   |    |
+| medo-mall-manage:user-center                   | 电商后台管理 - 用户中心   |    |
 
 > medo-message 功能拆分为 medo-message-core 和 medo-message-spring 两个模块，解偶领域模型和具体实现，以方便集成其他 aop 框架， 如：microuat
 
@@ -64,7 +66,7 @@ medo
         - business-service -- 业务服务
         - order-service -- 订单服务
         - storage-service -- 仓储服务
-- medo-uaa:medo-uaa -- 用户和授权服务
+- medo-uaa:medo-uaa -- 授权服务
 - medo-framework -- 框架
     - medo-message-core -- 异步通信消息核心模块
         - medo-messaging -- 基础消息领域模型
@@ -102,6 +104,11 @@ medo
         - medo-saga-orchestration-spring -- 编排模块
         - medo-saga-participant-spring -- 参与者模块
         - medo-saga-spring-boot-starter -- 参与者模块
+- medo-mall-admin -- 电商平台商户管理
+    - mall-admin-user-center -- 商户用户中心
+    - mall-admin-goods -- 商品管理
+    - mall-admin-order -- 订单管理
+
 ```
 
 ### Medo Message
@@ -116,22 +123,22 @@ medo
 
 > 优先级：高、中、低
 
-| 框架功能                                | 描述                                      | 优先级 |
-| --------------------------------------- | ----------------------------------------- | ------ |
-| SAGA                                    | 基于 SAGA 的长事务机制                    | 高     |
-| 事件溯源                                | 基于流程引擎的服务编排实现                | 高     |
-| CQRS                                    | 封装 CQRS                                 | 高     |
-| 监控                                    | ELK、APM 等监控告警集成                   | 高     |
-| docker compose 集成                     | 集成调试 docker compose，方便本地测试     | 高     |
-| 业务样例                                | 具体需求待定，web端、移动端、后端全栈实现 | 中     |
-| 实现一个基于数据库的轻量级的延迟队列                                | 基于 Java/MySql 的分布式队列 | 中     |
-| 更新基于 redis 的锁工具，解决锁超时带来的问题                                | 分布式锁在任务执行完成之前锁超时会产生并发问题，基于栅栏令牌解决该问题 | 中     |
-| 安全治理                                | 认证授权                                 | 中     |
-| K8S                                     | K8S 集成，可能和监控模块一起实现          | 中     |
-| CI/CD                                   | 自动化部署                                | 中     |
-| 弹性容错                                | 熔断/限流/降级                            | 中     |
-| 实现基于数据库 polling 的 message relay | ---                                       | 低     |
-| 支持更多的消息代理                      | ---                                       | 低     |
+| 框架功能                                      | 描述                                                                   | 优先级 |
+| --------------------------------------------- | ---------------------------------------------------------------------- | ------ |
+| SAGA                                          | 基于 SAGA 的长事务机制                                                 | 高     |
+| 事件溯源                                      | 基于流程引擎的服务编排实现                                             | 高     |
+| CQRS                                          | 封装 CQRS                                                              | 高     |
+| 监控                                          | ELK、APM 等监控告警集成                                                | 高     |
+| docker compose 集成                           | 集成调试 docker compose，方便本地测试                                  | 高     |
+| 业务样例                                      | 具体需求待定，web端、移动端、后端全栈实现                              | 中     |
+| 实现一个基于数据库的轻量级的延迟队列          | 基于 Java/MySql 的分布式队列                                           | 中     |
+| 更新基于 redis 的锁工具，解决锁超时带来的问题 | 分布式锁在任务执行完成之前锁超时会产生并发问题，基于栅栏令牌解决该问题 | 中     |
+| 安全治理                                      | 认证授权                                                               | 中     |
+| K8S                                           | K8S 集成，可能和监控模块一起实现                                       | 中     |
+| CI/CD                                         | 自动化部署                                                             | 中     |
+| 弹性容错                                      | 熔断/限流/降级                                                         | 中     |
+| 实现基于数据库 polling 的 message relay       | ---                                                                    | 低     |
+| 支持更多的消息代理                            | ---                                                                    | 低     |
 
 ## 快速启动
 

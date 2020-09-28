@@ -1,0 +1,11 @@
+description = 'AliPay Channel Implement'
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    implementation project(":medo-payment:medo-channel-api")
+    // 默认依赖 aliyun.tea ,其中依赖了 kotlin。单独引入 okhttp, 覆盖 3.x 版本
+    implementation "com.alipay.sdk:alipay-easysdk"
+    implementation "com.squareup.okhttp3:okhttp"
+}

@@ -2,9 +2,8 @@ package medo.framework.message.command.consumer;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import medo.framework.message.messaging.common.Message;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CommandMessage<T> {
 

@@ -1,10 +1,10 @@
 package medo.framework.message.event.subscriber;
 
+import medo.framework.message.event.common.DomainEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import medo.framework.message.event.common.DomainEvent;
 
 public class DomainEventHandlersBuilder {
 
@@ -21,7 +21,7 @@ public class DomainEventHandlersBuilder {
 
     @SuppressWarnings("unchecked")
     public <E extends DomainEvent> DomainEventHandlersBuilder onEvent(Class<E> eventClass,
-            Consumer<DomainEventEnvelope<E>> handler) {
+                                                                      Consumer<DomainEventEnvelope<E>> handler) {
         handlers.add(new DomainEventHandler(aggregateType, ((Class<DomainEvent>) eventClass),
                 (e) -> handler.accept((DomainEventEnvelope<E>) e)));
         return this;

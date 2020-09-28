@@ -1,0 +1,9 @@
+description = 'Payment Common Module'
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+
+
+}

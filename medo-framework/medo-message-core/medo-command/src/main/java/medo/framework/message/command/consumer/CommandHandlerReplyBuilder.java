@@ -1,10 +1,10 @@
 package medo.framework.message.command.consumer;
 
 import medo.common.core.json.JSONMapper;
-import medo.framework.message.command.common.CommandReplyOutcome;
 import medo.framework.message.command.common.Failure;
 import medo.framework.message.command.common.ReplyMessageHeader;
 import medo.framework.message.command.common.Success;
+import medo.payment.gateway.command.common.CommandReplyOutcome;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.MessageBuilder;
 

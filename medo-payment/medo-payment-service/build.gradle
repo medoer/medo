@@ -1,0 +1,11 @@
+description = 'Rest Client Test' 
+
+dependencies {
+    implementation project(":medo-payment:medo-channel-api")
+    implementation project(":medo-payment:medo-channel-alipay")
+    implementation project(":medo-payment:medo-payment-service-api")
+    implementation project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
+    implementation project(":medo-common:medo-mysql-spring-boot-starter")
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+}

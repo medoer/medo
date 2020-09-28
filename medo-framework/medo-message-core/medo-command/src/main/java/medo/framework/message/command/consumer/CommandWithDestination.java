@@ -3,9 +3,8 @@ package medo.framework.message.command.consumer;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import medo.framework.message.command.common.Command;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CommandWithDestination {
 

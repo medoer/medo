@@ -1,0 +1,14 @@
+description = 'Test Moudle' 
+
+subprojects {
+
+    apply plugin: "org.springframework.boot"
+
+    dependencies {
+        api project(":medo-common:medo-log-spring-boot-starter")
+        api project(":medo-common:medo-common-spring")
+        // test
+        testCompile "org.springframework.boot:spring-boot-starter-test"
+    }
+
+}

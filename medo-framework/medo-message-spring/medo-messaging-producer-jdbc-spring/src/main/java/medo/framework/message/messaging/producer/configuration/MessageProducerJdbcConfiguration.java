@@ -1,5 +1,7 @@
 package medo.framework.message.messaging.producer.configuration;
 
+import medo.framework.message.messaging.producer.jdbc.MessageJdbcOptions;
+import medo.framework.message.messaging.producer.jdbc.PersistentMessageJdbcImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +10,6 @@ import org.springframework.context.annotation.Import;
 import medo.common.core.id.IdGenerator;
 import medo.common.spring.id.configuration.IdGeneratorConfiguration;
 import medo.framework.message.messaging.producer.common.PersistentMessage;
-import medo.framework.message.messaging.producer.jdbc.MessageJdbcOptions;
-import medo.framework.message.messaging.producer.jdbc.PersistentMessageJdbcImpl;
 
 @Configuration
 @Import({ MessageJdbcOptionsConfiguration.class, MessagingCommonProducerConfiguration.class, IdGeneratorConfiguration.class })

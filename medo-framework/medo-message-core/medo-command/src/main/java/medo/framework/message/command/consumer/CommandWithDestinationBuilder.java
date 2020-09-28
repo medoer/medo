@@ -1,10 +1,11 @@
 package medo.framework.message.command.consumer;
 
+import medo.framework.message.command.common.Command;
+import medo.framework.message.command.common.paths.ResourcePathPattern;
+
 import java.util.Collections;
 import java.util.Map;
 
-import medo.framework.message.command.common.Command;
-import medo.framework.message.command.common.paths.ResourcePathPattern;
 
 public class CommandWithDestinationBuilder {
 

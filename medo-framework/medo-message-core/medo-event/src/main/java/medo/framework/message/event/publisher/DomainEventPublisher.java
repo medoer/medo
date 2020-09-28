@@ -1,9 +1,9 @@
 package medo.framework.message.event.publisher;
 
+import medo.framework.message.event.common.DomainEvent;
+
 import java.util.List;
 import java.util.Map;
-
-import medo.framework.message.event.common.DomainEvent;
 
 public interface DomainEventPublisher {
 

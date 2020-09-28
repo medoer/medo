@@ -2,6 +2,8 @@
 !gradle/wrapper/gradle-wrapper.jar
 bin/
 build/
+## 不知道哪里生成的，可能是 idea 的单元测试
+out/
 
 ### STS ###
 .apt_generated

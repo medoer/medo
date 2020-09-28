@@ -1,9 +1,5 @@
 package medo.framework.message.event.publisher;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.event.common.DomainEvent;
@@ -13,6 +9,10 @@ import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.producer.MessageBuilder;
 import medo.framework.message.messaging.producer.MessageProducer;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 public class DomainEventPublisherImpl implements DomainEventPublisher {
@@ -37,7 +37,7 @@ public class DomainEventPublisherImpl implements DomainEventPublisher {
     }
 
     public static Message makeMessageForDomainEvent(String aggregateType, Object aggregateId,
-            Map<String, String> headers, DomainEvent event, String eventType) {
+                                                    Map<String, String> headers, DomainEvent event, String eventType) {
         String aggregateIdAsString = aggregateId.toString();
         return MessageBuilder.withPayload(JSONMapper.toJSON(event)).withExtraHeaders("", headers)
                 .withHeader(MessageHeader.PARTITION_ID, aggregateIdAsString)

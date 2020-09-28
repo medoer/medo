@@ -1,8 +1,8 @@
 package medo.framework.message.command.producer;
 
-import java.util.Map;
-
 import medo.framework.message.command.common.Command;
+
+import java.util.Map;
 
 public interface CommandProducer {
 
