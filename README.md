@@ -14,7 +14,7 @@
 
 ## 架构
 
-TODO
+[Medo 架构文档](https://xie.infoq.cn/article/a7f4005fe9c0645eb1dde1a70)
 
 ## GIT 分支 
 
@@ -25,6 +25,10 @@ TODO
 ### mall
 
 电商
+
+### payment
+
+聚合支付
 
 ### master
 
@@ -43,6 +47,7 @@ TODO
 | medo-framework:medo-message-spring | 消息 Spring 集成   | 正在开发   |
 | medo-mall-manage                   | 电商后台管理系统   |    |
 | medo-mall-manage:user-center                   | 电商后台管理 - 用户中心   |    |
+| medo-payment                   | 聚合支付模块   |    |
 
 > medo-message 功能拆分为 medo-message-core 和 medo-message-spring 两个模块，解偶领域模型和具体实现，以方便集成其他 aop 框架， 如：microuat
 
@@ -108,6 +113,13 @@ medo
     - mall-admin-user-center -- 商户用户中心
     - mall-admin-goods -- 商品管理
     - mall-admin-order -- 订单管理
+- medo-payment -- 聚合支付系统
+    - medo-channel-api -- 支付渠道抽象 api
+    - medo-channel-alipay -- alipay 支付渠道对接
+    - medo-channel-wechat -- wechat 支付渠道对接
+    - medo-payment-common -- 支付业务通用模块
+    - medo-payment-service-api -- 支付业务模块 api
+    - medo-payment-service -- 支付业务模块
 
 ```
 
