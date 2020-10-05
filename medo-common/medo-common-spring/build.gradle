@@ -4,7 +4,8 @@ dependencies {
 
     api project(":medo-common:medo-common-core")
     api "org.springframework:spring-context"
-    api "org.springframework:spring-web"
+//    api "org.springframework:spring-web"
+    api "org.springframework.boot:spring-boot-starter-web"
     api "javax.servlet:javax.servlet-api"
     api "org.springframework:spring-tx"
 

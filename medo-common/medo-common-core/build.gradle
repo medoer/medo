@@ -2,7 +2,5 @@ description = ''
 
 dependencies {
     api "org.apache.commons:commons-lang3"
-    // TODO rplace the fastjson
-    api "com.alibaba:fastjson"
     implementation "org.springframework.boot:spring-boot-starter-web"
 }
