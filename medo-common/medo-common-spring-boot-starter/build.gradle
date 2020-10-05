@@ -1,0 +1,7 @@
+description = 'Common Log Configuration' 
+
+dependencies {
+
+    api project(":medo-common:medo-common-spring")
+
+}
