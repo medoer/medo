@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+medo.payment.channel.alipay.configuration.AliPayAutoConfiguration

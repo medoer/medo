@@ -7,13 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
-import medo.payment.PaymentDomainEvent;
-import medo.payment.PaymentSucceed;
 import medo.payment.common.domain.Money;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static java.util.Collections.singletonList;

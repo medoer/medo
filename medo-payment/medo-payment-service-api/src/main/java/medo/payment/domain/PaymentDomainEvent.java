@@ -1,4 +1,4 @@
-package medo.payment;
+package medo.payment.domain;
 
 import medo.framework.message.event.common.DomainEvent;
 

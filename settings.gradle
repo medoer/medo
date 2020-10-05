@@ -67,6 +67,7 @@ include "medo-framework:medo-saga-spring:medo-saga-spring-boot-starter"
 
 include "medo-payment:medo-channel-api"
 include "medo-payment:medo-channel-alipay"
+include "medo-payment:medo-channel-alipay-spring-boot-starter"
 include "medo-payment:medo-payment-common"
 include "medo-payment:medo-payment-service"
 include "medo-payment:medo-payment-service-api"

@@ -3,7 +3,6 @@ package medo.payment.domain;
 import lombok.AllArgsConstructor;
 import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
-import medo.payment.PaymentDomainEvent;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelMicroPayRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;

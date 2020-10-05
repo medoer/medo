@@ -52,44 +52,45 @@ public class ChannelService implements ChannelClient{
     }
 
     @Override
-    public ChannelBaseResponse authCallback() {
+    public ChannelBaseResponse<?> authCallback() {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse refund() {
+    public ChannelBaseResponse<?> refund(ChannelRefundRequest channelRefundRequest) {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse fetchPayment(String paymentId) {
+    public ChannelBaseResponse<?> fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse fetchRefund() {
+    public ChannelBaseResponse<?> fetchRefund(ChannelFetchRefundRequest channelFetchRefundRequest) {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse prepareReconcile() {
+    public ChannelBaseResponse<?> prepareReconcile() {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse uploadImage() {
+    public ChannelBaseResponse<?> uploadImage() {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse close() {
+    public ChannelBaseResponse<?> close(ChannelCloseRequest channelCloseRequest) {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse cancel() {
+    public ChannelBaseResponse<?> cancel(ChannelCancelRequest channelCancelRequest) {
         return null;
     }
+
 
     @Override
     public ChannelBaseResponse verify(ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {

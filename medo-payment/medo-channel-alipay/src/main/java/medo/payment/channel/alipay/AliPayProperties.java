@@ -10,14 +10,14 @@ public class AliPayProperties {
     /**
      * 通信协议，通常填写https
      */
-    public String protocol;
+    public String protocol = "https";
 
     /**
      * 网关域名
      * 线上为：openapi.alipay.com
      * 沙箱为：openapi.alipaydev.com
      */
-    public String gatewayHost;
+    public String gatewayHost = "openapi.alipay.com";
 
     /**
      * AppId
@@ -27,7 +27,7 @@ public class AliPayProperties {
     /**
      * 签名类型，Alipay Easy SDK只推荐使用RSA2，估此处固定填写RSA2
      */
-    public String signType;
+    public String signType = "RSA2";
 
     /**
      * 支付宝公钥
