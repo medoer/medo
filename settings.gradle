@@ -15,6 +15,7 @@ include "medo-common:medo-rest-client-autoconfigure"
 include "medo-common:medo-kafka-spring-boot-starter"
 
 include "medo-demo"
+include "medo-demo:medo-spring-boot-starter-test"
 include "medo-demo:medo-rest-client-autoconfigure-test"
 include "medo-demo:medo-message-kafka-test"
 include "medo-demo:seata-demo"

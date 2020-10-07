@@ -1,0 +1,7 @@
+description = 'Autoconfigure Test'
+
+dependencies {
+
+    implementation project(":medo-common:medo-common-spring-boot-starter")
+
+}
