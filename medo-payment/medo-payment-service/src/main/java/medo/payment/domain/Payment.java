@@ -5,12 +5,15 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
+import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static java.util.Collections.singletonList;
 import static medo.payment.domain.PaymentState.*;
@@ -28,16 +31,22 @@ public class Payment extends Model {
     private Long merchantId;
     private Long branchId;
     private Long terminalId;
+
+    @TableField(typeHandler = JacksonTypeHandler.class, jdbcType = JdbcType.VARCHAR)
     private Money amount;
     private PaymentState state;
+    @TableField(typeHandler = JacksonTypeHandler.class,  jdbcType = JdbcType.VARCHAR)
     private Money balance;
+    @TableField(typeHandler = JacksonTypeHandler.class,  jdbcType = JdbcType.VARCHAR)
     private Money channelFee;
     private Long channelId;
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime modifyTime;
+    // TODO fix localDateTIme
+    @TableField(fill = FieldFill.INSERT, jdbcType = JdbcType.DATE)
+    private Date createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE, jdbcType = JdbcType.DATE)
+    private Date modifyTime;
 
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Buyer buyer;
 
     public static Payment createPayment(Long merchantId, Long branchId, Long terminalId,
