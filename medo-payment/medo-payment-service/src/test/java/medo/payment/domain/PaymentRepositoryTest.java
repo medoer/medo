@@ -34,7 +34,6 @@ public class PaymentRepositoryTest {
         assertThat(paymentRepository.insert(payment)).isGreaterThan(0);
     }
 
-    @Rollback
     @Test
     public void testQuery() {
         Payment payment = Payment.createPayment(-1L, -1L, -1L,
