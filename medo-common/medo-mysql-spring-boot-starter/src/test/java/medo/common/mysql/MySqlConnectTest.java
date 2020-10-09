@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import medo.common.mysql.mapper.TestMapper;
 
+@Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MySqlConnectTest {
@@ -24,8 +25,6 @@ public class MySqlConnectTest {
      * @throws Exception
      */
     @Test
-    @Transactional
-    @Rollback(true)
     public void test() throws Exception {
         medo.common.mysql.domain.model.Test test = new medo.common.mysql.domain.model.Test();
         testMapper.insert(test);

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 /**
  * mybatis plus crud demo <a>https://github.com/baomidou/mybatis-plus-samples/blob/master/mybatis-plus-sample-crud/src/test/java/com/baomidou/mybatisplus/samples/crud/SampleTest.java</a>
  */
+@Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MybatisPlusTest {
@@ -34,8 +35,6 @@ public class MybatisPlusTest {
     @Autowired
     private ValueObjectMapper valueObjectMapper;
 
-    @Rollback(true)
-    @Transactional
     @Test
     public void testInsertLocalDateTime() {
         DateDomain dateDomain = DateDomain.builder()
@@ -44,8 +43,6 @@ public class MybatisPlusTest {
         dateMapper.insert(dateDomain);
     }
 
-    @Rollback(true)
-    @Transactional
     @Test
     public void testInsertLocalDateTimeFillValue() {
         DateDomain dateDomain = DateDomain.builder()
@@ -58,8 +55,6 @@ public class MybatisPlusTest {
     }
 
 
-    @Rollback(true)
-    @Transactional
     @Test
     public void testUpdateLocalDateTimeFillValue() {
         DateDomain dateDomain = DateDomain.builder()
@@ -69,8 +64,6 @@ public class MybatisPlusTest {
         dateMapper.updateById(dateDomain);
     }
 
-    @Transactional
-    @Rollback
     @Test
     public void testInsertWithEnum() {
         EnumDomain value = new EnumDomain();
@@ -81,8 +74,6 @@ public class MybatisPlusTest {
     }
 
 
-    @Transactional
-    @Rollback
     @Test
     public void testInsertWithValueObject() {
         ValueObjectDomain valueObjectDomainRequest = new ValueObjectDomain();
@@ -97,8 +88,6 @@ public class MybatisPlusTest {
         Assert.assertTrue(TestEnum.VALUE.equals(valueObjectDomainRes.getTestEnum()));
     }
 
-    @Transactional
-    @Rollback
     @Test
     public void testDelete() {
         ValueObjectDomain valueObjectDomainRequest = new ValueObjectDomain();
