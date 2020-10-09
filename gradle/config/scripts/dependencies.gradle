@@ -10,7 +10,7 @@ ext {
     fastjsonVersion = '1.2.62'
     guavaVersion = '29.0-jre'
     lombokVersion = "1.18.4"
-    mariadbJavaClientVersion = '2.1.2'
+    mysqlDriverVersion = '8.0.21'
     okhttpVersion = '4.9.0'
     mybatisPlusVersion = '3.4.0'
     seataVersion = '2.2.0.RELEASE'
@@ -37,10 +37,10 @@ dependencyManagement {
         dependency "io.eventuate.tram.core:eventuate-tram-spring-jdbc-kafka:${eventuateTramVersion}"
         dependency "io.eventuate.messaging.kafka:eventuate-messaging-kafka-consumer:${eventuateCommonVersion}"
         dependency "io.eventuate.messaging.kafka:eventuate-messaging-kafka-spring-consumer:${eventuateCommonVersion}"
+        dependency "mysql:mysql-connector-java:${mysqlDriverVersion}"
         dependency "com.alibaba:fastjson:${fastjsonVersion}"
         dependency "com.google.guava:guava:${guavaVersion}"
         dependency "org.projectlombok:lombok:${lombokVersion}"
-        dependency "org.mariadb.jdbc:mariadb-java-client:${mariadbJavaClientVersion}"
         dependency "com.squareup.okhttp3:okhttp:${okhttpVersion}"
         dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"
         dependency "com.baomidou:mybatis-plus-extension:${mybatisPlusVersion}"

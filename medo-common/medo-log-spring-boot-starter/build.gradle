@@ -1,8 +1,7 @@
 description = 'Common Log Configuration' 
 
 dependencies {
-
-    api "org.mariadb.jdbc:mariadb-java-client"
+    api "mysql:mysql-connector-java"
     api 'org.slf4j:slf4j-api'
     implementation 'org.springframework:spring-web'
     api 'org.springframework.boot:spring-boot-starter'
