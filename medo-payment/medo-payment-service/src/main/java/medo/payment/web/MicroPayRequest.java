@@ -11,12 +11,15 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class MicroPayRequest {
 
-    public MicroPayRequest() {
-        Integer channelId = getChannelId();
-        // set channel id in header
+    public MicroPayRequest(String authCode) {
+        this.authCode = authCode;
+        Long channelId = getChannelId();
+        // set channel id in request attribute
         RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, channelId);
         this.channelId = channelId;
     }
+
+    public MicroPayRequest() {}
 
     @NotEmpty
     private String authCode;
@@ -24,13 +27,13 @@ public class MicroPayRequest {
     @NotEmpty
     private Money money;
 
-    private Integer channelId;
+    private Long channelId;
 
     private Terminal terminal;
 
     private String desc;
 
-    public Integer getChannelId() {
+    public Long getChannelId() {
         return ChannelId.getChannelId(authCode);
     }
 

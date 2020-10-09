@@ -3,11 +3,13 @@ package medo.payment.common;
 import medo.common.spring.context.SpringContextHelper;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.ChannelClient;
+import medo.payment.channel.alipay.AliPayChannel;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import org.springframework.stereotype.Service;
 
+import java.nio.channels.Channel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +20,9 @@ import java.util.Map;
 @Service
 public class ChannelService implements ChannelClient{
 
-    private static Map<Long, String> CHANNEL_CLASS_MAP = new HashMap(){
+    private static Map<Long, Class> CHANNEL_CLASS_MAP = new HashMap(){
         {
-            put(ChannelId.ALIPAY, "medo.payment.channel.alipay.AliPayChannel");
+            put(ChannelId.ALIPAY, AliPayChannel.class);
         }
     };
 
@@ -99,8 +101,8 @@ public class ChannelService implements ChannelClient{
 
 
     private ChannelClient getBean() {
-        Long channelId = Long.valueOf(RequestContextHelper.getHeader("CHANNEL_ID"));
-        String channelClientName = CHANNEL_CLASS_MAP.get(channelId == null ? 1L : channelId);
-        return SpringContextHelper.getBean(channelClientName);
+        Integer channelId = RequestContextHelper.getAttrribute("CHANNEL_ID");
+        Class channelClientName = CHANNEL_CLASS_MAP.get(channelId == null ? 1 : channelId);
+        return (ChannelClient) SpringContextHelper.getBean(channelClientName);
     }
 }

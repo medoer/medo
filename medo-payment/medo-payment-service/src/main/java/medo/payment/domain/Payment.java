@@ -8,21 +8,22 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import medo.common.mysql.model.BaseModel;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 
 import static java.util.Collections.singletonList;
+import static medo.payment.domain.PaymentState.FAILED;
 import static medo.payment.domain.PaymentState.SUCCEED;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName( value = "payment", autoResultMap = true)
-public class Payment extends Model {
+public class Payment extends BaseModel<Payment> {
 
-    @TableId
-    private Long Id;
     private String paymentId;
     // 三方支付订单号
     private String channelTradeId;
@@ -37,18 +38,23 @@ public class Payment extends Model {
     private Money balance;
 //    @TableField(typeHandler = JacksonTypeHandler.class)
 //    private Money channelFee;
-    private Integer channelId;
-    // TODO fix localDateTIme
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Long channelId;
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Buyer buyer;
 
-    public static Payment createPayment(Long merchantId, Long branchId, Long terminalId,
-                                        Money amount, Integer channelId, String paymentId) {
+    public static Payment createPayment(Terminal terminal,
+                                        Money amount, Long channelId, String paymentId) {
+        // parameter validation
+        if (amount == null) {
+            throw new RuntimeException();
+        }
+        if (channelId == null) {
+            throw new RuntimeException();
+        }
+        if (StringUtils.isEmpty(paymentId)) {
+            throw new RuntimeException();
+        }
         Payment payment = new Payment();
 //        payment.merchantId = merchantId;
 //        payment.branchId = branchId;
@@ -78,8 +84,9 @@ public class Payment extends Model {
 
     public ResultWithDomainEvents<Payment, PaymentDomainEvent> noteFailed() {
         switch (state) {
+            // TODO 维护状态机
             case NEW:
-                this.state = SUCCEED;
+                this.state = FAILED;
                 return new ResultWithDomainEvents<>(this, singletonList(new PaymentSucceed()));
             default:
                 // TODO define the detail exception

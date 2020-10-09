@@ -1,16 +1,20 @@
 package medo.payment.common;
 
 import medo.payment.channel.common.ChannelIdRule;
+import org.apache.commons.lang3.StringUtils;
 
 public class ChannelId {
 
     public static final String HEADER_NAME = "CHANNEL_ID";
 
-    public static final Integer ALIPAY = 1;
-    public static final Integer WECHATPAY = 2;
+    public static final Long ALIPAY = 1L;
+    public static final Long WECHATPAY = 2L;
 
-    public static Integer getChannelId(String authCode) {
-        if (ChannelIdRule.isAlipayQrcode(authCode)) {
+    public static Long getChannelId(String authCode) {
+        if (StringUtils.isEmpty(authCode)) {
+            throw new IllegalArgumentException("auth code can't be null");
+        }
+        if (ChannelIdRule.isAliPayQrcode(authCode)) {
             return ALIPAY;
         } else if (ChannelIdRule.isWechatQrcode(authCode)) {
             return WECHATPAY;

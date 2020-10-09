@@ -30,7 +30,7 @@ public class BaseModel<T extends Model<?>> extends Model<T> {
      *  primary key
      */
     @TableId
-    private Integer id;
+    private Long id;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

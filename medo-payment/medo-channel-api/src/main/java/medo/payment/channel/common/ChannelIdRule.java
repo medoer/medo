@@ -28,7 +28,7 @@ public class ChannelIdRule {
      * @param code 二维码
      * @return true if is alipay qrcode ; false if not
      */
-    public static boolean isAlipayQrcode(String code){
+    public static boolean isAliPayQrcode(String code){
         boolean result = false;
         for(int len : ALIPAY_QRCODE_LENGTH_ARR){
             if(isNumberOfLengthNStartWith(code,len,ALIPAY_QRCODE_START_ARR)){
