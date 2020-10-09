@@ -1,5 +1,7 @@
 package medo.common.mysql.configuration;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.apache.ibatis.reflection.MetaObject;
@@ -45,7 +47,7 @@ public class DateMetaObjectHandler implements MetaObjectHandler {
         Object createTime = getFieldValByName(autoFillProperties.getCreateTimeField(), metaObject);
         Object updateTime = getFieldValByName(autoFillProperties.getUpdateTimeField(), metaObject);
         if (createTime == null || updateTime == null) {
-            Date date = new Date();
+            LocalDateTime date = LocalDateTime.now();
             if (createTime == null) {
                 setFieldValByName(autoFillProperties.getCreateTimeField(), date, metaObject);
             }
@@ -60,6 +62,6 @@ public class DateMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName(autoFillProperties.getUpdateTimeField(), new Date(), metaObject);
+        setFieldValByName(autoFillProperties.getUpdateTimeField(), LocalDateTime.now(), metaObject);
     }
 }

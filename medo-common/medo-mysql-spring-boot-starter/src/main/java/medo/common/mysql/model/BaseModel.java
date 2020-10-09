@@ -1,6 +1,7 @@
 package medo.common.mysql.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,13 +30,13 @@ public class BaseModel<T extends Model<?>> extends Model<T> {
      *  primary key
      */
     @TableId
-    private Long id;
+    private Integer id;
 
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @Override
     protected Serializable pkVal() {

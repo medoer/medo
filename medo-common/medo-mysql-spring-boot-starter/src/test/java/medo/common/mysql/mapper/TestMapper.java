@@ -1,8 +1,7 @@
 package medo.common.mysql.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import medo.common.mysql.domain.model.Test;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * test
