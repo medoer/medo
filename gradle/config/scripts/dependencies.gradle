@@ -4,7 +4,7 @@ ext {
     alipayEasySDKVersion = '2.0.2'
     commonsIOVersion = '2.7'
     commonsLang3Version ='3.10' 
-    druidVersion = '1.1.20'
+    druidVersion = '1.2.1'
     eventuateCommonVersion = '0.12.0.RELEASE'
     eventuateTramVersion= '0.24.0.RELEASE'
     fastjsonVersion = '1.2.62'
@@ -12,7 +12,7 @@ ext {
     lombokVersion = "1.18.4"
     mariadbJavaClientVersion = '2.1.2'
     okhttpVersion = '4.9.0'
-    mybatisPlusVersion = '3.3.1'
+    mybatisPlusVersion = '3.4.0'
     seataVersion = '2.2.0.RELEASE'
     redissonVersion = '3.13.2'
     swagger2Version = '2.9.2'
