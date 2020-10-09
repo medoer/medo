@@ -5,13 +5,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Value Object - Money
  */
 @Data
-public class Money {
+public class Money implements Serializable {
 
     public static Money ZERO = new Money(0);
 

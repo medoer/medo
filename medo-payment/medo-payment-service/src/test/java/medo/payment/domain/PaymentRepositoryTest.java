@@ -64,7 +64,8 @@ public class PaymentRepositoryTest {
                 Money.ZERO, 1, idGenerator.generateId().asString());
         assertThat(paymentRepository.insert(payment)).isGreaterThan(0);
         Money amount = payment.getAmount();
-        LambdaQueryWrapper<Payment> queryWrapper = new QueryWrapper<Payment>().lambda().eq(Payment::getChannelId, 1);
-        assertThat(paymentRepository.delete(queryWrapper)).isGreaterThan(0);
+        LambdaQueryWrapper<Payment> queryWrapper = new QueryWrapper<Payment>().lambda().eq(Payment::getAmount, amount);
+        // 根据 json 删除查询都行不通，实际也不需要根据 value object 删除
+        assertThat(paymentRepository.delete(queryWrapper)).isEqualTo(0);
     }
 }
