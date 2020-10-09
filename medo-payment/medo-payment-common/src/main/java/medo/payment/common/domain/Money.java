@@ -1,5 +1,6 @@
 package medo.payment.common.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 /**
  * Value Object - Money
  */
+@Data
 public class Money {
 
     public static Money ZERO = new Money(0);
@@ -73,4 +75,13 @@ public class Money {
     public Money multiply(int x) {
         return new Money(amount.multiply(new BigDecimal(x)));
     }
+
+//    // getter setter for mybatis plus map
+//    public BigDecimal getAmount() {
+//        return amount;
+//    }
+//
+//    public void setAmount(BigDecimal amount) {
+//        this.amount = amount;
+//    }
 }

@@ -10,51 +10,49 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
-import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static java.util.Collections.singletonList;
-import static medo.payment.domain.PaymentState.*;
+import static medo.payment.domain.PaymentState.SUCCEED;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("payment")
+@TableName( value = "payment", autoResultMap = true)
 public class Payment extends Model {
 
     @TableId
     private Long Id;
     private String paymentId;
     // 三方支付订单号
-    private String channelTradeNode;
-    private Long merchantId;
-    private Long branchId;
-    private Long terminalId;
+    private String channelTradeId;
+//    private Long merchantId;
+//    private Long branchId;
+//    private Long terminalId;
 
-    @TableField(typeHandler = JacksonTypeHandler.class, jdbcType = JdbcType.VARCHAR)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Money amount;
     private PaymentState state;
-    @TableField(typeHandler = JacksonTypeHandler.class,  jdbcType = JdbcType.VARCHAR)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Money balance;
-    @TableField(typeHandler = JacksonTypeHandler.class,  jdbcType = JdbcType.VARCHAR)
-    private Money channelFee;
-    private Long channelId;
+//    @TableField(typeHandler = JacksonTypeHandler.class)
+//    private Money channelFee;
+    private Integer channelId;
     // TODO fix localDateTIme
-    @TableField(fill = FieldFill.INSERT, jdbcType = JdbcType.DATE)
-    private Date createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE, jdbcType = JdbcType.DATE)
-    private Date modifyTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Buyer buyer;
 
     public static Payment createPayment(Long merchantId, Long branchId, Long terminalId,
-                                        Money amount, Long channelId, String paymentId) {
+                                        Money amount, Integer channelId, String paymentId) {
         Payment payment = new Payment();
-        payment.merchantId = merchantId;
-        payment.branchId = branchId;
-        payment.terminalId = terminalId;
+//        payment.merchantId = merchantId;
+//        payment.branchId = branchId;
+//        payment.terminalId = terminalId;
         payment.amount = amount;
         payment.balance = amount;
         payment.channelId = channelId;

@@ -6,10 +6,10 @@ public class ChannelId {
 
     public static final String HEADER_NAME = "CHANNEL_ID";
 
-    public static final Long ALIPAY = 1L;
-    public static final Long WECHATPAY = 2L;
+    public static final Integer ALIPAY = 1;
+    public static final Integer WECHATPAY = 2;
 
-    public static Long getChannelId(String authCode) {
+    public static Integer getChannelId(String authCode) {
         if (ChannelIdRule.isAlipayQrcode(authCode)) {
             return ALIPAY;
         } else if (ChannelIdRule.isWechatQrcode(authCode)) {

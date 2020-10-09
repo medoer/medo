@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public class MicroPayRequest {
 
     public MicroPayRequest() {
-        Long channelId = getChannelId();
+        Integer channelId = getChannelId();
         // set channel id in header
         RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, channelId);
         this.channelId = channelId;
@@ -24,13 +24,13 @@ public class MicroPayRequest {
     @NotEmpty
     private Money money;
 
-    private Long channelId;
+    private Integer channelId;
 
     private Terminal terminal;
 
     private String desc;
 
-    public Long getChannelId() {
+    public Integer getChannelId() {
         return ChannelId.getChannelId(authCode);
     }
 
