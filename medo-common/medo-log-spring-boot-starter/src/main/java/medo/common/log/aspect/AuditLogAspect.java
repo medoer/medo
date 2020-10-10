@@ -30,7 +30,6 @@ import medo.common.log.service.IAuditService;
  */
 @Slf4j
 @Aspect
-@ConditionalOnClass({HttpServletRequest.class, RequestContextHolder.class})
 public class AuditLogAspect {
 
     @Value("${spring.application.name}")

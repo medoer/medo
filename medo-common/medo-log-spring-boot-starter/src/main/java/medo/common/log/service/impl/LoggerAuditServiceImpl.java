@@ -15,7 +15,6 @@ import medo.common.log.service.IAuditService;
  * @date: 2020-08-05
  */
 @Slf4j
-@ConditionalOnProperty(name = "medo.audit-log.log-type", havingValue = "logger", matchIfMissing = true)
 public class LoggerAuditServiceImpl implements IAuditService {
 
     private static final String MSG_PATTERN = "{}|{}|{}|{}|{}|{}|{}|{}";

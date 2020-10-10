@@ -22,8 +22,6 @@ import medo.common.log.service.IAuditService;
  * @author: bryce
  * @date: 2020-08-05
  */
-@ConditionalOnProperty(name = "medo.audit-log.log-type", havingValue = "db")
-@ConditionalOnClass(JdbcTemplate.class)
 public class DbAuditServiceImpl implements IAuditService {
 
     private static final String INSERT_SQL = " insert into sys_logger "
