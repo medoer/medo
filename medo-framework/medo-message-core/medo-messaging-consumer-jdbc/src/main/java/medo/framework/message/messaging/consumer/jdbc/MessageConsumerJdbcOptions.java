@@ -15,7 +15,7 @@ public class MessageConsumerJdbcOptions {
         this.receivedMessageTable = receivedMessageTable;
     }
 
-    public void saveReveivedMessage(String consumerId, String messageId, String currentTimeInMillisecondsSql) {
+    public void saveReceivedMessage(String consumerId, String messageId, String currentTimeInMillisecondsSql) {
 
         String sql = String.format(SQL, receivedMessageTable, currentTimeInMillisecondsSql);
 

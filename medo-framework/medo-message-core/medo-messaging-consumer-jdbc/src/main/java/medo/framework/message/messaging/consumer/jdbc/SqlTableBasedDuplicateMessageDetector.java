@@ -29,7 +29,7 @@ public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDe
     @Override
     public boolean isDuplicate(String consumerId, String messageId) {
         try {
-            messageConsumerJdbcOptions.saveReveivedMessage(consumerId, messageId, receivedMessageTable);
+            messageConsumerJdbcOptions.saveReceivedMessage(consumerId, messageId, receivedMessageTable);
             return false;
         } catch (DuplicateKeyException e) {
             log.info("Message duplicate: consumerId = {}, messageId = {}", consumerId, messageId);
