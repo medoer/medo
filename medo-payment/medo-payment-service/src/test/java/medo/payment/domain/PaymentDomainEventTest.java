@@ -31,7 +31,6 @@ public class PaymentDomainEventTest {
     private DomainEventDispatcher domainEventDispatcher;
 
 
-
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Rollback(false)
     @Test
@@ -40,11 +39,6 @@ public class PaymentDomainEventTest {
         Payment payment = Payment.createPayment(new Terminal(), Money.ZERO, ChannelId.ALIPAY, UUID.randomUUID().toString());
         // 事件保存到 outbox 表
         paymentDomainEventPublisher.publish(payment, Collections.singletonList(new PaymentSucceed()));
-        try {
-            Thread.currentThread().sleep(20L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
     }
 }
