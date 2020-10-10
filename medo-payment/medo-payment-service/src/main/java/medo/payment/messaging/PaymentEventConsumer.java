@@ -6,26 +6,25 @@ import medo.framework.message.event.subscriber.DomainEventEnvelope;
 import medo.framework.message.event.subscriber.DomainEventHandlers;
 import medo.framework.message.event.subscriber.DomainEventHandlersBuilder;
 import medo.payment.domain.Payment;
-import medo.payment.domain.PaymentService;
 import medo.payment.domain.PaymentSucceed;
 
 @Slf4j
 @AllArgsConstructor
 public class PaymentEventConsumer {
 
-    private PaymentService paymentService;
-
     public DomainEventHandlers domainEventHandlers() {
         return DomainEventHandlersBuilder
                 .forAggregateType(Payment.class)
                 .onEvent(PaymentSucceed.class, this::sendEmail)
-//                .onEvent(RestaurantMenuRevised.class, this::reviseMenu)
+                // more event TODO
+//                .onEvent()
                 .build();
     }
 
     private void sendEmail(DomainEventEnvelope<PaymentSucceed> de) {
         String paymentId = de.getAggregateId();
-        log.warn(paymentId);
+        log.info(paymentId);
+        // TODO send payment succeed email
     }
 
 
