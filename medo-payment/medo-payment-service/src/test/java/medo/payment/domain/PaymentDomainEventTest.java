@@ -36,8 +36,6 @@ public class PaymentDomainEventTest {
     @Rollback(false)
     @Test
     public void testPublishSucceed() {
-        domainEventDispatcher.messageHandler();
-        paymentEventConsumer.domainEventHandlers();
         // newed payment object no id properties value, change the payment publisher aggregate id to paymentId
         Payment payment = Payment.createPayment(new Terminal(), Money.ZERO, ChannelId.ALIPAY, UUID.randomUUID().toString());
         // 事件保存到 outbox 表
