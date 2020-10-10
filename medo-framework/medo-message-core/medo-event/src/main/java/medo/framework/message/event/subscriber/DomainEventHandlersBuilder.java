@@ -19,6 +19,10 @@ public class DomainEventHandlersBuilder {
         return new DomainEventHandlersBuilder(aggregateType);
     }
 
+    public static DomainEventHandlersBuilder forAggregateType(Class aggregateTypeClass) {
+        return new DomainEventHandlersBuilder(aggregateTypeClass.getName());
+    }
+
     @SuppressWarnings("unchecked")
     public <E extends DomainEvent> DomainEventHandlersBuilder onEvent(Class<E> eventClass,
                                                                       Consumer<DomainEventEnvelope<E>> handler) {
