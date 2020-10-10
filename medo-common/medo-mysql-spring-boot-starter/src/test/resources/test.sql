@@ -27,6 +27,8 @@ CREATE TABLE `test` (
   `update_time` datetime DEFAULT NULL,
   `test_enum` VARCHAR(36) DEFAULT NULL,
   `value_object` VARCHAR(255) DEFAULT NULL,
+  `version` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 

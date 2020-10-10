@@ -30,3 +30,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+medo:
+  mybatis-plus:
+    optimistic-locker:
+      enable: true

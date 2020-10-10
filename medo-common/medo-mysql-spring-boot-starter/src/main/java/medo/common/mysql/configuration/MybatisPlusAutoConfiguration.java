@@ -1,5 +1,7 @@
 package medo.common.mysql.configuration;
 
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -60,5 +62,12 @@ public class MybatisPlusAutoConfiguration {
     @ConditionalOnProperty(prefix = "medo.mybatis-plus.auto-fill", name = "enabled", havingValue = "true", matchIfMissing = true)
     public MetaObjectHandler metaObjectHandler() {
         return new DateMetaObjectHandler(autoFillProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "medo.mybatis-plus.optimistic-locker", name = "enabled", havingValue = "true", matchIfMissing = true)
+    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+        return new OptimisticLockerInterceptor();
     }
 }
