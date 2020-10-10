@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,12 @@ public class PaymentDomainEventTest {
     @Autowired
     private PaymentDomainEventPublisher paymentDomainEventPublisher;
 
+    @Rollback(false)
     @Test
     public void testPublishSucceed() {
+        // newed payment object no id properties value, change the payment publisher aggregate id to paymentId
         Payment payment = Payment.createPayment(new Terminal(), Money.ZERO, ChannelId.ALIPAY, UUID.randomUUID().toString());
         // 事件保存到 outbox 表
         paymentDomainEventPublisher.publish(payment, Collections.singletonList(new PaymentSucceed()));
-        
     }
 }

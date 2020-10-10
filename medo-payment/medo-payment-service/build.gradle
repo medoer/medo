@@ -1,6 +1,7 @@
-description = 'Rest Client Test' 
+description = 'Payment Service'
 
 dependencies {
+
     implementation project(":medo-payment:medo-channel-alipay-spring-boot-starter")
     implementation project(":medo-payment:medo-payment-service-api")
     implementation project(":medo-payment:medo-payment-common")

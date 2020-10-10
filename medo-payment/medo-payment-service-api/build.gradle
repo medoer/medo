@@ -1,4 +1,7 @@
-description = 'Rest Client Test' 
+description = 'Rest Client Test'
+
+bootJar.enabled = false
+jar.enabled = true
 
 dependencies {
     api project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
