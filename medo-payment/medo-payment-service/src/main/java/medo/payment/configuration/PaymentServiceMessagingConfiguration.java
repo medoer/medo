@@ -3,7 +3,7 @@ package medo.payment.configuration;
 import medo.framework.message.event.publisher.DomainEventPublisher;
 import medo.framework.message.event.subscriber.DomainEventDispatcher;
 import medo.framework.message.event.subscriber.DomainEventDispatcherFactory;
-import medo.payment.domain.PaymentDomainEventPublisher;
+import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.domain.PaymentService;
 import medo.payment.messaging.PaymentEventConsumer;
 import org.springframework.context.annotation.Bean;
