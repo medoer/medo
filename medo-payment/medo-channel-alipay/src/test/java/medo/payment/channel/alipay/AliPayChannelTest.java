@@ -63,7 +63,7 @@ public class AliPayChannelTest {
     @Test
     public void testRefund() {
         ChannelRefundRequest channelRefundRequest = ChannelRefundRequest.builder()
-                .paymentId("1234")
+                .originPaymentId("1234")
                 .money(new Money("20"))
                 .build();
         ChannelBaseResponse channelBaseResponse = aliPayChannel.refund(channelRefundRequest);

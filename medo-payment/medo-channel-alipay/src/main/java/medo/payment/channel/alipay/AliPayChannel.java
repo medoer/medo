@@ -89,7 +89,7 @@ public class AliPayChannel implements ChannelClient {
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
                 .run((p) -> {
                     AlipayTradeRefundResponse alipayTradeQueryResponse =
-                            Factory.Payment.Common().refund(p.getPaymentId()
+                            Factory.Payment.Common().refund(p.getRefundId()
                                     , p.getMoney().asString());
                     return aliPayResponseHandler(alipayTradeQueryResponse);
                 }, channelRefundRequest);

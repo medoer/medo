@@ -7,6 +7,7 @@ import medo.payment.common.domain.Money;
 @Builder
 @Data
 public class ChannelRefundRequest {
-    private String paymentId;
+    private String refundId;
+    private String originPaymentId;
     private Money money;
 }

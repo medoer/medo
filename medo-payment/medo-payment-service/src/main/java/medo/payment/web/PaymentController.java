@@ -38,7 +38,9 @@ public class PaymentController {
         return ResponseEntity.ok(null);
     }
 
-    public void refund() {
-
+    @PostMapping("/refund")
+    public ResponseEntity refund(@RequestBody @Valid RefundRequest refundRequest) {
+        paymentService.refund(refundRequest);
+        return ResponseEntity.ok(null);
     }
 }

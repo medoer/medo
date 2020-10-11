@@ -69,6 +69,10 @@ public class Money implements Serializable {
         return amount.compareTo(other.amount) >= 0;
     }
 
+    public boolean isGreaterThan(Money other) {
+        return amount.compareTo(other.amount) > 0;
+    }
+
     public String asString() {
         return amount.toPlainString();
     }

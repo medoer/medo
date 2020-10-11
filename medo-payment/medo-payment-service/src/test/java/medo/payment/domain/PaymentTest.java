@@ -16,7 +16,7 @@ public class PaymentTest {
     public void createPayment() {
         Payment payment = Payment.createPayment(new Terminal(), Money.ZERO, ChannelId.ALIPAY, UUID.randomUUID().toString());
         assertThat(payment).isNotNull();
-        assertThat(payment.getState()).isNotNull().isEqualTo(PaymentState.NEW);
+        assertThat(payment.getState()).isNotNull().isEqualTo(PaymentState.PAYMENT_PENDING);
     }
 
     @Test(expected = UnsupportedOperationException.class)

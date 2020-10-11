@@ -6,12 +6,16 @@ import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelMicroPayRequest;
+import medo.payment.channel.request.ChannelRefundRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.common.ChannelService;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.web.MicroPayRequest;
+import medo.payment.web.RefundRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 @Slf4j
 @Transactional
@@ -56,6 +60,24 @@ public class PaymentService {
         return payment;
     }
 
+    public Payment refund(RefundRequest refundRequest) {
 
-
+        Payment payment = paymentRepository.selectByPaymentId(refundRequest.getPaymentId());
+        // check payment status
+        payment.refundValid(refundRequest);
+        Payment refund = Payment.createRefund(refundRequest.getTerminal(), refundRequest.getMoney(), payment.getChannelId(),
+                idGenerator.generateId().asString(), payment.getPaymentId());
+        paymentRepository.insert(refund);
+        // cas update payment status
+        ResultWithDomainEvents<Payment, PaymentDomainEvent> result = payment.refundPending();
+        Payment paymentForUpdate = result.result;
+        int updateRes = paymentRepository.updateById(paymentForUpdate);
+        if (updateRes == 0) {
+            log.error("concurrent refund, payment id: {}", refundRequest.getPaymentId());
+            throw new RuntimeException("refund error!");
+        }
+        // publish refund event
+        paymentDomainEventPublisher.publish(refund, result.events);
+        return refund;
+    }
 }
