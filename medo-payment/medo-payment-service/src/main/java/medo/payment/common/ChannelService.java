@@ -7,6 +7,7 @@ import medo.payment.channel.alipay.AliPayChannel;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelRefundResponse;
 import org.springframework.stereotype.Service;
 
 import java.nio.channels.Channel;
@@ -59,7 +60,7 @@ public class ChannelService implements ChannelClient{
     }
 
     @Override
-    public ChannelBaseResponse<?> refund(ChannelRefundRequest channelRefundRequest) {
+    public ChannelBaseResponse<ChannelRefundResponse> refund(ChannelRefundRequest channelRefundRequest) {
         return null;
     }
 

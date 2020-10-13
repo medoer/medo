@@ -1,26 +1,24 @@
 package medo.payment.domain;
 
-import medo.framework.message.event.subscriber.DomainEventDispatcher;
-import medo.framework.message.event.subscriber.spring.configuration.EventSubscriberConfiguration;
-import medo.payment.channel.ChannelClient;
-import medo.payment.channel.alipay.AliPayChannel;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelRefundResponse;
 import medo.payment.common.ChannelId;
 import medo.payment.common.ChannelService;
 import medo.payment.common.domain.Money;
 import medo.payment.web.MicroPayRequest;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import medo.payment.web.RefundRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.omg.SendingContext.RunTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -75,4 +73,21 @@ public class PaymentServiceTest {
 
     }
 
+    @Rollback(false)
+    @Test
+    public void testRefund() {
+        // create payment order
+        MicroPayRequest microPayRequestAliPay = new MicroPayRequest(aliPayAuthCode);
+        microPayRequestAliPay.setMoney(new Money(20));
+        Mockito.when(channelService.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
+        Payment payment = paymentService.microPay(microPayRequestAliPay);
+
+        RefundRequest refundRequest = new RefundRequest();
+        refundRequest.setPaymentId(payment.getPaymentId());
+        refundRequest.setMoney(new Money(20));
+        refundRequest.setDesc("项链");
+        Mockito.when(channelService.refund(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelRefundResponse()));
+        Payment refund = paymentService.refund(refundRequest);
+        assertThat(refund).isNotNull();
+    }
 }

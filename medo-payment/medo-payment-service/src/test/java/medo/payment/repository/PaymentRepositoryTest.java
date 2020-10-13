@@ -46,6 +46,7 @@ public class PaymentRepositoryTest {
         Payment paymentById = paymentRepository.selectById(payment.getId());
         assertThat(paymentById).isNotNull();
         assertThat(paymentById.getAmount()).isEqualTo(Money.ZERO);
+        assertThat(paymentById.getBalance()).isEqualTo(Money.ZERO);
     }
 
     @Test
@@ -70,5 +71,16 @@ public class PaymentRepositoryTest {
         LambdaQueryWrapper<Payment> queryWrapper = new QueryWrapper<Payment>().lambda().eq(Payment::getAmount, amount);
         // 根据 json 删除查询都行不通，实际也不需要根据 value object 删除
         assertThat(paymentRepository.delete(queryWrapper)).isEqualTo(0);
+    }
+
+    @Test
+    public void testSelectByPaymentId() {
+        Payment payment = Payment.createPayment(new Terminal(),
+                Money.ZERO, ChannelId.ALIPAY, idGenerator.generateId().asString());
+        assertThat(paymentRepository.insert(payment)).isGreaterThan(0);
+        Payment paymentSelect = paymentRepository.selectByPaymentId(payment.getPaymentId());
+        assertThat(paymentSelect).isNotNull();
+        assertThat(paymentSelect.getAmount()).isNotNull();
+        assertThat(paymentSelect.getBalance()).isNotNull();
     }
 }

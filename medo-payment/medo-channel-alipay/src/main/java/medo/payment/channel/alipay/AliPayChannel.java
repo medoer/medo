@@ -14,6 +14,7 @@ import medo.payment.channel.ChannelClient;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelRefundResponse;
 
 import java.util.Map;
 
@@ -84,14 +85,14 @@ public class AliPayChannel implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse refund(ChannelRefundRequest channelRefundRequest) {
+    public ChannelBaseResponse<ChannelRefundResponse> refund(ChannelRefundRequest channelRefundRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
                 .run((p) -> {
-                    AlipayTradeRefundResponse alipayTradeQueryResponse =
+                    AlipayTradeRefundResponse alipayTradeRefundResponse =
                             Factory.Payment.Common().refund(p.getRefundId()
                                     , p.getMoney().asString());
-                    return aliPayResponseHandler(alipayTradeQueryResponse);
+                    return aliPayResponseHandler(alipayTradeRefundResponse);
                 }, channelRefundRequest);
     }
 

@@ -67,6 +67,7 @@ public class Payment extends BaseModel<Payment> {
         payment.state = PAYMENT_PENDING;
         payment.paymentId = paymentId;
         payment.type = PaymentType.PAYMENT;
+        payment.version = 1;
         return payment;
     }
 
@@ -75,6 +76,7 @@ public class Payment extends BaseModel<Payment> {
         Payment payment = createPayment(terminal, amount, channelId, paymentId);
         payment.setBalance(null);
         payment.type = PaymentType.REFUND;
+        payment.setState(REFUND_REQUEST);
         payment.setOriginPaymentId(originPaymentId);
         return payment;
     }
@@ -114,7 +116,7 @@ public class Payment extends BaseModel<Payment> {
             throw new UnsupportedOperationException("only payment record can do refund!");
         }
         // check the balance
-        if (refundRequest.getMoney().isGreaterThan(balance)) {
+        if (refundRequest.getMoney() == null || refundRequest.getMoney().isGreaterThan(balance)) {
             throw new RuntimeException("the payment's balance is not enough!");
         }
         // check the payment state
