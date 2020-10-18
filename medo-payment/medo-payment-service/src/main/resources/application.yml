@@ -1,10 +1,12 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: medo-payment-service
   datasource:
-    url: jdbc:mysql://localhost:3306/eventuate?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
+    url: ${PAYMENT_DATASOURCE_URL}
+    username: ${PAYMENT_DATASOURCE_USERNAME}
+    password: ${PAYMENT_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     type: com.alibaba.druid.pool.DruidDataSource
@@ -42,10 +44,10 @@ logging:
 medo:
   payment:
     channel:
-      deploy-mode: BEAN #REMOTE
+      deploy-mode: ${CHANNEL_DEPLOY_MODE:BEAN} #REMOTE
     message:
       consumer:
         env:
-          test: true
+          test: ${PAYMENT_MESSAGE_CCONSUMER_ENV_TEST:false}
   database:
-    schema: eventuate
+    schema: ${MEDO_MESSEAGE_DATABASE:eventuate}
