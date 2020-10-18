@@ -2,8 +2,10 @@ package medo.payment.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 @Data
+@Component
 @ConfigurationProperties(prefix = "medo.payment.channel")
 public class PaymentChannelProperties {
     /**
