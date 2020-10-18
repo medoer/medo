@@ -1,6 +1,7 @@
 package medo.payment.common;
 
 import medo.common.spring.request.RequestContextHelper;
+import medo.payment.channel.ChannelRestTemplate;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.ChannelMicroPayRequest;
@@ -18,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChannelRouterTest {
@@ -28,10 +31,14 @@ public class ChannelRouterTest {
     @MockBean
     private PaymentChannelProperties paymentChannelProperties;
 
+    @MockBean
+    private ChannelRestTemplate channelRestTemplate;
+
     // TODO 完善测试类
     @Test
     public void testMicroPay() {
         Mockito.when(paymentChannelProperties.getDeployMode()).thenReturn(ChannelRouter.DEPLOY_MODE);
+        Mockito.when(channelRestTemplate.microPay(any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, ChannelId.ALIPAY);
         ChannelMicroPayRequest channelMicroPayRequest = ChannelMicroPayRequest.builder()
                 .authCode("xxxxx")
@@ -39,6 +46,8 @@ public class ChannelRouterTest {
                 .subject("test")
                 .paymentId("123456")
                 .build();
-        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponseChannelBaseResponse = channelRouter.microPay(channelMicroPayRequest);
+        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponseChannelBaseResponse
+                = channelRouter.microPay(channelMicroPayRequest);
+        channelMicroPayResponseChannelBaseResponse.isSuccess();
     }
 }

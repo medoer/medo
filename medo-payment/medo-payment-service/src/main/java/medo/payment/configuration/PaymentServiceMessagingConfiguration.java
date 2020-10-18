@@ -6,6 +6,7 @@ import medo.framework.message.event.subscriber.DomainEventDispatcherFactory;
 import medo.payment.common.ChannelRouter;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.messaging.PaymentEventConsumer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,7 @@ public class PaymentServiceMessagingConfiguration {
      * @returnw
      */
     @Bean
+    @ConditionalOnProperty(name = "medo.payment.message.consumer.env.test", havingValue = "false", matchIfMissing = true)
     public PaymentEventConsumer orderEventConsumer(ChannelRouter channelRouter, PaymentDomainEventPublisher paymentDomainEventPublisher) {
         return new PaymentEventConsumer(channelRouter, paymentDomainEventPublisher);
     }
@@ -30,6 +32,7 @@ public class PaymentServiceMessagingConfiguration {
      * @return
      */
     @Bean
+    @ConditionalOnProperty(name = "medo.payment.message.consumer.env.test", havingValue = "false", matchIfMissing = true)
     public DomainEventDispatcher domainEventDispatcher(PaymentEventConsumer paymentEventConsumer, DomainEventDispatcherFactory domainEventDispatcherFactory) {
         return domainEventDispatcherFactory.make("paymentServiceEvents", paymentEventConsumer.domainEventHandlers());
     }

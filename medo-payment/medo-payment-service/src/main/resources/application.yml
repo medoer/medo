@@ -43,5 +43,9 @@ medo:
   payment:
     channel:
       deploy-mode: BEAN #REMOTE
+    message:
+      consumer:
+        env:
+          test: true
   database:
     schema: eventuate
