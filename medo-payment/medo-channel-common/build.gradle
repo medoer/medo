@@ -1,4 +1,4 @@
-description = 'Channel Common API'
+description = 'Channel Common Interface'
 
 bootJar.enabled = false
 jar.enabled = true

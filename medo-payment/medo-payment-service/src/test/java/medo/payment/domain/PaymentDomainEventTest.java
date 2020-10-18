@@ -2,7 +2,7 @@ package medo.payment.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import medo.framework.message.event.subscriber.DomainEventDispatcher;
-import medo.payment.common.ChannelId;
+import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.messaging.PaymentEventConsumer;

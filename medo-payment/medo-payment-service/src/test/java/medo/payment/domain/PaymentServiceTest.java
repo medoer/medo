@@ -1,10 +1,10 @@
 package medo.payment.domain;
 
 import medo.payment.channel.common.ChannelBaseResponse;
+import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
-import medo.payment.common.ChannelId;
-import medo.payment.common.ChannelService;
+import medo.payment.common.ChannelRouter;
 import medo.payment.common.domain.Money;
 import medo.payment.web.MicroPayRequest;
 import medo.payment.web.RefundRequest;
@@ -28,7 +28,7 @@ public class PaymentServiceTest {
     private PaymentService paymentService;
 
     @MockBean
-    private ChannelService channelService;
+    private ChannelRouter channelRouter;
 
     private String aliPayAuthCode = "286363410667260325";
 
@@ -53,7 +53,7 @@ public class PaymentServiceTest {
     public void testMicroPay() {
         MicroPayRequest microPayRequestAliPay = new MicroPayRequest(aliPayAuthCode);
         microPayRequestAliPay.setMoney(new Money(20));
-        Mockito.when(channelService.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         Payment payment = paymentService.microPay(microPayRequestAliPay);
         assertThat(payment).isNotNull();
         assertThat(payment.getState()).isEqualTo(PaymentState.SUCCEED);
@@ -61,32 +61,31 @@ public class PaymentServiceTest {
         // success event dispatcher TODO
 
         // invoke channel failed
-        Mockito.when(channelService.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.failed(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.failed(new ChannelMicroPayResponse()));
         assertThatExceptionOfType(RuntimeException.class).as("invoke channel failed").isThrownBy(() -> {
             paymentService.microPay(microPayRequestAliPay);
         });
         // invoke channel error
-        Mockito.when(channelService.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.error(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.error(new ChannelMicroPayResponse()));
         assertThatExceptionOfType(RuntimeException.class).as("invoke channel error").isThrownBy(() -> {
             paymentService.microPay(microPayRequestAliPay);
         });
 
     }
 
-    @Rollback(false)
     @Test
     public void testRefund() {
         // create payment order
         MicroPayRequest microPayRequestAliPay = new MicroPayRequest(aliPayAuthCode);
         microPayRequestAliPay.setMoney(new Money(20));
-        Mockito.when(channelService.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         Payment payment = paymentService.microPay(microPayRequestAliPay);
 
         RefundRequest refundRequest = new RefundRequest();
         refundRequest.setPaymentId(payment.getPaymentId());
         refundRequest.setMoney(new Money(20));
         refundRequest.setDesc("项链");
-        Mockito.when(channelService.refund(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelRefundResponse()));
+        Mockito.when(channelRouter.refund(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelRefundResponse()));
         Payment refund = paymentService.refund(refundRequest);
         assertThat(refund).isNotNull();
     }

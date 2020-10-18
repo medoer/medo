@@ -3,7 +3,7 @@ package medo.payment.configuration;
 import medo.framework.message.event.publisher.DomainEventPublisher;
 import medo.framework.message.event.subscriber.DomainEventDispatcher;
 import medo.framework.message.event.subscriber.DomainEventDispatcherFactory;
-import medo.payment.common.ChannelService;
+import medo.payment.common.ChannelRouter;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.messaging.PaymentEventConsumer;
 import org.springframework.context.annotation.Bean;
@@ -14,13 +14,13 @@ public class PaymentServiceMessagingConfiguration {
 
     /**
      *
-     * @param channelService
+     * @param channelRouter
      * @param paymentDomainEventPublisher
      * @return
      */
     @Bean
-    public PaymentEventConsumer orderEventConsumer(ChannelService channelService, PaymentDomainEventPublisher paymentDomainEventPublisher) {
-        return new PaymentEventConsumer(channelService, paymentDomainEventPublisher);
+    public PaymentEventConsumer orderEventConsumer(ChannelRouter channelRouter, PaymentDomainEventPublisher paymentDomainEventPublisher) {
+        return new PaymentEventConsumer(channelRouter, paymentDomainEventPublisher);
     }
 
     /**

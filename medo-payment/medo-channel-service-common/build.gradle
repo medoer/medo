@@ -1,9 +1,11 @@
-description = 'AliPay Channel Implement'
+description = 'Channel Web Server Common Module'
 
 bootJar.enabled = false
 jar.enabled = true
 
 dependencies {
+
     api project(":medo-payment:medo-channel-common")
-    api project(":medo-payment:medo-channel-alipay")
+    api "org.springframework.boot:spring-boot-starter-web"
+
 }

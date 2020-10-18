@@ -2,9 +2,9 @@ package medo.payment.web;
 
 import lombok.Data;
 import medo.common.spring.request.RequestContextHelper;
+import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
 import medo.payment.domain.Terminal;
-import medo.payment.common.ChannelId;
 
 import javax.validation.constraints.NotEmpty;
 
