@@ -10,6 +10,7 @@ import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
+import medo.payment.properties.PaymentChannelProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,11 @@ public class ChannelRouter implements ChannelClient{
 
     public static final String DEPLOY_MODE = "REMOTE";
 
-    @Value("${medo.payment.channel.deploy-mode}")
-    private String deployMode;
+    private PaymentChannelProperties paymentChannelProperties;
+
+    public ChannelRouter(PaymentChannelProperties paymentChannelProperties) {
+        this.paymentChannelProperties = paymentChannelProperties;
+    }
 
     // TODO move to properties
     private static Map<Long, Class> CHANNEL_CLASS_MAP = new HashMap(){
@@ -112,7 +116,7 @@ public class ChannelRouter implements ChannelClient{
 
     private ChannelClient getBean() {
         // deploy channel service independent
-        if (DEPLOY_MODE.equals(deployMode)) {
+        if (DEPLOY_MODE.equals(paymentChannelProperties.getDeployMode())) {
             return SpringContextHelper.getBean(ChannelRestTemplate.class);
         }
         Long channelId = RequestContextHelper.getAttrribute(ChannelId.HEADER_NAME);

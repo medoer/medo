@@ -16,7 +16,7 @@ public class PaymentServiceMessagingConfiguration {
      *
      * @param channelRouter
      * @param paymentDomainEventPublisher
-     * @return
+     * @returnw
      */
     @Bean
     public PaymentEventConsumer orderEventConsumer(ChannelRouter channelRouter, PaymentDomainEventPublisher paymentDomainEventPublisher) {
