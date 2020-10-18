@@ -6,16 +6,13 @@ import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelMicroPayRequest;
-import medo.payment.channel.request.ChannelRefundRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;
-import medo.payment.common.ChannelService;
+import medo.payment.common.ChannelRouter;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.web.MicroPayRequest;
 import medo.payment.web.RefundRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 
 @Slf4j
 @Transactional
@@ -23,7 +20,7 @@ import java.util.Collections;
 @Service
 public class PaymentService {
 
-    private ChannelService channelService;
+    private ChannelRouter channelRouter;
 
     private PaymentRepository paymentRepository;
 
@@ -44,7 +41,7 @@ public class PaymentService {
                 .subject(microPayRequest.getDesc())
                 .money(microPayRequest.getMoney())
                 .build();
-        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse = channelService.microPay(channelMicroPayRequest);
+        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse = channelRouter.microPay(channelMicroPayRequest);
         // TODO
         if (channelMicroPayResponse.isError()) {
             throw new RuntimeException("invoke channel error");

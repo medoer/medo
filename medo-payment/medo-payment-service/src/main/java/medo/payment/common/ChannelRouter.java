@@ -3,11 +3,14 @@ package medo.payment.common;
 import medo.common.spring.context.SpringContextHelper;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.ChannelClient;
+import medo.payment.channel.ChannelRestTemplate;
 import medo.payment.channel.alipay.AliPayChannel;
 import medo.payment.channel.common.ChannelBaseResponse;
+import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.channels.Channel;
@@ -19,8 +22,14 @@ import java.util.Map;
  * // TODO 更优雅的适配策略
  */
 @Service
-public class ChannelService implements ChannelClient{
+public class ChannelRouter implements ChannelClient{
 
+    public static final String DEPLOY_MODE = "REMOTE";
+
+    @Value("${medo.payment.channel.deploy-mode}")
+    private String deployMode;
+
+    // TODO move to properties
     private static Map<Long, Class> CHANNEL_CLASS_MAP = new HashMap(){
         {
             put(ChannelId.ALIPAY, AliPayChannel.class);
@@ -102,8 +111,13 @@ public class ChannelService implements ChannelClient{
 
 
     private ChannelClient getBean() {
-        Integer channelId = RequestContextHelper.getAttrribute("CHANNEL_ID");
+        // deploy channel service independent
+        if (DEPLOY_MODE.equals(deployMode)) {
+            return SpringContextHelper.getBean(ChannelRestTemplate.class);
+        }
+        Long channelId = RequestContextHelper.getAttrribute(ChannelId.HEADER_NAME);
         Class channelClientName = CHANNEL_CLASS_MAP.get(channelId == null ? 1 : channelId);
         return (ChannelClient) SpringContextHelper.getBean(channelClientName);
     }
+
 }

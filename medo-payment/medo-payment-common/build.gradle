@@ -6,6 +6,7 @@ jar.enabled = true
 dependencies {
 
     api project(":medo-common:medo-log-spring-boot-starter")
+    api project(":medo-common:medo-rest-client-autoconfigure")
     api project(":medo-common:medo-common-spring-boot-starter")
 
 }

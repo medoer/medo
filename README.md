@@ -38,18 +38,20 @@
 
 | 模块                               | 功能描述           | 进度       |
 | ---------------------------------- | ------------------ | ---------- |
-| gateway-zuul                       | API 网关           | 待使用调整 |
-| medo-common                        | 通用组件           | 待完善     |
-| medo-demo                          | 测试样例相关      | 待补充     |
-| medo-uaa                           | 用户账户和授权中心 | 待测试完善 |
-| medo-framework                     | 框架封装           | 待补充     |
-| medo-framework:medo-message-core   | 核心消息模块       | ---        |
-| medo-framework:medo-message-spring | 消息 Spring 集成   | 正在开发   |
-| medo-mall-manage                   | 电商后台管理系统   |    |
-| medo-mall-manage:user-center                   | 电商后台管理 - 用户中心   |    |
-| medo-payment                   | 聚合支付模块   |    |
+| gateway-zuul                       | API 网关           | 待使用 |
+| medo-common                        | 通用组件           | 部分可用，待补充     |
+| medo-demo                          | 测试样例相关      | 组建测试代码   |
+| medo-uaa                           | 用户账户和授权中心 | 待实现 |
+| medo-framework                     | 框架封装           | 部分可用，待 Payment 验证     |
+| medo-framework:medo-message-core   | 核心消息模块       | 部分可用，待 Payment 验证        |
+| medo-framework:medo-message-spring | 消息 Spring 集成   | 部分可用，待 Payment 验证   |
+| medo-mall-manage                   | 电商后台管理系统   | TODO, 未来计划   |
+| medo-mall-manage:user-center                   | 电商后台管理 - 用户中心 TODO，未来计划   |    |
+| medo-payment                   | 聚合支付模块   |  正在开发  |
 
 > medo-message 功能拆分为 medo-message-core 和 medo-message-spring 两个模块，解偶领域模型和具体实现，以方便集成其他 aop 框架， 如：microuat
+
+> 现以 Payment 为落地业务，验证 medo-framework 及 DDD 开发模式。
 
 ```lua
 
@@ -114,10 +116,13 @@ medo
     - mall-admin-goods -- 商品管理
     - mall-admin-order -- 订单管理
 - medo-payment -- 聚合支付系统
-    - medo-channel-api -- 支付渠道抽象 api
-    - medo-channel-alipay -- alipay 支付渠道对接
-    - medo-channel-wechat -- wechat 支付渠道对接
+    - medo-channel-common -- 支付渠道抽象接口模块
+    - medo-channel-service-common -- 支付渠道独立部署通用 REST 接口模块
     - medo-payment-common -- 支付业务通用模块
+    - medo-channel-alipay -- alipay 支付渠道对接
+    - medo-channel-alipay-spring-boot-starter -- alipay 支付渠道对接 spring bean 管理
+    - medo-channel-alipay-service -- alipay 支付渠道服务（支付渠道独立部署模式）
+    - medo-channel-wechat -- wechat 支付渠道对接
     - medo-payment-service-api -- 支付业务模块 api
     - medo-payment-service -- 支付业务模块
 
@@ -132,6 +137,8 @@ medo
 
 
 ## TODO List
+
+> 暂停框架及基础功能扩展，先行落地 Payment 项目，验证完善现有功能。20201018
 
 > 优先级：高、中、低
 

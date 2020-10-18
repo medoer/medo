@@ -1,0 +1,9 @@
+description = 'AliPay Channel Implement'
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    implementation project(":medo-payment:medo-channel-alipay-spring-boot-starter")
+    implementation project(":medo-payment:medo-channel-service-common")
+}

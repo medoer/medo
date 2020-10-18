@@ -3,7 +3,7 @@ package medo.payment.repository;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import medo.common.core.id.IdGenerator;
-import medo.payment.common.ChannelId;
+import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
 import medo.payment.domain.Payment;
 import medo.payment.domain.PaymentRepository;

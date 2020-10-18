@@ -7,7 +7,7 @@ import medo.framework.message.event.subscriber.DomainEventHandlers;
 import medo.framework.message.event.subscriber.DomainEventHandlersBuilder;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelRefundRequest;
-import medo.payment.common.ChannelService;
+import medo.payment.common.ChannelRouter;
 import medo.payment.domain.Payment;
 
 import java.util.Collections;
@@ -16,7 +16,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class PaymentEventConsumer {
 
-    private ChannelService channelService;
+    private ChannelRouter channelRouter;
 
     private PaymentDomainEventPublisher paymentDomainEventPublisher;
 
@@ -47,7 +47,7 @@ public class PaymentEventConsumer {
                 .originPaymentId(refund.getOriginPaymentId())
                 .refundId(refund.getPaymentId())
                 .build();
-        ChannelBaseResponse channelRefundResponse = channelService.refund(channelRefundRequest);
+        ChannelBaseResponse channelRefundResponse = channelRouter.refund(channelRefundRequest);
         if (channelRefundResponse.isError()) {
             log.error("invoke refund error!");
             paymentDomainEventPublisher.publish(refund, Collections.singletonList(new PaymentRefundError(refund)));

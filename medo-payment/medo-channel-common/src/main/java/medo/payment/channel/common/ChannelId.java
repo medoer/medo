@@ -1,6 +1,5 @@
-package medo.payment.common;
+package medo.payment.channel.common;
 
-import medo.payment.channel.common.ChannelIdRule;
 import org.apache.commons.lang3.StringUtils;
 
 public class ChannelId {
