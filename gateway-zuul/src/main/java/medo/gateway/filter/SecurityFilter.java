@@ -1,4 +1,4 @@
-package tech.medo.gateway.filter;
+package medo.gateway.filter;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
