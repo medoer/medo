@@ -38,7 +38,7 @@ public class CommonContext<K, V> extends ConcurrentHashMap<K, V> {
     /**
      * clear the threadLocal context. Done at the end of the request.
      */
-    public void clear() {
+    public static void remove() {
         threadLocal.remove();
     }
 
