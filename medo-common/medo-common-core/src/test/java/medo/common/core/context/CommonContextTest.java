@@ -24,7 +24,8 @@ public class CommonContextTest {
            assertThat(value).isEqualTo(2);
         });
         cur.start();
-
+        CommonContext.putValue("1", 1);
+        assertThat(commonContext.get("1")).isEqualTo(CommonContext.getValue("1"));
         commonContext.clear();
     }
 
