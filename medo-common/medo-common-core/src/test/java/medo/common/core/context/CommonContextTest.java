@@ -1,0 +1,31 @@
+package medo.common.core.context;
+
+import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class CommonContextTest {
+
+    @Test
+    public void testGetConcurrentContext() {
+        CommonContext<String, Integer> commonContext = CommonContext.getCurrentContext();
+        commonContext.put("2", 2);
+        assertThat(commonContext).isNotNull();
+
+        Thread cur = new Thread( () -> {
+           CommonContext<String, String> commonContext1 = CommonContext.getCurrentContext();
+           assertThat(commonContext).isNotEqualTo(commonContext1);
+           commonContext1.put("1", "1");
+           CommonContext<String, Integer> commonContext2 = CommonContext.getCurrentContext();
+           assertThat(commonContext2).isEqualTo(commonContext);
+           assertThat(commonContext2.get("1")).isEqualTo(1);
+           commonContext1.clear();
+           Integer value = commonContext.get("2");
+           assertThat(value).isEqualTo(2);
+        });
+        cur.start();
+
+        commonContext.clear();
+    }
+
+}
