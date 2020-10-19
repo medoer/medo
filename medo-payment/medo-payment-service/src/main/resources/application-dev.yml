@@ -21,7 +21,7 @@ logging:
 medo:
   payment:
     channel:
-      deploy-mode: BEAN #REMOTE
+      deploy-remote: false #REMOTE
     message:
       consumer:
         env:

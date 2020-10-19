@@ -164,4 +164,4 @@ medo
 ### docker compose 本地环境
 
 - 参考 .evn.example 文件，添加 .env 文件。
-- `docker-compose -f docker-compose.yml up -d` 启动 mysql、zookeeper、kafka、cdc 服务。
+- `docker-compose -f docker-compose-dependency-server.yml up -d` 启动 mysql、zookeeper、kafka、cdc 服务。

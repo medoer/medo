@@ -37,7 +37,7 @@ public class ChannelRouterTest {
     // TODO 完善测试类
     @Test
     public void testMicroPay() {
-        Mockito.when(paymentChannelProperties.getDeployMode()).thenReturn(ChannelRouter.DEPLOY_MODE);
+        Mockito.when(paymentChannelProperties.isDeployRemote()).thenReturn(true);
         Mockito.when(channelRestTemplate.microPay(any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, ChannelId.ALIPAY);
         ChannelMicroPayRequest channelMicroPayRequest = ChannelMicroPayRequest.builder()
