@@ -1,4 +1,4 @@
-package tech.medo.gateway.filter;
+package medo.gateway.filter;
 
 import javax.servlet.http.HttpServletResponse;
 
