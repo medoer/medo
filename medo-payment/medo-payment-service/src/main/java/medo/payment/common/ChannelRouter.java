@@ -23,14 +23,17 @@ import java.util.Map;
  * // TODO 更优雅的适配策略
  */
 @Service
-public class ChannelRouter implements ChannelClient{
+public class ChannelRouter implements ChannelClient {
 
     public static final String DEPLOY_MODE = "REMOTE";
 
     private PaymentChannelProperties paymentChannelProperties;
 
-    public ChannelRouter(PaymentChannelProperties paymentChannelProperties) {
+    private ChannelRestTemplate channelRestTemplate;
+
+    public ChannelRouter(PaymentChannelProperties paymentChannelProperties, ChannelRestTemplate channelRestTemplate) {
         this.paymentChannelProperties = paymentChannelProperties;
+        this.channelRestTemplate = channelRestTemplate;
     }
 
     // TODO move to properties
@@ -107,17 +110,15 @@ public class ChannelRouter implements ChannelClient{
         return null;
     }
 
-
     @Override
     public ChannelBaseResponse verify(ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         return null;
     }
 
-
     private ChannelClient getBean() {
         // deploy channel service independent
-        if (DEPLOY_MODE.equals(paymentChannelProperties.getDeployMode())) {
-            return SpringContextHelper.getBean(ChannelRestTemplate.class);
+        if (paymentChannelProperties.isDeployRemote()) {
+            return channelRestTemplate;
         }
         Long channelId = RequestContextHelper.getAttrribute(ChannelId.HEADER_NAME);
         Class channelClientName = CHANNEL_CLASS_MAP.get(channelId == null ? 1 : channelId);

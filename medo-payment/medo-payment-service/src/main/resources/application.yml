@@ -30,7 +30,7 @@ logging:
 medo:
   payment:
     channel:
-      deploy-mode: ${CHANNEL_DEPLOY_MODE:BEAN} #REMOTE
+      deploy-remote: ${CHANNEL_DEPLOY_REMOTE:false} #REMOTE
     message:
       consumer:
         env:

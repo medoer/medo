@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "medo.payment.channel")
 public class PaymentChannelProperties {
     /**
-     * Channel Implementation Deploy Mode:
-     * REMOTE: deploy all channel independent
-     * BEAN: deploy channel in payment service as a jar
+     * Channel Implementation if Deploy Mode:
+     * true: deploy all channel independent
+     * false: deploy channel in payment service as a jar
      */
-    private String deployMode = "BEAN";
+    private boolean deployRemote = false;
 }

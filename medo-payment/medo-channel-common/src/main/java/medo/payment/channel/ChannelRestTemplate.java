@@ -5,6 +5,7 @@ import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.common.ChannelServiceURIConstant;
+import medo.payment.channel.properties.ChannelRemoteModeEndpointProperties;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import org.springframework.web.client.RestTemplate;
@@ -19,13 +20,8 @@ import java.util.Map;
  */
 public class ChannelRestTemplate implements ChannelClient {
 
-
-    private static Map<Long, String> CHANNEL_CONTEXT_PATH_MAP = new HashMap(){
-        {
-            // TODO 定义成常量
-            put(ChannelId.ALIPAY, "/alipay");
-        }
-    };
+    private static Map<Long, String> CHANNEL_HOST_OR_CONTEXT_PATH_MAP
+            = ChannelRemoteModeEndpointProperties.channelServerEndpoints;
 
     private RestTemplate restTemplate;
 
@@ -44,9 +40,7 @@ public class ChannelRestTemplate implements ChannelClient {
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
                 .run((p) -> {
                     // TODO deal with the ResponseEntity
-                    String uri = getContextPath() + ChannelServiceURIConstant.MICRO_PAY_URI;
-                    // TODO
-                    String url = "http://localhost:8080" + uri;
+                    String url = getHostOrContextPath() + ChannelServiceURIConstant.MICRO_PAY_URI;
                      return restTemplate.postForEntity(url,
                             p, ChannelBaseResponse.class).getBody();
                 }, channelMicroPayRequest);
@@ -112,8 +106,8 @@ public class ChannelRestTemplate implements ChannelClient {
         return null;
     }
 
-    private String getContextPath() {
+    private String getHostOrContextPath() {
         Long channelId = RequestContextHelper.getAttrribute(ChannelId.HEADER_NAME);
-        return CHANNEL_CONTEXT_PATH_MAP.get(channelId == null ? "" : channelId);
+        return CHANNEL_HOST_OR_CONTEXT_PATH_MAP.get(channelId == null ? "" : channelId);
     }
 }
