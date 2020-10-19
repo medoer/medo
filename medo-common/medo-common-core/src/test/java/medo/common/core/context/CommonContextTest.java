@@ -19,14 +19,23 @@ public class CommonContextTest {
            CommonContext<String, Integer> commonContext2 = CommonContext.getCurrentContext();
            assertThat(commonContext2).isEqualTo(commonContext);
            assertThat(commonContext2.get("1")).isEqualTo(1);
-           commonContext1.clear();
+           CommonContext.remove();
            Integer value = commonContext.get("2");
            assertThat(value).isEqualTo(2);
         });
         cur.start();
         CommonContext.putValue("1", 1);
         assertThat(commonContext.get("1")).isEqualTo(CommonContext.getValue("1"));
-        commonContext.clear();
+        CommonContext.remove();
+    }
+
+    @Test
+    public void testRemove() {
+        CommonContext<String, Integer> currentContext = CommonContext.getCurrentContext();
+        CommonContext.putValue("1", 2);
+        assertThat(currentContext.get("1")).isEqualTo(2);
+        CommonContext.remove();
+        assertThat(currentContext.get("1")).isNull();
     }
 
 }
