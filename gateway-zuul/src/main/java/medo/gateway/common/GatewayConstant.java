@@ -1,4 +1,4 @@
-package tech.medo.gateway.common;
+package medo.gateway.common;
 
 public class GatewayConstant {
 
