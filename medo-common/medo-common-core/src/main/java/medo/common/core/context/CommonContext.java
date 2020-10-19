@@ -22,7 +22,17 @@ public class CommonContext<K, V> extends ConcurrentHashMap<K, V> {
      * @return the current CommonContext
      */
     public static <K,V> CommonContext<K,V> getCurrentContext() {
-        return (CommonContext<K,V>) threadLocal.get();
+        return threadLocal.get();
+    }
+
+    public static <K, V> void putValue(K key, V value) {
+        CommonContext<K, V> commonContext = getCurrentContext();
+        commonContext.put(key, value);
+    }
+
+    public static <K, V> V getValue(K key) {
+        CommonContext<K, V> commonContext = getCurrentContext();
+        return commonContext.get(key);
     }
 
     /**
