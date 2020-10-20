@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
-
 import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.command.common.paths.ResourcePath;
 import medo.framework.message.command.common.paths.ResourcePathPattern;
@@ -17,7 +16,10 @@ public class CommandHandler {
     private final Class<?> commandClass;
     private final BiFunction<CommandMessage<Object>, PathVariables, List<Message>> handler;
 
-    public <C> CommandHandler(String channel, Optional<String> resource, Class<C> commandClass,
+    public <C> CommandHandler(
+            String channel,
+            Optional<String> resource,
+            Class<C> commandClass,
             BiFunction<CommandMessage<C>, PathVariables, List<Message>> handler) {
         this.channel = channel;
         this.resource = resource;
@@ -34,12 +36,16 @@ public class CommandHandler {
     }
 
     private boolean resourceMatches(Message message) {
-        return !resource.isPresent() || message.getHeader(CommandMessageHeader.RESOURCE)
-                .map(m -> resourceMatches(m, resource.get())).orElse(false);
+        return !resource.isPresent()
+                || message.getHeader(CommandMessageHeader.RESOURCE)
+                        .map(m -> resourceMatches(m, resource.get()))
+                        .orElse(false);
     }
 
     private boolean commandTypeMatches(Message message) {
-        return commandClass.getName().equals(message.getRequiredHeader(CommandMessageHeader.COMMAND_TYPE));
+        return commandClass
+                .getName()
+                .equals(message.getRequiredHeader(CommandMessageHeader.COMMAND_TYPE));
     }
 
     private boolean resourceMatches(String messageResource, String methodPath) {
@@ -59,5 +65,4 @@ public class CommandHandler {
     public List<Message> invokeMethod(CommandMessage commandMessage, Map<String, String> pathVars) {
         return handler.apply(commandMessage, new PathVariables(pathVars));
     }
-
 }

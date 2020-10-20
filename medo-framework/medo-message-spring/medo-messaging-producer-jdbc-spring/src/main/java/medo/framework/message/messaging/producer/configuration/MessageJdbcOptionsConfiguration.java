@@ -10,9 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class MessageJdbcOptionsConfiguration {
 
     @Bean
-    public MessageJdbcOptions messageJdbcOptions(JdbcTemplate jdbcTemplate,
-                                                 @Value("${medo.message.outbox-table:message}") String outboxTable) {
+    public MessageJdbcOptions messageJdbcOptions(
+            JdbcTemplate jdbcTemplate,
+            @Value("${medo.message.outbox-table:message}") String outboxTable) {
         return new MessageJdbcOptions(jdbcTemplate, outboxTable);
     }
-
 }

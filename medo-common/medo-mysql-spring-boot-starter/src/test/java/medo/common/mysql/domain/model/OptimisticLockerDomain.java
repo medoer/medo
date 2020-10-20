@@ -13,7 +13,5 @@ public class OptimisticLockerDomain extends BaseModel {
 
     private String name;
 
-    @Version
-    private Integer version;
-
+    @Version private Integer version;
 }

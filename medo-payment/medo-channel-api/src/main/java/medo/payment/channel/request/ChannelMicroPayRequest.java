@@ -12,5 +12,4 @@ public class ChannelMicroPayRequest {
     private String paymentId;
     private String authCode;
     private Money money;
-
 }

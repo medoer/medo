@@ -1,15 +1,17 @@
 package medo.common.log.aspect;
 
 import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpServletRequest;
-
+import lombok.extern.slf4j.Slf4j;
+import medo.common.log.annotation.AuditLog;
+import medo.common.log.model.Audit;
+import medo.common.log.properties.AuditLogProperties;
+import medo.common.log.service.IAuditService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -18,16 +20,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import lombok.extern.slf4j.Slf4j;
-import medo.common.log.annotation.AuditLog;
-import medo.common.log.model.Audit;
-import medo.common.log.properties.AuditLogProperties;
-import medo.common.log.service.IAuditService;
-
-/**
- * 审计日志切面
- *
- */
+/** 审计日志切面 */
 @Slf4j
 @Aspect
 public class AuditLogAspect {
@@ -44,19 +37,15 @@ public class AuditLogAspect {
         this.auditService = auditService;
     }
 
-    /**
-     * 用于SpEL表达式解析.
-     */
+    /** 用于SpEL表达式解析. */
     private SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
 
-    /**
-     * 用于获取方法参数定义名字.
-     */
+    /** 用于获取方法参数定义名字. */
     private DefaultParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
 
     @Before("@within(auditLog) || @annotation(auditLog)")
     public void beforeMethod(JoinPoint joinPoint, AuditLog auditLog) {
-        //判断功能是否开启
+        // 判断功能是否开启
         if (auditLogProperties.getEnabled()) {
             if (auditService == null) {
                 log.warn("AuditLogAspect - auditService is null");
@@ -71,18 +60,16 @@ public class AuditLogAspect {
         }
     }
 
-    /**
-     * 解析spEL表达式
-     */
+    /** 解析spEL表达式 */
     private String getValBySpEL(String spEL, MethodSignature methodSignature, Object[] args) {
-        //获取方法形参名数组
+        // 获取方法形参名数组
         String[] paramNames = nameDiscoverer.getParameterNames(methodSignature.getMethod());
         if (paramNames != null && paramNames.length > 0) {
             Expression expression = spelExpressionParser.parseExpression(spEL);
             // spring的表达式上下文对象
             EvaluationContext context = new StandardEvaluationContext();
             // 给上下文赋值
-            for(int i = 0; i < args.length; i++) {
+            for (int i = 0; i < args.length; i++) {
                 context.setVariable(paramNames[i], args[i]);
             }
             return expression.getValue(context).toString();
@@ -90,19 +77,18 @@ public class AuditLogAspect {
         return null;
     }
 
-    /**
-     * 构建审计对象
-     */
+    /** 构建审计对象 */
     private Audit getAudit(AuditLog auditLog, JoinPoint joinPoint) {
         Audit audit = new Audit();
         audit.setTimestamp(LocalDateTime.now());
         audit.setApplicationName(applicationName);
 
-        MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         audit.setClassName(methodSignature.getDeclaringTypeName());
         audit.setMethodName(methodSignature.getName());
 
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String userId = request.getHeader("x-userid-header");
         String userName = request.getHeader("x-user-header");
@@ -113,7 +99,7 @@ public class AuditLogAspect {
 
         String operation = auditLog.operation();
         if (operation.contains("#")) {
-            //获取方法参数值
+            // 获取方法参数值
             Object[] args = joinPoint.getArgs();
             operation = getValBySpEL(operation, methodSignature, args);
         }

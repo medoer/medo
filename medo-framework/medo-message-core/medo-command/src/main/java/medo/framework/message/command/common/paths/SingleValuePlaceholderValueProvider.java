@@ -18,13 +18,11 @@ public class SingleValuePlaceholderValueProvider implements PlaceholderValueProv
         if (!used) {
             used = true;
             return Optional.of(pathParam.toString());
-        } else
-            return Optional.empty();
+        } else return Optional.empty();
     }
 
     @Override
     public Map<String, String> getParams() {
         return Collections.singletonMap("singleValue", pathParam.toString());
     }
-
 }

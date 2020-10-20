@@ -1,4 +1,4 @@
-description = 'Redis Starter' 
+description = 'Redis Starter'
 
 dependencies {
     api project(":medo-common:medo-common-core")
@@ -6,4 +6,3 @@ dependencies {
     api "commons-io:commons-io"
     api "org.apache.commons:commons-pool2"
 }
-

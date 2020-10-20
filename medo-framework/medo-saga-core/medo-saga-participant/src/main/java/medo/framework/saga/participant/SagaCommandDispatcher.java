@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import medo.framework.message.command.common.CommandMessageHeader;
 import medo.framework.message.command.consumer.CommandDispatcher;
 import medo.framework.message.command.consumer.CommandHandler;
@@ -26,8 +25,12 @@ public class SagaCommandDispatcher extends CommandDispatcher {
 
     private SagaLockManager sagaLockManager;
 
-    public SagaCommandDispatcher(String commandDispatcherId, CommandHandlers target, MessageConsumer messageConsumer,
-            MessageProducer messageProducer, SagaLockManager sagaLockManager) {
+    public SagaCommandDispatcher(
+            String commandDispatcherId,
+            CommandHandlers target,
+            MessageConsumer messageConsumer,
+            MessageProducer messageProducer,
+            SagaLockManager sagaLockManager) {
         super(commandDispatcherId, target, messageConsumer, messageProducer);
         this.sagaLockManager = sagaLockManager;
     }
@@ -60,12 +63,14 @@ public class SagaCommandDispatcher extends CommandDispatcher {
     }
 
     @Override
-    protected List<Message> invoke(CommandHandler commandHandler, CommandMessage<?> cm, Map<String, String> pathVars) {
+    protected List<Message> invoke(
+            CommandHandler commandHandler, CommandMessage<?> cm, Map<String, String> pathVars) {
         Optional<String> lockedTarget = Optional.empty();
         if (commandHandler instanceof SagaCommandHandler) {
             SagaCommandHandler sch = (SagaCommandHandler) commandHandler;
             if (sch.getPreLock().isPresent()) {
-                LockTarget lockTarget = sch.getPreLock().get().apply(cm, new PathVariables(pathVars)); // TODO
+                LockTarget lockTarget =
+                        sch.getPreLock().get().apply(cm, new PathVariables(pathVars)); // TODO
                 Message message = cm.getMessage();
                 String sagaType = getSagaType(message);
                 String sagaId = getSagaId(message);
@@ -78,8 +83,7 @@ public class SagaCommandDispatcher extends CommandDispatcher {
 
         List<Message> messages = super.invoke(commandHandler, cm, pathVars);
 
-        if (lockedTarget.isPresent())
-            return addLockedHeader(messages, lockedTarget.get());
+        if (lockedTarget.isPresent()) return addLockedHeader(messages, lockedTarget.get());
         else {
             Optional<LockTarget> lt = getLock(messages);
             if (lt.isPresent()) {
@@ -92,26 +96,34 @@ public class SagaCommandDispatcher extends CommandDispatcher {
                 }
 
                 return addLockedHeader(messages, lt.get().getTarget());
-            } else
-                return messages;
+            } else return messages;
         }
     }
 
     private Optional<LockTarget> getLock(List<Message> messages) {
-        return messages.stream().filter(m -> m instanceof SagaReplyMessage && ((SagaReplyMessage) m).hasLockTarget())
-                .findFirst().flatMap(m -> ((SagaReplyMessage) m).getLockTarget());
+        return messages.stream()
+                .filter(
+                        m ->
+                                m instanceof SagaReplyMessage
+                                        && ((SagaReplyMessage) m).hasLockTarget())
+                .findFirst()
+                .flatMap(m -> ((SagaReplyMessage) m).getLockTarget());
     }
 
     private List<Message> addLockedHeader(List<Message> messages, String lockedTarget) {
         // TODO - what about the isEmpty case??
         // TODO - sagas must return messages
         return messages.stream()
-                .map(m -> MessageBuilder.withMessage(m).withHeader(SagaReplyHeader.REPLY_LOCKED, lockedTarget).build())
+                .map(
+                        m ->
+                                MessageBuilder.withMessage(m)
+                                        .withHeader(SagaReplyHeader.REPLY_LOCKED, lockedTarget)
+                                        .build())
                 .collect(Collectors.toList());
     }
 
     private boolean isUnlockMessage(Message message) {
-        return message.getRequiredHeader(CommandMessageHeader.COMMAND_TYPE).equals(SagaUnlockCommand.class.getName());
+        return message.getRequiredHeader(CommandMessageHeader.COMMAND_TYPE)
+                .equals(SagaUnlockCommand.class.getName());
     }
-
 }

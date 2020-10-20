@@ -18,14 +18,11 @@ import org.springframework.test.web.servlet.MvcResult;
 @RunWith(SpringRunner.class)
 public class SwaggerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
     @Test
     public void test() throws Exception {
-        MvcResult andReturn = mockMvc.perform(get("/v2/api-docs"))
-        .andReturn();
+        MvcResult andReturn = mockMvc.perform(get("/v2/api-docs")).andReturn();
         Assert.assertEquals(HttpStatus.OK.value(), andReturn.getResponse().getStatus());
     }
-
 }

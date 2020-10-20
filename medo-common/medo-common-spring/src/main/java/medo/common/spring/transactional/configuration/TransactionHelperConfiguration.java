@@ -1,9 +1,8 @@
 package medo.common.spring.transactional.configuration;
 
+import medo.common.spring.transactional.TransactionHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import medo.common.spring.transactional.TransactionHelper;
 
 @Configuration
 public class TransactionHelperConfiguration {
@@ -12,5 +11,4 @@ public class TransactionHelperConfiguration {
     public <T, R> TransactionHelper<T, R> transactionHelper() {
         return new TransactionHelper<>();
     }
-
 }

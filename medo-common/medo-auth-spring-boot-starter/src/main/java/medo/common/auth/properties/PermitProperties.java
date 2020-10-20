@@ -1,13 +1,11 @@
 package medo.common.auth.properties;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * 
  * @author: bryce
  * @date: 2020-08-07
  */
@@ -15,23 +13,19 @@ import java.util.List;
 @Getter
 public class PermitProperties {
 
-    /**
-     * 监控中心和swagger需要访问的url
-     */
+    /** 监控中心和swagger需要访问的url */
     private static final String[] ENDPOINTS = {
-            "/oauth/**",
-            "/actuator/**",
-            "/*/v2/api-docs",
-            "/swagger/api-docs",
-            "/swagger-ui.html",
-            "/swagger-resources/**",
-            "/webjars/**",
-            "/druid/**"
+        "/oauth/**",
+        "/actuator/**",
+        "/*/v2/api-docs",
+        "/swagger/api-docs",
+        "/swagger-ui.html",
+        "/swagger-resources/**",
+        "/webjars/**",
+        "/druid/**"
     };
 
-    /**
-     * 设置不用认证的url
-     */
+    /** 设置不用认证的url */
     private String[] httpUrls = {};
 
     public String[] getUrls() {

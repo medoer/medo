@@ -25,13 +25,19 @@ public class PaymentService {
     public void microPay(MicroPayRequest microPayRequest) {
         Terminal terminal = microPayRequest.getTerminal();
         // create payment
-        Payment payment = Payment.createPayment(terminal.getMerchantId(), terminal.getBranchId()
-                , terminal.getTerminalId(), microPayRequest.getMoney(), microPayRequest.getChannelId(),
-                idGenerator.generateId().asString());
+        Payment payment =
+                Payment.createPayment(
+                        terminal.getMerchantId(),
+                        terminal.getBranchId(),
+                        terminal.getTerminalId(),
+                        microPayRequest.getMoney(),
+                        microPayRequest.getChannelId(),
+                        idGenerator.generateId().asString());
         paymentRepository.insert(payment);
 
         ChannelMicroPayRequest channelMicroPayRequest = ChannelMicroPayRequest.builder().build();
-        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse = channelService.microPay(channelMicroPayRequest);
+        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse =
+                channelService.microPay(channelMicroPayRequest);
         // payment_payed or payment_failed or payment_error
         ResultWithDomainEvents<Payment, PaymentDomainEvent> result = payment.noteSucceed();
         paymentRepository.updateById(payment);

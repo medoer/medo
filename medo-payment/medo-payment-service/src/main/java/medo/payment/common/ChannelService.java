@@ -1,5 +1,7 @@
 package medo.payment.common;
 
+import java.util.HashMap;
+import java.util.Map;
 import medo.common.spring.context.SpringContextHelper;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.ChannelClient;
@@ -8,21 +10,16 @@ import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Payment Channel Adapter
- * // TODO 更优雅的适配策略
- */
+/** Payment Channel Adapter // TODO 更优雅的适配策略 */
 @Service
-public class ChannelService implements ChannelClient{
+public class ChannelService implements ChannelClient {
 
-    private static Map<Long, String> CHANNEL_CLASS_MAP = new HashMap(){
-        {
-            put(ChannelId.ALIPAY, "medo.payment.channel.alipay.AliPayChannel");
-        }
-    };
+    private static Map<Long, String> CHANNEL_CLASS_MAP =
+            new HashMap() {
+                {
+                    put(ChannelId.ALIPAY, "medo.payment.channel.alipay.AliPayChannel");
+                }
+            };
 
     @Override
     public ChannelBaseResponse generateQR(ChannelGenQRRequest genQRRequest) {
@@ -31,7 +28,8 @@ public class ChannelService implements ChannelClient{
     }
 
     @Override
-    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(ChannelMicroPayRequest channelMicroPayRequest) {
+    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(
+            ChannelMicroPayRequest channelMicroPayRequest) {
         ChannelClient channelClient = getBean();
         return channelClient.microPay(channelMicroPayRequest);
     }
@@ -62,7 +60,8 @@ public class ChannelService implements ChannelClient{
     }
 
     @Override
-    public ChannelBaseResponse<?> fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
+    public ChannelBaseResponse<?> fetchPayment(
+            ChannelFetchPaymentRequest channelFetchPaymentRequest) {
         return null;
     }
 
@@ -91,12 +90,11 @@ public class ChannelService implements ChannelClient{
         return null;
     }
 
-
     @Override
-    public ChannelBaseResponse verify(ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
+    public ChannelBaseResponse verify(
+            ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         return null;
     }
-
 
     private ChannelClient getBean() {
         Long channelId = Long.valueOf(RequestContextHelper.getHeader("CHANNEL_ID"));

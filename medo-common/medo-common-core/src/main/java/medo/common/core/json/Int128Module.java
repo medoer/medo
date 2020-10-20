@@ -1,8 +1,5 @@
 package medo.common.core.json;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -13,7 +10,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
-
+import java.io.IOException;
+import java.lang.reflect.Type;
 import medo.common.core.id.Int128;
 
 public class Int128Module extends SimpleModule {
@@ -32,12 +30,9 @@ public class Int128Module extends SimpleModule {
             JsonToken token = jp.getCurrentToken();
             if (token == JsonToken.VALUE_STRING) {
                 String str = jp.getText().trim();
-                if (str.isEmpty())
-                    return null;
-                else
-                    return Int128.fromString(str);
-            } else
-                throw ctxt.mappingException(getValueClass());
+                if (str.isEmpty()) return null;
+                else return Int128.fromString(str);
+            } else throw ctxt.mappingException(getValueClass());
         }
     }
 
@@ -49,7 +44,8 @@ public class Int128Module extends SimpleModule {
             super(Int128.class);
         }
 
-        public void serialize(Int128 value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        public void serialize(Int128 value, JsonGenerator jgen, SerializerProvider provider)
+                throws IOException {
             jgen.writeString(value.asString());
         }
 
@@ -69,5 +65,4 @@ public class Int128Module extends SimpleModule {
         addDeserializer(Int128.class, new IdDeserializer());
         addSerializer(Int128.class, new IdSerializer());
     }
-
 }

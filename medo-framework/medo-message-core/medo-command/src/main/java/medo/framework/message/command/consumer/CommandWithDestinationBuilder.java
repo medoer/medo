@@ -1,11 +1,9 @@
 package medo.framework.message.command.consumer;
 
-import medo.framework.message.command.common.Command;
-import medo.framework.message.command.common.paths.ResourcePathPattern;
-
 import java.util.Collections;
 import java.util.Map;
-
+import medo.framework.message.command.common.Command;
+import medo.framework.message.command.common.paths.ResourcePathPattern;
 
 public class CommandWithDestinationBuilder {
 
@@ -35,11 +33,9 @@ public class CommandWithDestinationBuilder {
     public CommandWithDestinationBuilder withExtraHeaders(Map<String, String> headers) {
         this.extraHeaders = headers;
         return this;
-
     }
 
     public CommandWithDestination build() {
         return new CommandWithDestination(destinationChannel, resource, command, extraHeaders);
     }
-
 }

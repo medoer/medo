@@ -1,7 +1,6 @@
 package medo.framework.saga.orchestration;
 
 import java.util.List;
-
 import medo.framework.message.event.common.DomainEvent;
 
 public class EventToPublish {
@@ -27,5 +26,4 @@ public class EventToPublish {
     public List<DomainEvent> getDomainEvents() {
         return domainEvents;
     }
-
 }

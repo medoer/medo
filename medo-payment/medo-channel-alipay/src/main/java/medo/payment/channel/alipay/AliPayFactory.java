@@ -21,5 +21,4 @@ public class AliPayFactory {
         String jsonStr = JSONMapper.toJSON(aliPayProperties);
         return JSONMapper.fromJSON(jsonStr, Config.class);
     }
-
 }

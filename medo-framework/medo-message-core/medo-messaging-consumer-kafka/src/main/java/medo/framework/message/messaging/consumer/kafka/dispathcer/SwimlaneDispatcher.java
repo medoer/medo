@@ -4,7 +4,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-
 import lombok.extern.slf4j.Slf4j;
 import medo.framework.message.messaging.consumer.kafka.message.RawKafkaMessage;
 
@@ -30,16 +29,23 @@ public class SwimlaneDispatcher {
         return running.get();
     }
 
-    public SwimlaneDispatcherBacklog dispatch(RawKafkaMessage message, Consumer<RawKafkaMessage> messageConsumer) {
+    public SwimlaneDispatcherBacklog dispatch(
+            RawKafkaMessage message, Consumer<RawKafkaMessage> messageConsumer) {
         synchronized (queue) {
             QueuedMessage queuedMessage = new QueuedMessage(message, messageConsumer);
             queue.add(queuedMessage);
             log.trace("added message to queue: {} {} {}", subscriberId, swimlane, message);
             if (running.compareAndSet(false, true)) {
-                log.trace("Stopped - attempting to process newly queued message: {} {}", subscriberId, swimlane);
+                log.trace(
+                        "Stopped - attempting to process newly queued message: {} {}",
+                        subscriberId,
+                        swimlane);
                 processNextQueuedMessage();
             } else
-                log.trace("Running - Not attempting to process newly queued message: {} {}", subscriberId, swimlane);
+                log.trace(
+                        "Running - Not attempting to process newly queued message: {} {}",
+                        subscriberId,
+                        swimlane);
         }
         return consumerStatus;
     }
@@ -65,7 +71,10 @@ public class SwimlaneDispatcher {
                 log.trace("No queued message for {} {}", subscriberId, swimlane);
                 return;
             } else {
-                log.trace("Invoking handler for message for {} {} {}", subscriberId, swimlane,
+                log.trace(
+                        "Invoking handler for message for {} {} {}",
+                        subscriberId,
+                        swimlane,
                         queuedMessage.message);
                 try {
                     queuedMessage.messageConsumer.accept(queuedMessage.message);

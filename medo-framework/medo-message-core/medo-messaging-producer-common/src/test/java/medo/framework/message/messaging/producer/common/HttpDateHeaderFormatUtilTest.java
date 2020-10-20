@@ -1,12 +1,11 @@
 package medo.framework.message.messaging.producer.common;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static junit.framework.TestCase.assertEquals;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static junit.framework.TestCase.assertEquals;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class HttpDateHeaderFormatUtilTest {
 
@@ -21,5 +20,4 @@ public class HttpDateHeaderFormatUtilTest {
         ZonedDateTime time = ZonedDateTime.parse(expected, DateTimeFormatter.RFC_1123_DATE_TIME);
         assertEquals(expected, HttpDateHeaderFormatUtil.timeAsHttpDateString(time));
     }
-
 }

@@ -25,5 +25,4 @@ public class StashedMessage {
     public Message getMessage() {
         return message;
     }
-
 }

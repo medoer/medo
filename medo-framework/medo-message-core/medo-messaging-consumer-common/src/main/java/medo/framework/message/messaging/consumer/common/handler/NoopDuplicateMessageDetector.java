@@ -13,5 +13,4 @@ public class NoopDuplicateMessageDetector implements DuplicateMessageDetector {
     public void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback) {
         callback.run();
     }
-
 }

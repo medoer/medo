@@ -17,5 +17,4 @@ public class KafkaConfigurationProperties {
     public long getConnectionValidationTimeout() {
         return connectionValidationTimeout;
     }
-
 }

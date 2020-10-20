@@ -2,19 +2,15 @@ package medo.framework.message.messaging.producer;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import medo.framework.message.messaging.common.Message;
 
-/**
- * Builds a message
- */
+/** Builds a message */
 public class MessageBuilder {
 
     protected String body;
     protected Map<String, String> headers = new HashMap<>();
 
-    protected MessageBuilder() {
-    }
+    protected MessageBuilder() {}
 
     public MessageBuilder(String body) {
         this.body = body;

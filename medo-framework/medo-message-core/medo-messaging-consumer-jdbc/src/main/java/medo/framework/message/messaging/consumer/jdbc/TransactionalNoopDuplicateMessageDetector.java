@@ -19,9 +19,9 @@ public class TransactionalNoopDuplicateMessageDetector implements DuplicateMessa
 
     @Override
     public void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback) {
-        transactionHelper.requires(() -> {
-            callback.run();
-        });
-
+        transactionHelper.requires(
+                () -> {
+                    callback.run();
+                });
     }
 }

@@ -12,7 +12,5 @@ public class StashMessageRequiredException extends RuntimeException {
 
     public StashMessageRequiredException(String target) {
         this.target = target;
-
     }
-
 }

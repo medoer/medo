@@ -4,16 +4,17 @@ import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.Failure;
 import medo.framework.message.command.common.ReplyMessageHeader;
 import medo.framework.message.command.common.Success;
-import medo.payment.gateway.command.common.CommandReplyOutcome;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.producer.MessageBuilder;
+import medo.payment.gateway.command.common.CommandReplyOutcome;
 
 public class CommandHandlerReplyBuilder {
 
     private static <T> Message with(T reply, CommandReplyOutcome outcome) {
-        MessageBuilder messageBuilder = MessageBuilder.withPayload(JSONMapper.toJSON(reply))
-                .withHeader(ReplyMessageHeader.REPLY_OUTCOME, outcome.name())
-                .withHeader(ReplyMessageHeader.REPLY_TYPE, reply.getClass().getName());
+        MessageBuilder messageBuilder =
+                MessageBuilder.withPayload(JSONMapper.toJSON(reply))
+                        .withHeader(ReplyMessageHeader.REPLY_OUTCOME, outcome.name())
+                        .withHeader(ReplyMessageHeader.REPLY_TYPE, reply.getClass().getName());
         return messageBuilder.build();
     }
 
@@ -32,5 +33,4 @@ public class CommandHandlerReplyBuilder {
     public static Message withFailure(Object reply) {
         return with(reply, CommandReplyOutcome.FAILURE);
     }
-
 }

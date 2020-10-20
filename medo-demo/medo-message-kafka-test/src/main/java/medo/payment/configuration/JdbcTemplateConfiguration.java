@@ -1,7 +1,6 @@
 package medo.payment.configuration;
 
 import javax.sql.DataSource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,5 +12,4 @@ public class JdbcTemplateConfiguration {
     public JdbcTemplate jebcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
-
 }

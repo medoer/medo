@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class PaymentConfiguration {
 
     @Bean
-    public PaymentDomainEventPublisher paymentDomainEventPublisher(DomainEventPublisher domainEventPublisher) {
+    public PaymentDomainEventPublisher paymentDomainEventPublisher(
+            DomainEventPublisher domainEventPublisher) {
         return new PaymentDomainEventPublisher(domainEventPublisher);
     }
-
 }

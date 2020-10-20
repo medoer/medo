@@ -2,7 +2,6 @@ package medo.framework.message.command.consumer;
 
 import java.util.Collections;
 import java.util.Map;
-
 import medo.framework.message.command.common.Command;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -13,7 +12,10 @@ public class CommandWithDestination {
     private final Command command;
     private final Map<String, String> extraHeaders;
 
-    public CommandWithDestination(String destinationChannel, String resource, Command command,
+    public CommandWithDestination(
+            String destinationChannel,
+            String resource,
+            Command command,
             Map<String, String> extraHeaders) {
         this.destinationChannel = destinationChannel;
         this.resource = resource;
@@ -45,5 +47,4 @@ public class CommandWithDestination {
     public Map<String, String> getExtraHeaders() {
         return extraHeaders;
     }
-
 }

@@ -3,7 +3,6 @@ package medo.framework.saga.orchestration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import medo.framework.message.command.consumer.CommandWithDestination;
 
 public class SagaActions<Data> {
@@ -16,8 +15,13 @@ public class SagaActions<Data> {
     private boolean local;
     private Optional<RuntimeException> localException;
 
-    public SagaActions(List<CommandWithDestination> commands, Optional<Data> updatedSagaData,
-            Optional<String> updatedState, boolean endState, boolean compensating, boolean local,
+    public SagaActions(
+            List<CommandWithDestination> commands,
+            Optional<Data> updatedSagaData,
+            Optional<String> updatedState,
+            boolean endState,
+            boolean compensating,
+            boolean local,
             Optional<RuntimeException> localException) {
         this.commands = commands;
         this.updatedSagaData = updatedSagaData;
@@ -65,11 +69,16 @@ public class SagaActions<Data> {
         private boolean local;
         private Optional<RuntimeException> localException = Optional.empty();
 
-        public Builder() {
-        }
+        public Builder() {}
 
         public SagaActions<Data> build() {
-            return new SagaActions<>(commands, updatedSagaData, updatedState, endState, compensating, local,
+            return new SagaActions<>(
+                    commands,
+                    updatedSagaData,
+                    updatedState,
+                    endState,
+                    compensating,
+                    local,
                     localException);
         }
 
@@ -113,5 +122,4 @@ public class SagaActions<Data> {
     public static <Data> Builder<Data> builder() {
         return new Builder<>();
     }
-
 }

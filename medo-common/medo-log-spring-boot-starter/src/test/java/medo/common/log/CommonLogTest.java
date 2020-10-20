@@ -15,5 +15,4 @@ public class CommonLogTest {
     public void testInfo() {
         log.error(CommonLogTest.class.getName() + " test");
     }
-
 }

@@ -12,8 +12,12 @@ public class SagaManagerFactory {
     private final SagaLockManager sagaLockManager;
     private final SagaCommandProducer sagaCommandProducer;
 
-    public SagaManagerFactory(SagaInstanceRepository sagaInstanceRepository, CommandProducer commandProducer,
-            MessageConsumer messageConsumer, SagaLockManager sagaLockManager, SagaCommandProducer sagaCommandProducer) {
+    public SagaManagerFactory(
+            SagaInstanceRepository sagaInstanceRepository,
+            CommandProducer commandProducer,
+            MessageConsumer messageConsumer,
+            SagaLockManager sagaLockManager,
+            SagaCommandProducer sagaCommandProducer) {
         this.sagaInstanceRepository = sagaInstanceRepository;
         this.commandProducer = commandProducer;
         this.messageConsumer = messageConsumer;
@@ -22,8 +26,12 @@ public class SagaManagerFactory {
     }
 
     public <SagaData> SagaManagerImpl<SagaData> make(Saga<SagaData> saga) {
-        return new SagaManagerImpl<>(saga, sagaInstanceRepository, commandProducer, messageConsumer, sagaLockManager,
+        return new SagaManagerImpl<>(
+                saga,
+                sagaInstanceRepository,
+                commandProducer,
+                messageConsumer,
+                sagaLockManager,
                 sagaCommandProducer);
     }
-
 }

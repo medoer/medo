@@ -1,4 +1,4 @@
-description = 'Common Log Configuration' 
+description = 'Common Log Configuration'
 
 dependencies {
     api 'mysql:mysql-connector-java'

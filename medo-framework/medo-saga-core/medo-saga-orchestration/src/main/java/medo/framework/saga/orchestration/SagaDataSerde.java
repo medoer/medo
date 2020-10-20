@@ -1,10 +1,8 @@
 package medo.framework.saga.orchestration;
 
+import medo.common.core.json.JSONMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import medo.common.core.json.JSONMapper;
-
 
 public class SagaDataSerde {
     private static Logger logger = LoggerFactory.getLogger(SagaDataSerde.class);
@@ -16,7 +14,10 @@ public class SagaDataSerde {
     public static <Data> Data deserializeSagaData(SerializedSagaData serializedSagaData) {
         Class<?> clasz = null;
         try {
-            clasz = Thread.currentThread().getContextClassLoader().loadClass(serializedSagaData.getSagaDataType());
+            clasz =
+                    Thread.currentThread()
+                            .getContextClassLoader()
+                            .loadClass(serializedSagaData.getSagaDataType());
         } catch (ClassNotFoundException e) {
             logger.error("Class not found", e);
             throw new RuntimeException("Class not found", e);

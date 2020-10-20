@@ -11,7 +11,9 @@ public class SagaCommandDispatcherFactory {
     private final MessageProducer messageProducer;
     private final SagaLockManager sagaLockManager;
 
-    public SagaCommandDispatcherFactory(MessageConsumer messageConsumer, MessageProducer messageProducer,
+    public SagaCommandDispatcherFactory(
+            MessageConsumer messageConsumer,
+            MessageProducer messageProducer,
             SagaLockManager sagaLockManager) {
         this.messageConsumer = messageConsumer;
         this.messageProducer = messageProducer;
@@ -19,8 +21,7 @@ public class SagaCommandDispatcherFactory {
     }
 
     public SagaCommandDispatcher make(String commandDispatcherId, CommandHandlers target) {
-        return new SagaCommandDispatcher(commandDispatcherId, target, messageConsumer, messageProducer,
-                sagaLockManager);
+        return new SagaCommandDispatcher(
+                commandDispatcherId, target, messageConsumer, messageProducer, sagaLockManager);
     }
-
 }

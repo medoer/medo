@@ -2,19 +2,13 @@ package medo.common.auth.constants;
 
 public enum AuthoritiesEnum {
 
-    /**
-     * 管理员
-     */
+    /** 管理员 */
     ADMIN("ROLE_ADMIN"),
 
-    /**
-     * 普通用户
-     */
+    /** 普通用户 */
     USER("ROLE_USER"),
 
-    /**
-     * 匿名用户
-     */
+    /** 匿名用户 */
     ANONYMOUS("ROLE_ANONYMOUS");
 
     private String role;

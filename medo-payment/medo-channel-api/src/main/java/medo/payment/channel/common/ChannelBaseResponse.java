@@ -12,15 +12,18 @@ public class ChannelBaseResponse<T> {
     private ChannelState code;
 
     public static <T> ChannelBaseResponse<T> succeed(T data) {
-        return (ChannelBaseResponse<T>) ChannelBaseResponse.builder().code(ChannelState.SUCCESS).data(data).build();
+        return (ChannelBaseResponse<T>)
+                ChannelBaseResponse.builder().code(ChannelState.SUCCESS).data(data).build();
     }
 
     public static <T> ChannelBaseResponse<T> failed(T data) {
-        return (ChannelBaseResponse<T>) ChannelBaseResponse.builder().code(ChannelState.FAIL).data(data).build();
+        return (ChannelBaseResponse<T>)
+                ChannelBaseResponse.builder().code(ChannelState.FAIL).data(data).build();
     }
 
     public static <T> ChannelBaseResponse<T> error(T data) {
-        return (ChannelBaseResponse<T>) ChannelBaseResponse.builder().code(ChannelState.ERROR).data(data).build();
+        return (ChannelBaseResponse<T>)
+                ChannelBaseResponse.builder().code(ChannelState.ERROR).data(data).build();
     }
 
     public boolean isSuccess() {
@@ -35,10 +38,8 @@ public class ChannelBaseResponse<T> {
         return code.equals(ChannelState.FAIL);
     }
 
-    /**
-     * common channel response state
-     */
-    private static enum ChannelState{
+    /** common channel response state */
+    private static enum ChannelState {
         SUCCESS,
         // response error code
         FAIL,

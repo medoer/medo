@@ -1,13 +1,11 @@
 package medo.common.core.model;
 
 import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-04
  * @param <T>
@@ -46,6 +44,7 @@ public class BaseResponse<T> implements Serializable {
     public static <T> BaseResponse<T> failed(T model, String msg) {
         return of(model, ResponseCodeEnum.ERROR.getCode(), msg);
     }
+
     public static <T> BaseResponse<T> succeedWith(T datas, Integer code, String msg) {
         return new BaseResponse<>(datas, code, msg);
     }
@@ -53,5 +52,4 @@ public class BaseResponse<T> implements Serializable {
     public static <T> BaseResponse<T> failedWith(T datas, Integer code, String msg) {
         return new BaseResponse<>(datas, code, msg);
     }
-
 }

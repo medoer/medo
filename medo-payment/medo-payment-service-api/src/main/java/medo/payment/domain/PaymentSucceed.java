@@ -1,4 +1,3 @@
 package medo.payment.domain;
 
-public class PaymentSucceed implements PaymentDomainEvent {
-}
+public class PaymentSucceed implements PaymentDomainEvent {}

@@ -14,5 +14,4 @@ public interface DomainEventEnvelope<T extends DomainEvent> {
     String getEventId();
 
     T getEvent();
-
 }

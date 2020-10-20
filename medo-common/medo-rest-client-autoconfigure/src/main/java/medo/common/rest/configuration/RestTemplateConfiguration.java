@@ -7,9 +7,12 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateConfiguration {
 
     @Bean
-    @ConditionalOnProperty(prefix = "medo.rest.template", name = "enabled", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(
+            prefix = "medo.rest.template",
+            name = "enabled",
+            havingValue = "true",
+            matchIfMissing = true)
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 }

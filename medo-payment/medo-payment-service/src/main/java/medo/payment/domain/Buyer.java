@@ -2,9 +2,7 @@ package medo.payment.domain;
 
 import lombok.Data;
 
-/**
- * Buyer Value Object
- */
+/** Buyer Value Object */
 @Data
 public class Buyer {
     private String buyerId;

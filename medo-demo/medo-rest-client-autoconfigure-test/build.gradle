@@ -1,4 +1,4 @@
-description = 'Rest Client Test' 
+description = 'Rest Client Test'
 
 dependencies {
     implementation project(":medo-common:medo-rest-client-autoconfigure")

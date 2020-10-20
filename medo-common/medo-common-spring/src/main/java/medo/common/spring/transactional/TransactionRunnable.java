@@ -4,5 +4,4 @@ package medo.common.spring.transactional;
 public interface TransactionRunnable {
 
     void run();
-
 }

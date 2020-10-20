@@ -11,12 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AliPayFactoryTest {
 
-    @Autowired
-    private AliPayFactory aliPayFactory;
+    @Autowired private AliPayFactory aliPayFactory;
 
     @Test
     public void createTest() {
         Assert.assertNotNull(aliPayFactory);
     }
-
 }

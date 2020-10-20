@@ -1,5 +1,7 @@
 package medo.common.redis;
 
+import lombok.extern.slf4j.Slf4j;
+import medo.common.redis.lock.RedissonDistributedLock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.redisson.api.RLock;
@@ -7,16 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import lombok.extern.slf4j.Slf4j;
-import medo.common.redis.lock.RedissonDistributedLock;
-
 @Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class RedissonDistributedLockTest {
 
-    @Autowired
-    private RedissonDistributedLock redissonDistributedLock;
+    @Autowired private RedissonDistributedLock redissonDistributedLock;
 
     @Test
     public void testLock() {
@@ -32,5 +30,4 @@ public class RedissonDistributedLockTest {
         } catch (RuntimeException e) {
         }
     }
-
 }

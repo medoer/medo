@@ -2,6 +2,7 @@ package medo.common.mysql;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.time.LocalDateTime;
 import medo.common.mysql.domain.model.*;
 import medo.common.mysql.mapper.DateMapper;
 import medo.common.mysql.mapper.EnumMapper;
@@ -11,42 +12,34 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
-
 /**
- * mybatis plus crud demo <a>https://github.com/baomidou/mybatis-plus-samples/blob/master/mybatis-plus-sample-crud/src/test/java/com/baomidou/mybatisplus/samples/crud/SampleTest.java</a>
+ * mybatis plus crud demo
+ * <a>https://github.com/baomidou/mybatis-plus-samples/blob/master/mybatis-plus-sample-crud/src/test/java/com/baomidou/mybatisplus/samples/crud/SampleTest.java</a>
  */
 @Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MybatisPlusTest {
 
-    @Autowired
-    private DateMapper dateMapper;
+    @Autowired private DateMapper dateMapper;
 
-    @Autowired
-    private EnumMapper enumMapper;
+    @Autowired private EnumMapper enumMapper;
 
-    @Autowired
-    private ValueObjectMapper valueObjectMapper;
+    @Autowired private ValueObjectMapper valueObjectMapper;
 
     @Test
     public void testInsertLocalDateTime() {
-        DateDomain dateDomain = DateDomain.builder()
-                .build();
+        DateDomain dateDomain = DateDomain.builder().build();
         dateDomain.setCreateTime(LocalDateTime.now());
         dateMapper.insert(dateDomain);
     }
 
     @Test
     public void testInsertLocalDateTimeFillValue() {
-        DateDomain dateDomain = DateDomain.builder()
-                .build();
+        DateDomain dateDomain = DateDomain.builder().build();
         dateMapper.insert(dateDomain);
         DateDomain value = dateMapper.selectById(dateDomain.getId());
         Assert.assertNotNull(value);
@@ -54,11 +47,9 @@ public class MybatisPlusTest {
         Assert.assertNotNull(value.getUpdateTime());
     }
 
-
     @Test
     public void testUpdateLocalDateTimeFillValue() {
-        DateDomain dateDomain = DateDomain.builder()
-                .build();
+        DateDomain dateDomain = DateDomain.builder().build();
         dateMapper.insert(dateDomain);
         dateDomain.setId(dateDomain.getId());
         dateMapper.updateById(dateDomain);
@@ -73,7 +64,6 @@ public class MybatisPlusTest {
         Assert.assertTrue(enumDomain.getTestEnum().equals(TestEnum.VALUE));
     }
 
-
     @Test
     public void testInsertWithValueObject() {
         ValueObjectDomain valueObjectDomainRequest = new ValueObjectDomain();
@@ -83,7 +73,8 @@ public class MybatisPlusTest {
         valueObjectDomainRequest.setTestEnum(TestEnum.VALUE);
         valueObjectDomainRequest.setValueObject(valueObject);
         valueObjectMapper.insert(valueObjectDomainRequest);
-        ValueObjectDomain valueObjectDomainRes = valueObjectMapper.selectById(valueObjectDomainRequest.getId());
+        ValueObjectDomain valueObjectDomainRes =
+                valueObjectMapper.selectById(valueObjectDomainRequest.getId());
         Assert.assertTrue(valueObject.equals(valueObjectDomainRes.getValueObject()));
         Assert.assertTrue(TestEnum.VALUE.equals(valueObjectDomainRes.getTestEnum()));
     }
@@ -92,20 +83,25 @@ public class MybatisPlusTest {
     public void testDelete() {
         ValueObjectDomain valueObjectDomainRequest = new ValueObjectDomain();
         valueObjectMapper.insert(valueObjectDomainRequest);
-        ValueObjectDomain valueObjectDomainRes = valueObjectMapper.selectById(valueObjectDomainRequest.getId());
+        ValueObjectDomain valueObjectDomainRes =
+                valueObjectMapper.selectById(valueObjectDomainRequest.getId());
         Assert.assertNotNull(valueObjectDomainRes);
         // delete by id
         valueObjectMapper.deleteById(valueObjectDomainRequest.getId());
-        ValueObjectDomain valueObjectDomainRes2 = valueObjectMapper.selectById(valueObjectDomainRequest.getId());
+        ValueObjectDomain valueObjectDomainRes2 =
+                valueObjectMapper.selectById(valueObjectDomainRequest.getId());
         Assert.assertNull(valueObjectDomainRes2);
 
         valueObjectDomainRequest.setTestEnum(TestEnum.VALUE);
         valueObjectMapper.insert(valueObjectDomainRequest);
         // delete by wrapper
-        LambdaQueryWrapper<ValueObjectDomain> queryWrapper = new QueryWrapper<ValueObjectDomain>().lambda().eq(ValueObjectDomain::getTestEnum, TestEnum.VALUE);
+        LambdaQueryWrapper<ValueObjectDomain> queryWrapper =
+                new QueryWrapper<ValueObjectDomain>()
+                        .lambda()
+                        .eq(ValueObjectDomain::getTestEnum, TestEnum.VALUE);
         valueObjectMapper.delete(queryWrapper);
-        ValueObjectDomain valueObjectDomainRes3 = valueObjectMapper.selectById(valueObjectDomainRequest.getId());
+        ValueObjectDomain valueObjectDomainRes3 =
+                valueObjectMapper.selectById(valueObjectDomainRequest.getId());
         Assert.assertNull(valueObjectDomainRes3);
     }
-
 }

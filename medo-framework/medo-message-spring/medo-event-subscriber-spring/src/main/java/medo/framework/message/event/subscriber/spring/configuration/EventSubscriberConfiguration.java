@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class EventSubscriberConfiguration {
 
     @Bean
-    public DomainEventDispatcherFactory domainEventDispatcherFactory(MessageConsumer messageConsumer,
-                                                                     DomainEventNameMapping domainEventNameMapping) {
+    public DomainEventDispatcherFactory domainEventDispatcherFactory(
+            MessageConsumer messageConsumer, DomainEventNameMapping domainEventNameMapping) {
         return new SpringDomainEventDispatcherFactory(messageConsumer, domainEventNameMapping);
     }
-
 }

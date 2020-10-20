@@ -8,15 +8,15 @@ import medo.framework.message.messaging.consumer.MessageConsumer;
 
 public class SpringDomainEventDispatcherFactory extends DomainEventDispatcherFactory {
 
-    public SpringDomainEventDispatcherFactory(MessageConsumer messageConsumer,
-            DomainEventNameMapping domainEventNameMapping) {
+    public SpringDomainEventDispatcherFactory(
+            MessageConsumer messageConsumer, DomainEventNameMapping domainEventNameMapping) {
         super(messageConsumer, domainEventNameMapping);
     }
 
     @Override
-    public DomainEventDispatcher make(String eventDispatcherId, DomainEventHandlers domainEventHandlers) {
-        return new DomainEventDispatcher(eventDispatcherId, domainEventHandlers, messageConsumer,
-                domainEventNameMapping);
+    public DomainEventDispatcher make(
+            String eventDispatcherId, DomainEventHandlers domainEventHandlers) {
+        return new DomainEventDispatcher(
+                eventDispatcherId, domainEventHandlers, messageConsumer, domainEventNameMapping);
     }
-
 }

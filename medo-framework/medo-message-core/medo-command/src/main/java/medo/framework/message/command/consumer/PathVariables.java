@@ -18,5 +18,4 @@ public class PathVariables {
     public long getLong(String name) {
         return Long.parseLong(getString(name));
     }
-
 }

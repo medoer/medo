@@ -1,7 +1,6 @@
 package medo.framework.saga.orchestration;
 
 import java.util.function.Function;
-
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.subscriber.DomainEventEnvelope;
 
@@ -11,14 +10,18 @@ public class SagaEventHandler<Data> {
     private final Function<Data, Long> aggregateIdProvider;
     private final SagaStateMachineAction<Data, DomainEventEnvelope<DomainEvent>> action;
 
-    public SagaEventHandler(Class<DomainEvent> eventClass, Function<Data, Long> aggregateIdProvider,
+    public SagaEventHandler(
+            Class<DomainEvent> eventClass,
+            Function<Data, Long> aggregateIdProvider,
             SagaStateMachineAction<Data, DomainEventEnvelope<DomainEvent>> action) {
         this.eventClass = eventClass;
         this.aggregateIdProvider = aggregateIdProvider;
         this.action = action;
     }
 
-    public static <Data> SagaEventHandler make(Class<DomainEvent> eventClass, Function<Data, Long> aggregateIdProvider,
+    public static <Data> SagaEventHandler make(
+            Class<DomainEvent> eventClass,
+            Function<Data, Long> aggregateIdProvider,
             SagaStateMachineAction<Data, DomainEventEnvelope<DomainEvent>> eventHandler) {
         return new SagaEventHandler<Data>(eventClass, aggregateIdProvider, eventHandler);
     }

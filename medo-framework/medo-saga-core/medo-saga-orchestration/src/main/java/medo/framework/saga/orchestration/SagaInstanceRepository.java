@@ -7,5 +7,4 @@ public interface SagaInstanceRepository {
     SagaInstance find(String sagaType, String sagaId);
 
     void update(SagaInstance sagaInstance);
-
 }

@@ -6,5 +6,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper
-public interface PaymentRepository extends SuperMapper<Payment> {
-}
+public interface PaymentRepository extends SuperMapper<Payment> {}
