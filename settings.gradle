@@ -67,6 +67,7 @@ include "medo-framework:medo-saga-spring:medo-saga-spring-boot-starter"
 
 // domain module
 
+include "medo-payment"
 include "medo-payment:medo-channel-common"
 include "medo-payment:medo-channel-service-common"
 include "medo-payment:medo-channel-alipay"
