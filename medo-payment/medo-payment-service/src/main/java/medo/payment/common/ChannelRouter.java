@@ -1,5 +1,7 @@
 package medo.payment.common;
 
+import java.util.HashMap;
+import java.util.Map;
 import medo.common.spring.context.SpringContextHelper;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.ChannelClient;
@@ -11,17 +13,9 @@ import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
 import medo.payment.properties.PaymentChannelProperties;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.Channel;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Payment Channel Adapter
- * // TODO 更优雅的适配策略
- */
+/** Payment Channel Adapter // TODO 更优雅的适配策略 */
 @Service
 public class ChannelRouter implements ChannelClient {
 
@@ -31,17 +25,20 @@ public class ChannelRouter implements ChannelClient {
 
     private ChannelRestTemplate channelRestTemplate;
 
-    public ChannelRouter(PaymentChannelProperties paymentChannelProperties, ChannelRestTemplate channelRestTemplate) {
+    public ChannelRouter(
+            PaymentChannelProperties paymentChannelProperties,
+            ChannelRestTemplate channelRestTemplate) {
         this.paymentChannelProperties = paymentChannelProperties;
         this.channelRestTemplate = channelRestTemplate;
     }
 
     // TODO move to properties
-    private static Map<Long, Class> CHANNEL_CLASS_MAP = new HashMap(){
-        {
-            put(ChannelId.ALIPAY, AliPayChannel.class);
-        }
-    };
+    private static Map<Long, Class> CHANNEL_CLASS_MAP =
+            new HashMap() {
+                {
+                    put(ChannelId.ALIPAY, AliPayChannel.class);
+                }
+            };
 
     @Override
     public ChannelBaseResponse generateQR(ChannelGenQRRequest genQRRequest) {
@@ -50,7 +47,8 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(ChannelMicroPayRequest channelMicroPayRequest) {
+    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(
+            ChannelMicroPayRequest channelMicroPayRequest) {
         ChannelClient channelClient = getBean();
         return channelClient.microPay(channelMicroPayRequest);
     }
@@ -76,12 +74,14 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelRefundResponse> refund(ChannelRefundRequest channelRefundRequest) {
+    public ChannelBaseResponse<ChannelRefundResponse> refund(
+            ChannelRefundRequest channelRefundRequest) {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse<?> fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
+    public ChannelBaseResponse<?> fetchPayment(
+            ChannelFetchPaymentRequest channelFetchPaymentRequest) {
         return null;
     }
 
@@ -111,7 +111,8 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse verify(ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
+    public ChannelBaseResponse verify(
+            ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         return null;
     }
 
@@ -124,5 +125,4 @@ public class ChannelRouter implements ChannelClient {
         Class channelClientName = CHANNEL_CLASS_MAP.get(channelId == null ? 1 : channelId);
         return (ChannelClient) SpringContextHelper.getBean(channelClientName);
     }
-
 }

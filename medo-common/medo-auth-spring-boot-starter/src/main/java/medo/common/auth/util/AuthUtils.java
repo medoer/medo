@@ -3,16 +3,13 @@ package medo.common.auth.util;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
-
 import lombok.extern.slf4j.Slf4j;
 import medo.common.auth.model.SysUser;
 import medo.common.core.constant.CommonConstant;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 
 @Slf4j
 public class AuthUtils {
@@ -24,6 +21,7 @@ public class AuthUtils {
 
     /**
      * 获取requet(head/param)中的token
+     *
      * @param request
      * @return
      */
@@ -40,6 +38,7 @@ public class AuthUtils {
 
     /**
      * 解析head中的token
+     *
      * @param request
      * @return
      */
@@ -48,7 +47,8 @@ public class AuthUtils {
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
             if ((value.startsWith(OAuth2AccessToken.BEARER_TYPE))) {
-                String authHeaderValue = value.substring(OAuth2AccessToken.BEARER_TYPE.length()).trim();
+                String authHeaderValue =
+                        value.substring(OAuth2AccessToken.BEARER_TYPE.length()).trim();
                 int commaIndex = authHeaderValue.indexOf(',');
                 if (commaIndex > 0) {
                     authHeaderValue = authHeaderValue.substring(0, commaIndex);
@@ -59,9 +59,7 @@ public class AuthUtils {
         return null;
     }
 
-    /**
-     * *从header 请求中的clientId:clientSecret
-     */
+    /** *从header 请求中的clientId:clientSecret */
     public static String[] extractClient(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith(BASIC_)) {
@@ -86,9 +84,7 @@ public class AuthUtils {
         return clientArr;
     }
 
-    /**
-     * 获取登陆的用户名
-     */
+    /** 获取登陆的用户名 */
     public static String getUsername(Authentication authentication) {
         Object principal = authentication.getPrincipal();
         String username = null;

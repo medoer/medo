@@ -10,9 +10,9 @@ public class DomainEventDispatcherFactory {
     protected MessageConsumer messageConsumer;
     protected DomainEventNameMapping domainEventNameMapping;
 
-    public DomainEventDispatcher make(String eventDispatcherId, DomainEventHandlers domainEventHandlers) {
-        return new DomainEventDispatcher(eventDispatcherId, domainEventHandlers, messageConsumer,
-                domainEventNameMapping);
+    public DomainEventDispatcher make(
+            String eventDispatcherId, DomainEventHandlers domainEventHandlers) {
+        return new DomainEventDispatcher(
+                eventDispatcherId, domainEventHandlers, messageConsumer, domainEventNameMapping);
     }
-
 }

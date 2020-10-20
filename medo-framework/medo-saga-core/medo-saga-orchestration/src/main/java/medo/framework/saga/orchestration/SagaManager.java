@@ -13,5 +13,4 @@ public interface SagaManager<Data> {
     SagaInstance create(Data sagaData, Optional<String> lockTarget);
 
     SagaInstance create(Data data, Class<?> targetClass, Object targetId);
-
 }

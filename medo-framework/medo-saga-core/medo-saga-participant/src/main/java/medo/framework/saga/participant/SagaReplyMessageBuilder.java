@@ -1,7 +1,6 @@
 package medo.framework.saga.participant;
 
 import java.util.Optional;
-
 import medo.common.core.json.JSONMapper;
 import medo.framework.message.command.common.CommandReplyOutcome;
 import medo.framework.message.command.common.ReplyMessageHeader;
@@ -36,5 +35,4 @@ public class SagaReplyMessageBuilder extends MessageBuilder {
     public Message withSuccess() {
         return withSuccess(new Success());
     }
-
 }

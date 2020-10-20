@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Base64;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import medo.common.auth.converter.CustomUserAuthenticationConverter;
+import medo.common.core.constant.AuthConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -22,20 +23,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.client.RestTemplate;
 
-import medo.common.auth.converter.CustomUserAuthenticationConverter;
-import medo.common.core.constant.AuthConstant;
-
-/**
- * 资源服务器 TokenStore 配置类，使用 JWT RSA 非对称加密
- *
- */
+/** 资源服务器 TokenStore 配置类，使用 JWT RSA 非对称加密 */
 public class ResJwtTokenStore {
 
-    /**
-     * TODO spring security 5 updated
-     */
-    @Autowired
-    private ResourceServerProperties resource;
+    /** TODO spring security 5 updated */
+    @Autowired private ResourceServerProperties resource;
 
     @Bean
     public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
@@ -46,13 +38,15 @@ public class ResJwtTokenStore {
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setVerifierKey(getPubKey());
-        DefaultAccessTokenConverter tokenConverter = (DefaultAccessTokenConverter)converter.getAccessTokenConverter();
+        DefaultAccessTokenConverter tokenConverter =
+                (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
         tokenConverter.setUserTokenConverter(new CustomUserAuthenticationConverter());
         return converter;
     }
 
     /**
      * 获取非对称加密公钥 Key
+     *
      * @return 公钥 Key
      */
     private String getPubKey() {
@@ -66,6 +60,7 @@ public class ResJwtTokenStore {
 
     /**
      * 通过访问授权服务器获取非对称加密公钥 Key
+     *
      * @return 公钥 Key
      */
     private String getKeyFromAuthorizationServer() {
@@ -74,14 +69,17 @@ public class ResJwtTokenStore {
             final String username = this.resource.getClientId();
             final String password = this.resource.getClientSecret();
             if (username != null && password != null) {
-                final byte[] token = Base64.getEncoder().encode((username + ":" + password).getBytes());
+                final byte[] token =
+                        Base64.getEncoder().encode((username + ":" + password).getBytes());
                 headers.add("Authorization", "Basic " + new String(token));
             }
             final HttpEntity<Void> request = new HttpEntity<>(headers);
             final String url = this.resource.getJwt().getKeyUri();
-            return (String) new RestTemplate()
-                    .exchange(url, HttpMethod.GET, request, Map.class).getBody()
-                    .get("value");
+            return (String)
+                    new RestTemplate()
+                            .exchange(url, HttpMethod.GET, request, Map.class)
+                            .getBody()
+                            .get("value");
         }
         return null;
     }

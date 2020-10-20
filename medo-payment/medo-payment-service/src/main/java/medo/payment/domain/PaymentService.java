@@ -31,17 +31,23 @@ public class PaymentService {
     public Payment microPay(MicroPayRequest microPayRequest) {
         Terminal terminal = microPayRequest.getTerminal();
         // create payment
-        Payment payment = Payment.createPayment(terminal, microPayRequest.getMoney(), microPayRequest.getChannelId(),
-                idGenerator.generateId().asString());
+        Payment payment =
+                Payment.createPayment(
+                        terminal,
+                        microPayRequest.getMoney(),
+                        microPayRequest.getChannelId(),
+                        idGenerator.generateId().asString());
         paymentRepository.insert(payment);
 
-        ChannelMicroPayRequest channelMicroPayRequest = ChannelMicroPayRequest.builder()
-                .authCode(microPayRequest.getAuthCode())
-                .paymentId(payment.getPaymentId())
-                .subject(microPayRequest.getDesc())
-                .money(microPayRequest.getMoney())
-                .build();
-        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse = channelRouter.microPay(channelMicroPayRequest);
+        ChannelMicroPayRequest channelMicroPayRequest =
+                ChannelMicroPayRequest.builder()
+                        .authCode(microPayRequest.getAuthCode())
+                        .paymentId(payment.getPaymentId())
+                        .subject(microPayRequest.getDesc())
+                        .money(microPayRequest.getMoney())
+                        .build();
+        ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse =
+                channelRouter.microPay(channelMicroPayRequest);
         // TODO
         if (channelMicroPayResponse.isError()) {
             throw new RuntimeException("invoke channel error");
@@ -62,8 +68,13 @@ public class PaymentService {
         Payment payment = paymentRepository.selectByPaymentId(refundRequest.getPaymentId());
         // check payment status
         payment.refundValid(refundRequest);
-        Payment refund = Payment.createRefund(refundRequest.getTerminal(), refundRequest.getMoney(), payment.getChannelId(),
-                idGenerator.generateId().asString(), payment.getPaymentId());
+        Payment refund =
+                Payment.createRefund(
+                        refundRequest.getTerminal(),
+                        refundRequest.getMoney(),
+                        payment.getChannelId(),
+                        idGenerator.generateId().asString(),
+                        payment.getPaymentId());
         paymentRepository.insert(refund);
         // cas update payment status
         ResultWithDomainEvents<Payment, PaymentDomainEvent> result = payment.refundPending();

@@ -1,4 +1,3 @@
 package medo.framework.message.command.common;
 
-public interface Outcome {
-}
+public interface Outcome {}

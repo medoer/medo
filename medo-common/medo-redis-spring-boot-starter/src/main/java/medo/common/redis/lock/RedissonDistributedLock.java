@@ -1,29 +1,30 @@
 package medo.common.redis.lock;
 
 import java.util.concurrent.TimeUnit;
-
+import medo.common.core.constant.CommonConstant;
+import medo.common.core.exception.LockException;
+import medo.common.core.lock.DistributedLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-import medo.common.core.constant.CommonConstant;
-import medo.common.core.exception.LockException;
-import medo.common.core.lock.DistributedLock;
-
 /**
  * Distributed Lock By Redisson. TODO 优化先检查本地锁
- * 
+ *
  * @author: bryce
  * @date: 2020-08-04
  */
 @ConditionalOnClass(RedissonClient.class)
-@ConditionalOnProperty(prefix = "medo.lock", name = "lockerType", havingValue = "REDIS", matchIfMissing = true)
+@ConditionalOnProperty(
+        prefix = "medo.lock",
+        name = "lockerType",
+        havingValue = "REDIS",
+        matchIfMissing = true)
 public class RedissonDistributedLock implements DistributedLock {
 
-    @Autowired
-    private RedissonClient redisson;
+    @Autowired private RedissonClient redisson;
 
     private RLock getLock(String key, boolean isFair) {
         if (isFair) {
@@ -65,12 +66,14 @@ public class RedissonDistributedLock implements DistributedLock {
     }
 
     @Override
-    public RLock tryLock(String key, long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {
+    public RLock tryLock(String key, long waitTime, long leaseTime, TimeUnit unit)
+            throws InterruptedException {
         return tryLock(key, waitTime, leaseTime, unit, false);
     }
 
     @Override
-    public RLock tryLock(String key, long waitTime, TimeUnit unit, boolean isFair) throws InterruptedException {
+    public RLock tryLock(String key, long waitTime, TimeUnit unit, boolean isFair)
+            throws InterruptedException {
         return tryLock(key, waitTime, -1, unit, isFair);
     }
 

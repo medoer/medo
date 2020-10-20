@@ -1,11 +1,10 @@
 package medo.common.kafka.common;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class KafkaMultiMessages {
 
@@ -16,7 +15,8 @@ public class KafkaMultiMessages {
         this(Collections.emptyList(), messages);
     }
 
-    public KafkaMultiMessages(List<KafkaMultiMessagesHeader> headers, List<KafkaMultiMessage> messages) {
+    public KafkaMultiMessages(
+            List<KafkaMultiMessagesHeader> headers, List<KafkaMultiMessage> messages) {
         this.headers = headers;
         this.messages = messages;
     }
@@ -47,5 +47,4 @@ public class KafkaMultiMessages {
     public int hashCode() {
         return Objects.hash(headers, messages);
     }
-
 }

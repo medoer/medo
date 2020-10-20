@@ -3,11 +3,9 @@ package medo.framework.message.messaging.common;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-11
  */
@@ -16,8 +14,7 @@ public class Message {
     private String payload;
     private Map<String, String> headers;
 
-    public Message() {
-    }
+    public Message() {}
 
     public Message(String payload, Map<String, String> headers) {
         this.payload = payload;
@@ -41,8 +38,7 @@ public class Message {
         String s = headers.get(name);
         if (s == null)
             throw new RuntimeException("No such header: " + name + " in this message " + this);
-        else
-            return s;
+        else return s;
     }
 
     public boolean hasHeader(String name) {
@@ -66,8 +62,7 @@ public class Message {
     }
 
     public void setHeader(String name, String value) {
-        if (headers == null)
-            headers = new HashMap<>();
+        if (headers == null) headers = new HashMap<>();
         headers.put(name, value);
     }
 

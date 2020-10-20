@@ -1,5 +1,6 @@
 package medo.payment.messaging;
 
+import java.util.Collections;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import medo.framework.message.event.subscriber.DomainEventEnvelope;
@@ -10,8 +11,6 @@ import medo.payment.channel.request.ChannelRefundRequest;
 import medo.payment.common.ChannelRouter;
 import medo.payment.domain.Payment;
 
-import java.util.Collections;
-
 @Slf4j
 @AllArgsConstructor
 public class PaymentEventConsumer {
@@ -21,8 +20,7 @@ public class PaymentEventConsumer {
     private PaymentDomainEventPublisher paymentDomainEventPublisher;
 
     public DomainEventHandlers domainEventHandlers() {
-        return DomainEventHandlersBuilder
-                .forAggregateType(Payment.class)
+        return DomainEventHandlersBuilder.forAggregateType(Payment.class)
                 .onEvent(PaymentSucceed.class, this::sendEmail)
                 // refund event
                 .onEvent(PaymentRefundPending.class, this::invokeChannelToRefund)
@@ -42,26 +40,30 @@ public class PaymentEventConsumer {
         PaymentRefundPending paymentRefundPending = de.getEvent();
         Payment refund = paymentRefundPending.getRefund();
 
-        ChannelRefundRequest channelRefundRequest = ChannelRefundRequest.builder()
-                .money(refund.getAmount())
-                .originPaymentId(refund.getOriginPaymentId())
-                .refundId(refund.getPaymentId())
-                .build();
+        ChannelRefundRequest channelRefundRequest =
+                ChannelRefundRequest.builder()
+                        .money(refund.getAmount())
+                        .originPaymentId(refund.getOriginPaymentId())
+                        .refundId(refund.getPaymentId())
+                        .build();
         ChannelBaseResponse channelRefundResponse = channelRouter.refund(channelRefundRequest);
         if (channelRefundResponse.isError()) {
             log.error("invoke refund error!");
-            paymentDomainEventPublisher.publish(refund, Collections.singletonList(new PaymentRefundError(refund)));
+            paymentDomainEventPublisher.publish(
+                    refund, Collections.singletonList(new PaymentRefundError(refund)));
             return;
         }
         if (channelRefundResponse.isFail()) {
             log.error("invoke refund failed!");
-            paymentDomainEventPublisher.publish(refund, Collections.singletonList(new PaymentRefundFailed(refund)));
+            paymentDomainEventPublisher.publish(
+                    refund, Collections.singletonList(new PaymentRefundFailed(refund)));
             return;
         }
         // update db or send a event? TODO
         if (channelRefundResponse.isSuccess()) {
             log.info("invoke channel succeed!");
-            paymentDomainEventPublisher.publish(refund, Collections.singletonList(new PaymentRefundSucceed(refund)));
+            paymentDomainEventPublisher.publish(
+                    refund, Collections.singletonList(new PaymentRefundSucceed(refund)));
             return;
         }
     }
@@ -69,14 +71,13 @@ public class PaymentEventConsumer {
     private void refundSucceed(DomainEventEnvelope<PaymentRefundSucceed> de) {
 
         log.info("refund succeed!");
-
     }
+
     private void refundFailed(DomainEventEnvelope<PaymentRefundFailed> de) {
         log.error("refund failed!");
     }
+
     private void refundError(DomainEventEnvelope<PaymentRefundError> de) {
         log.error("refund error!");
     }
-
-
 }

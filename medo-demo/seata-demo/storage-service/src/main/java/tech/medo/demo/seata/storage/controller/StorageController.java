@@ -1,11 +1,9 @@
 package tech.medo.demo.seata.storage.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.AllArgsConstructor;
 import tech.medo.demo.seata.storage.service.StorageService;
-
 
 @RestController
 @RequestMapping("/storage")
@@ -16,6 +14,7 @@ public class StorageController {
 
     /**
      * 减库存.
+     *
      * @param commodityCode 商品代码
      * @param count 数量
      */

@@ -6,7 +6,7 @@ public interface DuplicateMessageDetector {
 
     /**
      * save received_messages.
-     * 
+     *
      * @param consumerId
      * @param messageId
      * @return
@@ -14,5 +14,4 @@ public interface DuplicateMessageDetector {
     boolean isDuplicate(String consumerId, String messageId);
 
     void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback);
-
 }

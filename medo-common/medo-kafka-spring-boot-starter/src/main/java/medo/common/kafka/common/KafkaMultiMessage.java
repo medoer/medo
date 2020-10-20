@@ -1,12 +1,10 @@
 package medo.common.kafka.common;
 
+import io.eventuate.messaging.kafka.common.sbe.MultiMessageEncoder;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import io.eventuate.messaging.kafka.common.sbe.MultiMessageEncoder;
 
 public class KafkaMultiMessage extends KeyValue {
 
@@ -41,5 +39,4 @@ public class KafkaMultiMessage extends KeyValue {
         int messagesSize = KeyValue.estimateSize(headers);
         return super.estimateSize() + headerSize + messagesSize;
     }
-
 }

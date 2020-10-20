@@ -1,4 +1,4 @@
-description = 'Swagger2 Starter' 
+description = 'Swagger2 Starter'
 
 dependencies {
     api project(":medo-common:medo-common-core")

@@ -3,7 +3,7 @@ package medo.common.redis.configuration;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-
+import medo.common.redis.properties.CacheManagerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,14 +19,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import medo.common.redis.properties.CacheManagerProperties;
-
-@EnableConfigurationProperties({ RedisProperties.class, CacheManagerProperties.class })
+@EnableConfigurationProperties({RedisProperties.class, CacheManagerProperties.class})
 @EnableCaching
 public class RedisAutoConfiguration {
 
-    @Autowired
-    private CacheManagerProperties cacheManagerProperties;
+    @Autowired private CacheManagerProperties cacheManagerProperties;
 
     @Bean
     public RedisSerializer<String> redisKeySerializer() {
@@ -40,12 +37,14 @@ public class RedisAutoConfiguration {
 
     /**
      * RedisTemplate配置
-     * 
+     *
      * @param factory
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory,
-            RedisSerializer<String> redisKeySerializer, RedisSerializer<Object> redisValueSerializer) {
+    public RedisTemplate<String, Object> redisTemplate(
+            RedisConnectionFactory factory,
+            RedisSerializer<String> redisKeySerializer,
+            RedisSerializer<Object> redisValueSerializer) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
 
@@ -58,24 +57,35 @@ public class RedisAutoConfiguration {
 
     @Bean(name = "cacheManager")
     @Primary
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory,
-            RedisSerializer<String> redisKeySerializer, RedisSerializer<Object> redisValueSerializer) {
-        RedisCacheConfiguration difConf = getDefConf(redisKeySerializer, redisValueSerializer)
-                .entryTtl(Duration.ofHours(1));
+    public CacheManager cacheManager(
+            RedisConnectionFactory redisConnectionFactory,
+            RedisSerializer<String> redisKeySerializer,
+            RedisSerializer<Object> redisValueSerializer) {
+        RedisCacheConfiguration difConf =
+                getDefConf(redisKeySerializer, redisValueSerializer).entryTtl(Duration.ofHours(1));
 
         // 自定义的缓存过期时间配置
-        int configSize = cacheManagerProperties.getConfigs() == null ? 0 : cacheManagerProperties.getConfigs().size();
+        int configSize =
+                cacheManagerProperties.getConfigs() == null
+                        ? 0
+                        : cacheManagerProperties.getConfigs().size();
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>(configSize);
         if (configSize > 0) {
-            cacheManagerProperties.getConfigs().forEach(e -> {
-                RedisCacheConfiguration conf = getDefConf(redisKeySerializer, redisValueSerializer)
-                        .entryTtl(Duration.ofSeconds(e.getSecond()));
-                redisCacheConfigurationMap.put(e.getKey(), conf);
-            });
+            cacheManagerProperties
+                    .getConfigs()
+                    .forEach(
+                            e -> {
+                                RedisCacheConfiguration conf =
+                                        getDefConf(redisKeySerializer, redisValueSerializer)
+                                                .entryTtl(Duration.ofSeconds(e.getSecond()));
+                                redisCacheConfigurationMap.put(e.getKey(), conf);
+                            });
         }
 
-        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(difConf)
-                .withInitialCacheConfigurations(redisCacheConfigurationMap).build();
+        return RedisCacheManager.builder(redisConnectionFactory)
+                .cacheDefaults(difConf)
+                .withInitialCacheConfigurations(redisCacheConfigurationMap)
+                .build();
     }
 
     @Bean
@@ -91,11 +101,17 @@ public class RedisAutoConfiguration {
         };
     }
 
-    private RedisCacheConfiguration getDefConf(RedisSerializer<String> redisKeySerializer,
+    private RedisCacheConfiguration getDefConf(
+            RedisSerializer<String> redisKeySerializer,
             RedisSerializer<Object> redisValueSerializer) {
-        return RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
+        return RedisCacheConfiguration.defaultCacheConfig()
+                .disableCachingNullValues()
                 .computePrefixWith(cacheName -> "cache".concat(":").concat(cacheName).concat(":"))
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisKeySerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisValueSerializer));
+                .serializeKeysWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                                redisKeySerializer))
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                                redisValueSerializer));
     }
 }

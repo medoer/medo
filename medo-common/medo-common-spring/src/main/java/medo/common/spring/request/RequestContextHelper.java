@@ -1,18 +1,18 @@
 package medo.common.spring.request;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+/** TODO lombok 在 idea 环境中没有生效，在该类中添加必要的日志 */
 public class RequestContextHelper {
 
     public static HttpServletRequest getHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes instanceof ServletRequestAttributes) {
-            return ((ServletRequestAttributes)requestAttributes).getRequest();
+            return ((ServletRequestAttributes) requestAttributes).getRequest();
         }
         return null;
     }
@@ -20,7 +20,7 @@ public class RequestContextHelper {
     public static HttpServletResponse getHttpServletResponse() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes instanceof ServletRequestAttributes) {
-            return ((ServletRequestAttributes)requestAttributes).getResponse();
+            return ((ServletRequestAttributes) requestAttributes).getResponse();
         }
         return null;
     }
@@ -38,7 +38,7 @@ public class RequestContextHelper {
         if (request == null) {
             return null;
         }
-        return (T)request.getAttribute(name);
+        return (T) request.getAttribute(name);
     }
 
     public static void setAttribute(String name, Object value) {

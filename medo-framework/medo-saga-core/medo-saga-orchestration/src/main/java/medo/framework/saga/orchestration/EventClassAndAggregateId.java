@@ -23,5 +23,4 @@ public class EventClassAndAggregateId {
     public boolean isFor(String aggregateType, long aggregateId, String eventType) {
         return eventClass.getName().equals(eventType) && this.aggregateId.equals(aggregateId);
     }
-
 }

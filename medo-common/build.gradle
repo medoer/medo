@@ -1,4 +1,4 @@
-description = 'Feign/RestTemplate/Hytrix configuration' 
+description = 'Feign/RestTemplate/Hytrix configuration'
 
 subprojects {
 

@@ -1,12 +1,15 @@
 package medo.common.swagger2.configuration;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import medo.common.swagger2.properties.SwaggerProperties;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -14,12 +17,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
-
-import medo.common.swagger2.properties.SwaggerProperties;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -35,7 +32,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@Import({ Swagger2Configuration.class })
+@Import({Swagger2Configuration.class})
 public class SwaggerAutoConfiguration implements BeanFactoryAware {
 
     private static final String AUTH_KEY = "Authorization";
@@ -67,27 +64,44 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
         for (String groupName : swaggerProperties.getDocket().keySet()) {
             SwaggerProperties.DocketInfo docketInfo = swaggerProperties.getDocket().get(groupName);
 
-            ApiInfo apiInfo = new ApiInfoBuilder()
-                    .title(docketInfo.getTitle().isEmpty() ? swaggerProperties.getTitle() : docketInfo.getTitle())
-                    .description(docketInfo.getDescription().isEmpty() ? swaggerProperties.getDescription()
-                            : docketInfo.getDescription())
-                    .version(docketInfo.getVersion().isEmpty() ? swaggerProperties.getVersion()
-                            : docketInfo.getVersion())
-                    .license(docketInfo.getLicense().isEmpty() ? swaggerProperties.getLicense()
-                            : docketInfo.getLicense())
-                    .licenseUrl(docketInfo.getLicenseUrl().isEmpty() ? swaggerProperties.getLicenseUrl()
-                            : docketInfo.getLicenseUrl())
-                    .contact(new Contact(
-                            docketInfo.getContact().getName().isEmpty() ? swaggerProperties.getContact().getName()
-                                    : docketInfo.getContact().getName(),
-                            docketInfo.getContact().getUrl().isEmpty() ? swaggerProperties.getContact().getUrl()
-                                    : docketInfo.getContact().getUrl(),
-                            docketInfo.getContact().getEmail().isEmpty() ? swaggerProperties.getContact().getEmail()
-                                    : docketInfo.getContact().getEmail()))
-                    .termsOfServiceUrl(
-                            docketInfo.getTermsOfServiceUrl().isEmpty() ? swaggerProperties.getTermsOfServiceUrl()
-                                    : docketInfo.getTermsOfServiceUrl())
-                    .build();
+            ApiInfo apiInfo =
+                    new ApiInfoBuilder()
+                            .title(
+                                    docketInfo.getTitle().isEmpty()
+                                            ? swaggerProperties.getTitle()
+                                            : docketInfo.getTitle())
+                            .description(
+                                    docketInfo.getDescription().isEmpty()
+                                            ? swaggerProperties.getDescription()
+                                            : docketInfo.getDescription())
+                            .version(
+                                    docketInfo.getVersion().isEmpty()
+                                            ? swaggerProperties.getVersion()
+                                            : docketInfo.getVersion())
+                            .license(
+                                    docketInfo.getLicense().isEmpty()
+                                            ? swaggerProperties.getLicense()
+                                            : docketInfo.getLicense())
+                            .licenseUrl(
+                                    docketInfo.getLicenseUrl().isEmpty()
+                                            ? swaggerProperties.getLicenseUrl()
+                                            : docketInfo.getLicenseUrl())
+                            .contact(
+                                    new Contact(
+                                            docketInfo.getContact().getName().isEmpty()
+                                                    ? swaggerProperties.getContact().getName()
+                                                    : docketInfo.getContact().getName(),
+                                            docketInfo.getContact().getUrl().isEmpty()
+                                                    ? swaggerProperties.getContact().getUrl()
+                                                    : docketInfo.getContact().getUrl(),
+                                            docketInfo.getContact().getEmail().isEmpty()
+                                                    ? swaggerProperties.getContact().getEmail()
+                                                    : docketInfo.getContact().getEmail()))
+                            .termsOfServiceUrl(
+                                    docketInfo.getTermsOfServiceUrl().isEmpty()
+                                            ? swaggerProperties.getTermsOfServiceUrl()
+                                            : docketInfo.getTermsOfServiceUrl())
+                            .build();
 
             // base-path处理
             // 当没有配置任何path的时候，解析/**
@@ -100,19 +114,30 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
             }
 
             // exclude-path处理
-            List<Predicate<String>> excludePath = new ArrayList<>(docketInfo.getExcludePath().size());
+            List<Predicate<String>> excludePath =
+                    new ArrayList<>(docketInfo.getExcludePath().size());
             for (String path : docketInfo.getExcludePath()) {
                 excludePath.add(PathSelectors.ant(path));
             }
 
-            Docket docket = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost()).apiInfo(apiInfo)
-                    .globalOperationParameters(
-                            assemblyGlobalOperationParameters(swaggerProperties.getGlobalOperationParameters(),
-                                    docketInfo.getGlobalOperationParameters()))
-                    .groupName(groupName).select()
-                    .apis(RequestHandlerSelectors.basePackage(docketInfo.getBasePackage()))
-                    .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath))).build()
-                    .securitySchemes(securitySchemes()).securityContexts(securityContexts());
+            Docket docket =
+                    new Docket(DocumentationType.SWAGGER_2)
+                            .host(swaggerProperties.getHost())
+                            .apiInfo(apiInfo)
+                            .globalOperationParameters(
+                                    assemblyGlobalOperationParameters(
+                                            swaggerProperties.getGlobalOperationParameters(),
+                                            docketInfo.getGlobalOperationParameters()))
+                            .groupName(groupName)
+                            .select()
+                            .apis(RequestHandlerSelectors.basePackage(docketInfo.getBasePackage()))
+                            .paths(
+                                    Predicates.and(
+                                            Predicates.not(Predicates.or(excludePath)),
+                                            Predicates.or(basePath)))
+                            .build()
+                            .securitySchemes(securitySchemes())
+                            .securityContexts(securityContexts());
 
             configurableBeanFactory.registerSingleton(groupName, docket);
             docketList.add(docket);
@@ -127,12 +152,20 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
      * @return Docket
      */
     private Docket createDocket(final SwaggerProperties swaggerProperties) {
-        ApiInfo apiInfo = new ApiInfoBuilder().title(swaggerProperties.getTitle())
-                .description(swaggerProperties.getDescription()).version(swaggerProperties.getVersion())
-                .license(swaggerProperties.getLicense()).licenseUrl(swaggerProperties.getLicenseUrl())
-                .contact(new Contact(swaggerProperties.getContact().getName(), swaggerProperties.getContact().getUrl(),
-                        swaggerProperties.getContact().getEmail()))
-                .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl()).build();
+        ApiInfo apiInfo =
+                new ApiInfoBuilder()
+                        .title(swaggerProperties.getTitle())
+                        .description(swaggerProperties.getDescription())
+                        .version(swaggerProperties.getVersion())
+                        .license(swaggerProperties.getLicense())
+                        .licenseUrl(swaggerProperties.getLicenseUrl())
+                        .contact(
+                                new Contact(
+                                        swaggerProperties.getContact().getName(),
+                                        swaggerProperties.getContact().getUrl(),
+                                        swaggerProperties.getContact().getEmail()))
+                        .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
+                        .build();
 
         // base-path处理
         // 当没有配置任何path的时候，解析/**
@@ -150,12 +183,21 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
             excludePath.add(PathSelectors.ant(path));
         }
 
-        return new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost()).apiInfo(apiInfo)
-                .globalOperationParameters(buildGlobalOperationParametersFromSwaggerProperties(
-                        swaggerProperties.getGlobalOperationParameters()))
-                .select().apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
-                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath))).build()
-                .securitySchemes(securitySchemes()).securityContexts(securityContexts());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .host(swaggerProperties.getHost())
+                .apiInfo(apiInfo)
+                .globalOperationParameters(
+                        buildGlobalOperationParametersFromSwaggerProperties(
+                                swaggerProperties.getGlobalOperationParameters()))
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
+                .paths(
+                        Predicates.and(
+                                Predicates.not(Predicates.or(excludePath)),
+                                Predicates.or(basePath)))
+                .build()
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
     @Override
@@ -165,15 +207,18 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
 
     private List<SecurityContext> securityContexts() {
         List<SecurityContext> contexts = new ArrayList<>(1);
-        SecurityContext securityContext = SecurityContext.builder().securityReferences(defaultAuth())
-                // .forPaths(PathSelectors.regex("^(?!auth).*$"))
-                .build();
+        SecurityContext securityContext =
+                SecurityContext.builder()
+                        .securityReferences(defaultAuth())
+                        // .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                        .build();
         contexts.add(securityContext);
         return contexts;
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope authorizationScope =
+                new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         List<SecurityReference> references = new ArrayList<>(1);
@@ -195,12 +240,16 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
         if (Objects.isNull(globalOperationParameters)) {
             return parameters;
         }
-        for (SwaggerProperties.GlobalOperationParameter globalOperationParameter : globalOperationParameters) {
-            parameters.add(new ParameterBuilder().name(globalOperationParameter.getName())
-                    .description(globalOperationParameter.getDescription())
-                    .modelRef(new ModelRef(globalOperationParameter.getModelRef()))
-                    .parameterType(globalOperationParameter.getParameterType())
-                    .required(Boolean.parseBoolean(globalOperationParameter.getRequired())).build());
+        for (SwaggerProperties.GlobalOperationParameter globalOperationParameter :
+                globalOperationParameters) {
+            parameters.add(
+                    new ParameterBuilder()
+                            .name(globalOperationParameter.getName())
+                            .description(globalOperationParameter.getDescription())
+                            .modelRef(new ModelRef(globalOperationParameter.getModelRef()))
+                            .parameterType(globalOperationParameter.getParameterType())
+                            .required(Boolean.parseBoolean(globalOperationParameter.getRequired()))
+                            .build());
         }
         return parameters;
     }
@@ -220,10 +269,13 @@ public class SwaggerAutoConfiguration implements BeanFactoryAware {
             return buildGlobalOperationParametersFromSwaggerProperties(globalOperationParameters);
         }
 
-        Set<String> docketNames = docketOperationParameters.stream()
-                .map(SwaggerProperties.GlobalOperationParameter::getName).collect(Collectors.toSet());
+        Set<String> docketNames =
+                docketOperationParameters.stream()
+                        .map(SwaggerProperties.GlobalOperationParameter::getName)
+                        .collect(Collectors.toSet());
 
-        List<SwaggerProperties.GlobalOperationParameter> resultOperationParameters = Lists.newArrayList();
+        List<SwaggerProperties.GlobalOperationParameter> resultOperationParameters =
+                Lists.newArrayList();
 
         if (Objects.nonNull(globalOperationParameters)) {
             for (SwaggerProperties.GlobalOperationParameter parameter : globalOperationParameters) {

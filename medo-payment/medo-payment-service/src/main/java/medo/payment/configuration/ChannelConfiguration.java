@@ -21,5 +21,4 @@ public class ChannelConfiguration {
     public ChannelClient channelRestTemplate(RestTemplate restTemplate) {
         return new ChannelRestTemplate(restTemplate);
     }
-
 }

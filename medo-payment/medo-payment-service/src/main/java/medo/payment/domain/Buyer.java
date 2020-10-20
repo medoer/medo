@@ -1,12 +1,9 @@
 package medo.payment.domain;
 
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
-/**
- * Buyer Value Object
- */
+/** Buyer Value Object */
 @Data
 public class Buyer implements Serializable {
     private String buyerId;

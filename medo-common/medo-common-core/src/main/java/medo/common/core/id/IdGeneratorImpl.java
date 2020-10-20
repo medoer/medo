@@ -3,7 +3,6 @@ package medo.common.core.id;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,8 +18,7 @@ public class IdGeneratorImpl implements IdGenerator {
         try {
             macAddress = getMacAddress();
             log.debug("Mac address {}", macAddress);
-            if (macAddress == null)
-                throw new RuntimeException("Cannot find mac address");
+            if (macAddress == null) throw new RuntimeException("Cannot find mac address");
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -28,8 +26,7 @@ public class IdGeneratorImpl implements IdGenerator {
 
     private Long getMacAddress() throws SocketException {
         String ma = System.getenv("EVENTUATE_MAC_ADDRESS");
-        if (ma != null)
-            return Long.parseLong(ma);
+        if (ma != null) return Long.parseLong(ma);
         Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
         while (ifaces.hasMoreElements()) {
             NetworkInterface iface = ifaces.nextElement();

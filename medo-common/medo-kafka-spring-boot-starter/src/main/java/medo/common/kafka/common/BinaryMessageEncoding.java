@@ -11,5 +11,4 @@ public class BinaryMessageEncoding {
     public static byte[] stringToBytes(String string) {
         return string.getBytes(Charset.forName("UTF-8"));
     }
-
 }

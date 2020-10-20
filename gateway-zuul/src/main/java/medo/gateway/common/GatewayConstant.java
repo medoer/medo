@@ -1,6 +1,3 @@
 package medo.gateway.common;
 
-public class GatewayConstant {
-
-
-}
+public class GatewayConstant {}

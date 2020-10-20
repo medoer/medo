@@ -3,7 +3,6 @@ package medo.framework.message.messaging.consumer.kafka.dispathcer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
-
 import lombok.extern.slf4j.Slf4j;
 import medo.framework.message.messaging.consumer.kafka.message.RawKafkaMessage;
 
@@ -19,8 +18,8 @@ public class SwimlaneBasedDispatcher {
         this.executor = executor;
     }
 
-    public SwimlaneDispatcherBacklog dispatch(RawKafkaMessage message, Integer swimlane,
-                                              Consumer<RawKafkaMessage> target) {
+    public SwimlaneDispatcherBacklog dispatch(
+            RawKafkaMessage message, Integer swimlane, Consumer<RawKafkaMessage> target) {
         SwimlaneDispatcher swimlaneDispatcher = getOrCreate(swimlane);
         return swimlaneDispatcher.dispatch(message, target);
     }
@@ -32,10 +31,14 @@ public class SwimlaneBasedDispatcher {
             swimlaneDispatcher = new SwimlaneDispatcher(subscriberId, swimlane, executor);
             SwimlaneDispatcher r = map.putIfAbsent(swimlane, swimlaneDispatcher);
             if (r != null) {
-                log.trace("Using concurrently created SwimlaneDispatcher for {} {}", subscriberId, swimlane);
+                log.trace(
+                        "Using concurrently created SwimlaneDispatcher for {} {}",
+                        subscriberId,
+                        swimlane);
                 swimlaneDispatcher = r;
             } else {
-                log.trace("Using newly created SwimlaneDispatcher for {} {}", subscriberId, swimlane);
+                log.trace(
+                        "Using newly created SwimlaneDispatcher for {} {}", subscriberId, swimlane);
             }
         }
         return swimlaneDispatcher;

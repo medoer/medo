@@ -16,5 +16,4 @@ public class ReplyDestination {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
-
 }

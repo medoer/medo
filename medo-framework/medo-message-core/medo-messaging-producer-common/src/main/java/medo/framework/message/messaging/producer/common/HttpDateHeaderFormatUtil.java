@@ -13,5 +13,4 @@ public class HttpDateHeaderFormatUtil {
     public static String timeAsHttpDateString(ZonedDateTime gmtTime) {
         return gmtTime.format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
-
 }

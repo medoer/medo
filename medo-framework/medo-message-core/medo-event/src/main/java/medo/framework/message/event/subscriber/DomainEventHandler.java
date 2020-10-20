@@ -1,7 +1,6 @@
 package medo.framework.message.event.subscriber;
 
 import java.util.function.Consumer;
-
 import lombok.AllArgsConstructor;
 import medo.framework.message.event.common.DomainEvent;
 import medo.framework.message.event.common.EventMessageHeader;
@@ -16,7 +15,9 @@ public class DomainEventHandler {
 
     public boolean handles(Message message) {
         return aggregateType.equals(message.getRequiredHeader(EventMessageHeader.AGGREGATE_TYPE))
-                && eventClass.getName().equals(message.getRequiredHeader(EventMessageHeader.EVENT_TYPE));
+                && eventClass
+                        .getName()
+                        .equals(message.getRequiredHeader(EventMessageHeader.EVENT_TYPE));
     }
 
     public void invoke(DomainEventEnvelope<DomainEvent> dee) {
@@ -30,5 +31,4 @@ public class DomainEventHandler {
     public String getAggregateType() {
         return aggregateType;
     }
-
 }

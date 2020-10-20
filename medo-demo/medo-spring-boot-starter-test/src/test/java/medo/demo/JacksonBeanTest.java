@@ -13,11 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class JacksonBeanTest {
 
-    @Autowired
-    private Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer;
+    @Autowired private Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer;
 
-    @Autowired
-    private Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
+    @Autowired private Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
 
     @Test
     public void testJacksonEnumToStringConfig() {

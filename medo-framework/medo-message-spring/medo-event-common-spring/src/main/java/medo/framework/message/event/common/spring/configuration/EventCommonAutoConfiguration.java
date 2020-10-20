@@ -14,5 +14,4 @@ public class EventCommonAutoConfiguration {
     public DomainEventNameMapping domainEventNameMapping() {
         return new DefaultDomainEventNameMapping();
     }
-
 }

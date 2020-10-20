@@ -12,5 +12,4 @@ public interface PaymentRepository extends SuperMapper<Payment> {
 
     @Select("SELECT * FROM payment WHERE payment_id = #{paymentId}")
     Payment selectByPaymentId(@Param("paymentId") String paymentId);
-
 }

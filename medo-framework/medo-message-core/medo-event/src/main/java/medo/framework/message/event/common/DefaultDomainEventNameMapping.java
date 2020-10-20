@@ -11,5 +11,4 @@ public class DefaultDomainEventNameMapping implements DomainEventNameMapping {
     public String externalEventTypeToEventClassName(String aggregateType, String eventTypeHeader) {
         return eventTypeHeader;
     }
-
 }

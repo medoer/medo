@@ -4,13 +4,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CommonContext<K, V> extends ConcurrentHashMap<K, V> {
 
-    protected static final ThreadLocal<CommonContext> threadLocal = ThreadLocal.withInitial(() -> {
-        try {
-            return new CommonContext();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
-    });
+    protected static final ThreadLocal<CommonContext> threadLocal =
+            ThreadLocal.withInitial(
+                    () -> {
+                        try {
+                            return new CommonContext();
+                        } catch (Throwable e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
     public CommonContext() {
         super();
@@ -21,7 +23,7 @@ public class CommonContext<K, V> extends ConcurrentHashMap<K, V> {
      *
      * @return the current CommonContext
      */
-    public static <K,V> CommonContext<K,V> getCurrentContext() {
+    public static <K, V> CommonContext<K, V> getCurrentContext() {
         return threadLocal.get();
     }
 
@@ -35,11 +37,8 @@ public class CommonContext<K, V> extends ConcurrentHashMap<K, V> {
         return commonContext.get(key);
     }
 
-    /**
-     * clear the threadLocal context. Done at the end of the request.
-     */
+    /** clear the threadLocal context. Done at the end of the request. */
     public static void remove() {
         threadLocal.remove();
     }
-
 }

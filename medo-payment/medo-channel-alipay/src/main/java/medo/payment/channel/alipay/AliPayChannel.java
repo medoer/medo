@@ -7,6 +7,7 @@ import com.alipay.easysdk.payment.common.models.*;
 import com.alipay.easysdk.payment.facetoface.models.AlipayTradePayResponse;
 import com.alipay.easysdk.payment.facetoface.models.AlipayTradePrecreateResponse;
 import com.aliyun.tea.TeaModel;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.exception.CommonExceptionHandler;
 import medo.common.core.json.JSONMapper;
@@ -15,8 +16,6 @@ import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
-
-import java.util.Map;
 
 @Slf4j
 public class AliPayChannel implements ChannelClient {
@@ -30,14 +29,22 @@ public class AliPayChannel implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(ChannelMicroPayRequest channelMicroPayRequest) {
+    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(
+            ChannelMicroPayRequest channelMicroPayRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradePayResponse response = Factory.Payment.FaceToFace()
-                            .pay(p.getSubject(), p.getPaymentId(), p.getMoney().asString(), p.getAuthCode());
-                    return aliPayResponseHandler(response);
-                }, channelMicroPayRequest);
+                .run(
+                        (p) -> {
+                            AlipayTradePayResponse response =
+                                    Factory.Payment.FaceToFace()
+                                            .pay(
+                                                    p.getSubject(),
+                                                    p.getPaymentId(),
+                                                    p.getMoney().asString(),
+                                                    p.getAuthCode());
+                            return aliPayResponseHandler(response);
+                        },
+                        channelMicroPayRequest);
     }
 
     /**
@@ -50,33 +57,43 @@ public class AliPayChannel implements ChannelClient {
     public ChannelBaseResponse preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradePrecreateResponse response = Factory.Payment.FaceToFace()
-                            .preCreate(p.getSubject(), p.getPaymentId(), p.getMoney().asString());
-                    return aliPayResponseHandler(response);
-                }, channelPreCreateRequest);
+                .run(
+                        (p) -> {
+                            AlipayTradePrecreateResponse response =
+                                    Factory.Payment.FaceToFace()
+                                            .preCreate(
+                                                    p.getSubject(),
+                                                    p.getPaymentId(),
+                                                    p.getMoney().asString());
+                            return aliPayResponseHandler(response);
+                        },
+                        channelPreCreateRequest);
     }
 
     @Override
     public ChannelBaseResponse getToken(ChannelGetTokenRequest channelGetTokenRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipaySystemOauthTokenResponse alipaySystemOauthTokenResponse =
-                            Factory.Base.OAuth().getToken(p.getAuthCode());
-                    return aliPayResponseHandler(alipaySystemOauthTokenResponse);
-                }, channelGetTokenRequest);
+                .run(
+                        (p) -> {
+                            AlipaySystemOauthTokenResponse alipaySystemOauthTokenResponse =
+                                    Factory.Base.OAuth().getToken(p.getAuthCode());
+                            return aliPayResponseHandler(alipaySystemOauthTokenResponse);
+                        },
+                        channelGetTokenRequest);
     }
 
     @Override
     public ChannelBaseResponse<String> refreshToken(String refreshToken) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipaySystemOauthTokenResponse alipaySystemOauthTokenResponse =
-                            Factory.Base.OAuth().refreshToken(p);
-                    return aliPayResponseHandler(alipaySystemOauthTokenResponse);
-                }, refreshToken);
+                .run(
+                        (p) -> {
+                            AlipaySystemOauthTokenResponse alipaySystemOauthTokenResponse =
+                                    Factory.Base.OAuth().refreshToken(p);
+                            return aliPayResponseHandler(alipaySystemOauthTokenResponse);
+                        },
+                        refreshToken);
     }
 
     @Override
@@ -85,37 +102,46 @@ public class AliPayChannel implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelRefundResponse> refund(ChannelRefundRequest channelRefundRequest) {
+    public ChannelBaseResponse<ChannelRefundResponse> refund(
+            ChannelRefundRequest channelRefundRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradeRefundResponse alipayTradeRefundResponse =
-                            Factory.Payment.Common().refund(p.getRefundId()
-                                    , p.getMoney().asString());
-                    return aliPayResponseHandler(alipayTradeRefundResponse);
-                }, channelRefundRequest);
+                .run(
+                        (p) -> {
+                            AlipayTradeRefundResponse alipayTradeRefundResponse =
+                                    Factory.Payment.Common()
+                                            .refund(p.getRefundId(), p.getMoney().asString());
+                            return aliPayResponseHandler(alipayTradeRefundResponse);
+                        },
+                        channelRefundRequest);
     }
 
     @Override
     public ChannelBaseResponse fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradeQueryResponse alipayTradeQueryResponse =
-                            Factory.Payment.Common().query(p);
-                    return aliPayResponseHandler(alipayTradeQueryResponse);
-                }, channelFetchPaymentRequest.getPaymentId());
+                .run(
+                        (p) -> {
+                            AlipayTradeQueryResponse alipayTradeQueryResponse =
+                                    Factory.Payment.Common().query(p);
+                            return aliPayResponseHandler(alipayTradeQueryResponse);
+                        },
+                        channelFetchPaymentRequest.getPaymentId());
     }
 
     @Override
     public ChannelBaseResponse fetchRefund(ChannelFetchRefundRequest channelFetchRefundRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradeFastpayRefundQueryResponse alipayTradeFastpayRefundQueryResponse =
-                            Factory.Payment.Common().queryRefund(p.getPaymentId(), p.getRefundId());
-                    return aliPayResponseHandler(alipayTradeFastpayRefundQueryResponse);
-                }, channelFetchRefundRequest);
+                .run(
+                        (p) -> {
+                            AlipayTradeFastpayRefundQueryResponse
+                                    alipayTradeFastpayRefundQueryResponse =
+                                            Factory.Payment.Common()
+                                                    .queryRefund(p.getPaymentId(), p.getRefundId());
+                            return aliPayResponseHandler(alipayTradeFastpayRefundQueryResponse);
+                        },
+                        channelFetchRefundRequest);
     }
 
     @Override
@@ -132,33 +158,42 @@ public class AliPayChannel implements ChannelClient {
     public ChannelBaseResponse close(ChannelCloseRequest channelCloseRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradeCloseResponse alipayTradeCloseResponse = Factory.Payment.Common().close(p);
-                    return aliPayResponseHandler(alipayTradeCloseResponse);
-                }, channelCloseRequest.getPaymentId());
-    }
-    @Override
-    public ChannelBaseResponse cancel (ChannelCancelRequest channelCancelRequest){
-        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    AlipayTradeCancelResponse alipayTradeCancelResponse = Factory.Payment.Common().cancel(p);
-                    return aliPayResponseHandler(alipayTradeCancelResponse);
-                }, channelCancelRequest.getPaymentId());
+                .run(
+                        (p) -> {
+                            AlipayTradeCloseResponse alipayTradeCloseResponse =
+                                    Factory.Payment.Common().close(p);
+                            return aliPayResponseHandler(alipayTradeCloseResponse);
+                        },
+                        channelCloseRequest.getPaymentId());
     }
 
     @Override
-    public ChannelBaseResponse verify (ChannelNotificationVerifyRequest channelNotificationVerifyRequest){
+    public ChannelBaseResponse cancel(ChannelCancelRequest channelCancelRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    Boolean verifyNotify =
-                            Factory.Payment.Common().verifyNotify(p);
-                    return ChannelBaseResponse.succeed(verifyNotify);
-                }, beanToMap(channelNotificationVerifyRequest));
+                .run(
+                        (p) -> {
+                            AlipayTradeCancelResponse alipayTradeCancelResponse =
+                                    Factory.Payment.Common().cancel(p);
+                            return aliPayResponseHandler(alipayTradeCancelResponse);
+                        },
+                        channelCancelRequest.getPaymentId());
     }
 
-    private ChannelBaseResponse aliPayResponseHandler (TeaModel response){
+    @Override
+    public ChannelBaseResponse verify(
+            ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
+        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
+                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
+                .run(
+                        (p) -> {
+                            Boolean verifyNotify = Factory.Payment.Common().verifyNotify(p);
+                            return ChannelBaseResponse.succeed(verifyNotify);
+                        },
+                        beanToMap(channelNotificationVerifyRequest));
+    }
+
+    private ChannelBaseResponse aliPayResponseHandler(TeaModel response) {
         if (ResponseChecker.success(response)) {
             return ChannelBaseResponse.succeed(response);
         } else {
@@ -168,8 +203,7 @@ public class AliPayChannel implements ChannelClient {
     }
 
     // TODO
-    private Map<String, String> beanToMap (Object obj){
+    private Map<String, String> beanToMap(Object obj) {
         return JSONMapper.fromJSON(JSONMapper.toJSON(obj), Map.class);
     }
-
 }

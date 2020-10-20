@@ -1,7 +1,7 @@
 package medo.common.auth.configuration;
 
 import javax.annotation.Resource;
-
+import medo.common.auth.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
@@ -15,34 +15,27 @@ import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurity
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import medo.common.auth.properties.SecurityProperties;
-
 /**
- * 
  * @author: bryce
  * @date: 2020-08-07
  */
 @Import(DefaultSecurityHandlerConfiguration.class)
 public class DefaultResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-    @Autowired
-    private TokenStore tokenStore;
+    @Autowired private TokenStore tokenStore;
 
-    @Resource
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    @Resource private AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Resource
-    private OAuth2WebSecurityExpressionHandler expressionHandler;
+    @Resource private OAuth2WebSecurityExpressionHandler expressionHandler;
 
-    @Resource
-    private OAuth2AccessDeniedHandler oAuth2AccessDeniedHandler;
+    @Resource private OAuth2AccessDeniedHandler oAuth2AccessDeniedHandler;
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    @Autowired private SecurityProperties securityProperties;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.tokenStore(tokenStore)
+        resources
+                .tokenStore(tokenStore)
                 .stateless(true)
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .expressionHandler(expressionHandler)
@@ -51,32 +44,42 @@ public class DefaultResourceServerConfiguration extends ResourceServerConfigurer
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl = setHttp(http)
-                .authorizeRequests()
-                .antMatchers(securityProperties.getIgnore().getUrls()).permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl =
+                setHttp(http)
+                        .authorizeRequests()
+                        .antMatchers(securityProperties.getIgnore().getUrls())
+                        .permitAll()
+                        .antMatchers(HttpMethod.OPTIONS)
+                        .permitAll()
+                        .anyRequest();
         setAuthenticate(authorizedUrl);
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                    .httpBasic().disable()
-                    .headers()
-                    .frameOptions().disable()
+                .httpBasic()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable()
                 .and()
-                    .csrf().disable();
+                .csrf()
+                .disable();
     }
 
     /**
      * url权限控制，默认是认证就通过，可以重写实现个性化
+     *
      * @param authorizedUrl
      */
-    public HttpSecurity setAuthenticate(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl) {
+    public HttpSecurity setAuthenticate(
+            ExpressionUrlAuthorizationConfigurer<HttpSecurity>.AuthorizedUrl authorizedUrl) {
         return authorizedUrl.authenticated().and();
     }
 
     /**
      * 留给子类重写扩展功能
+     *
      * @param http
      */
     public HttpSecurity setHttp(HttpSecurity http) {

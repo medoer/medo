@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import medo.framework.message.command.consumer.CommandHandlers;
 import medo.framework.message.command.consumer.CommandMessage;
 import medo.framework.message.command.consumer.PathVariables;
@@ -24,29 +23,31 @@ public class SagaCommandHandlerBuilder<C> implements AbstractSagaCommandHandlers
     }
 
     @Override
-    public <C> SagaCommandHandlerBuilder<C> onMessageReturningMessages(Class<C> commandClass,
-            Function<CommandMessage<C>, List<Message>> handler) {
+    public <C> SagaCommandHandlerBuilder<C> onMessageReturningMessages(
+            Class<C> commandClass, Function<CommandMessage<C>, List<Message>> handler) {
         return parent.onMessageReturningMessages(commandClass, handler);
     }
 
     @Override
-    public <C> SagaCommandHandlerBuilder<C> onMessageReturningOptionalMessage(Class<C> commandClass,
-            Function<CommandMessage<C>, Optional<Message>> handler) {
+    public <C> SagaCommandHandlerBuilder<C> onMessageReturningOptionalMessage(
+            Class<C> commandClass, Function<CommandMessage<C>, Optional<Message>> handler) {
         return parent.onMessageReturningOptionalMessage(commandClass, handler);
     }
 
     @Override
-    public <C> SagaCommandHandlerBuilder<C> onMessage(Class<C> commandClass,
-            Function<CommandMessage<C>, Message> handler) {
+    public <C> SagaCommandHandlerBuilder<C> onMessage(
+            Class<C> commandClass, Function<CommandMessage<C>, Message> handler) {
         return parent.onMessage(commandClass, handler);
     }
 
     @Override
-    public <C> SagaCommandHandlerBuilder<C> onMessage(Class<C> commandClass, Consumer<CommandMessage<C>> handler) {
+    public <C> SagaCommandHandlerBuilder<C> onMessage(
+            Class<C> commandClass, Consumer<CommandMessage<C>> handler) {
         return parent.onMessage(commandClass, handler);
     }
 
-    public SagaCommandHandlerBuilder<C> withPreLock(BiFunction<CommandMessage<C>, PathVariables, LockTarget> preLock) {
+    public SagaCommandHandlerBuilder<C> withPreLock(
+            BiFunction<CommandMessage<C>, PathVariables, LockTarget> preLock) {
         h.setPreLock((raw, pvs) -> preLock.apply(raw, pvs));
         return this;
     }
@@ -59,5 +60,4 @@ public class SagaCommandHandlerBuilder<C> implements AbstractSagaCommandHandlers
     public CommandHandlers build() {
         return parent.build();
     }
-
 }

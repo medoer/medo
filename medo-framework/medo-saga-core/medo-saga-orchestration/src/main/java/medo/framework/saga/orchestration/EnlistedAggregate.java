@@ -36,5 +36,4 @@ public class EnlistedAggregate {
     public Object getAggregateId() {
         return aggregateId;
     }
-
 }

@@ -4,10 +4,9 @@ public class PaymentPropertiesCommonPrefixConstant {
 
     private PaymentPropertiesCommonPrefixConstant() {}
 
-    private final static String SEPARATOR = ".";
+    private static final String SEPARATOR = ".";
 
-    public final static String COMMON_PREFIX = "medo.payment";
+    public static final String COMMON_PREFIX = "medo.payment";
 
-    public final static String CHANNEL_PREFIX = COMMON_PREFIX + SEPARATOR + "channel";
-
+    public static final String CHANNEL_PREFIX = COMMON_PREFIX + SEPARATOR + "channel";
 }

@@ -8,6 +8,5 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ConditionalOnClass(CommandConsumerConfiguration.class)
-@Import({ CommandConsumerConfiguration.class, CommandProducerConfiguration.class })
-public class CommandAutoConfigure {
-}
+@Import({CommandConsumerConfiguration.class, CommandProducerConfiguration.class})
+public class CommandAutoConfigure {}

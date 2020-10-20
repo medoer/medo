@@ -1,4 +1,4 @@
-description = 'Message Consumer JDBC' 
+description = 'Message Consumer JDBC'
 
 dependencies {
 

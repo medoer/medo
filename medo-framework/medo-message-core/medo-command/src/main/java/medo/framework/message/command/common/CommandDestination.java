@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * What this for?
- * 
+ *
  * @author: bryce
  * @date: 2020-08-16
  */
@@ -13,5 +13,4 @@ import java.lang.annotation.RetentionPolicy;
 public @interface CommandDestination {
 
     String value();
-
 }

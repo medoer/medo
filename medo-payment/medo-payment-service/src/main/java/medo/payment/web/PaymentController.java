@@ -1,23 +1,19 @@
 package medo.payment.web;
 
+import javax.validation.Valid;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.xml.ws.Response;
-
 @RestController
 @RequestMapping(path = "/payment")
 public class PaymentController {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+    @Autowired private PaymentRepository paymentRepository;
 
-    @Autowired
-    private PaymentService paymentService;
+    @Autowired private PaymentService paymentService;
 
     @GetMapping("/scan")
     public ResponseEntity scan() {

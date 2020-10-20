@@ -9,5 +9,4 @@ public class MySqlTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(MySqlTestApplication.class, args);
     }
-
 }

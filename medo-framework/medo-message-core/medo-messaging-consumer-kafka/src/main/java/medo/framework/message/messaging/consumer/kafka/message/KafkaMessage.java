@@ -11,5 +11,4 @@ public class KafkaMessage {
     public String getPayload() {
         return payload;
     }
-
 }

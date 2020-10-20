@@ -6,14 +6,17 @@ public class DuplicateDetectingMessageHandlerDecorator implements MessageHandler
 
     private DuplicateMessageDetector duplicateMessageDetector;
 
-    public DuplicateDetectingMessageHandlerDecorator(DuplicateMessageDetector duplicateMessageDetector) {
+    public DuplicateDetectingMessageHandlerDecorator(
+            DuplicateMessageDetector duplicateMessageDetector) {
         this.duplicateMessageDetector = duplicateMessageDetector;
     }
 
     @Override
-    public void accept(SubscriberIdAndMessage subscriberIdAndMessage,
-                       MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
-        duplicateMessageDetector.doWithMessage(subscriberIdAndMessage,
+    public void accept(
+            SubscriberIdAndMessage subscriberIdAndMessage,
+            MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
+        duplicateMessageDetector.doWithMessage(
+                subscriberIdAndMessage,
                 () -> messageHandlerDecoratorChain.invokeNext(subscriberIdAndMessage));
     }
 
@@ -21,5 +24,4 @@ public class DuplicateDetectingMessageHandlerDecorator implements MessageHandler
     public int getOrder() {
         return BuiltInMessageHandlerDecoratorOrder.DUPLICATE_DETECTING_MESSAGE_HANDLER_DECORATOR;
     }
-
 }

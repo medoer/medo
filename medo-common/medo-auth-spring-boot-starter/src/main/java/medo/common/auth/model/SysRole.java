@@ -2,14 +2,11 @@ package medo.common.auth.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import medo.common.mysql.model.BaseModel;
 
-/**
- * 角色
- */
+/** 角色 */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_role")

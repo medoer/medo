@@ -17,5 +17,4 @@ public class DestinationForExceptionRootObject {
         this.parameter = parameter;
         this.cause = cause;
     }
-
 }

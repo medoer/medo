@@ -1,8 +1,8 @@
 package medo.framework.message.command.common.paths;
 
-import java.util.Arrays;
-
 import static java.util.stream.Collectors.joining;
+
+import java.util.Arrays;
 
 public class ResourcePath {
 
@@ -35,5 +35,4 @@ public class ResourcePath {
     public String toPath() {
         return Arrays.stream(splits).collect(joining("/"));
     }
-
 }

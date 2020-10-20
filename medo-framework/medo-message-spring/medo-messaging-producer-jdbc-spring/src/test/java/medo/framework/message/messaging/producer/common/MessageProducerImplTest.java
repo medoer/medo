@@ -12,11 +12,10 @@ import medo.framework.message.messaging.common.ChannelMapping;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageHeader;
 import medo.framework.message.messaging.common.MessageInterceptor;
+import medo.framework.message.messaging.producer.MessageBuilder;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
-
-import medo.framework.message.messaging.producer.MessageBuilder;
 
 public class MessageProducerImplTest {
 
@@ -27,15 +26,20 @@ public class MessageProducerImplTest {
 
         PersistentMessage implementation = mock(PersistentMessage.class);
 
-        MessageProducerImpl mp = new MessageProducerImpl(new MessageInterceptor[0], channelMapping, implementation);
+        MessageProducerImpl mp =
+                new MessageProducerImpl(new MessageInterceptor[0], channelMapping, implementation);
 
         String transformedDestination = "TransformedDestination";
         String messageID = "1";
 
-        doAnswer((Answer<Void>) invocation -> {
-            ((Runnable) invocation.getArgument(0)).run();
-            return null;
-        }).when(implementation).withContext(any(Runnable.class));
+        doAnswer(
+                        (Answer<Void>)
+                                invocation -> {
+                                    ((Runnable) invocation.getArgument(0)).run();
+                                    return null;
+                                })
+                .when(implementation)
+                .withContext(any(Runnable.class));
 
         when(channelMapping.transform("Destination")).thenReturn(transformedDestination);
 
@@ -48,7 +52,8 @@ public class MessageProducerImplTest {
         Message sendMessage = messageArgumentCaptor.getValue();
 
         assertEquals(messageID, sendMessage.getRequiredHeader(MessageHeader.ID));
-        assertEquals(transformedDestination, sendMessage.getRequiredHeader(MessageHeader.DESTINATION));
+        assertEquals(
+                transformedDestination, sendMessage.getRequiredHeader(MessageHeader.DESTINATION));
         assertNotNull(sendMessage.getRequiredHeader(MessageHeader.DATE));
     }
 }

@@ -11,13 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class TransactionalHelperTest {
 
-    @Autowired
-    private TransactionHelper transactionHelper;
+    @Autowired private TransactionHelper transactionHelper;
 
     @Test
     public void testTransactionHelper() {
-        transactionHelper.required((x) -> {
-           return x;
-        }, 1);
+        transactionHelper.required(
+                (x) -> {
+                    return x;
+                },
+                1);
     }
 }

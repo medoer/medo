@@ -1,29 +1,29 @@
 package medo.common.core.lock;
-//package tech.medo.common.core.lock;
+// package tech.medo.common.core.lock;
 //
-//import org.aspectj.lang.ProceedingJoinPoint;
-//import org.aspectj.lang.annotation.Around;
-//import org.aspectj.lang.annotation.Aspect;
-//import org.aspectj.lang.reflect.MethodSignature;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.core.DefaultParameterNameDiscoverer;
-//import org.springframework.expression.EvaluationContext;
-//import org.springframework.expression.Expression;
-//import org.springframework.expression.spel.standard.SpelExpressionParser;
-//import org.springframework.expression.spel.support.StandardEvaluationContext;
+// import org.aspectj.lang.ProceedingJoinPoint;
+// import org.aspectj.lang.annotation.Around;
+// import org.aspectj.lang.annotation.Aspect;
+// import org.aspectj.lang.reflect.MethodSignature;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.core.DefaultParameterNameDiscoverer;
+// import org.springframework.expression.EvaluationContext;
+// import org.springframework.expression.Expression;
+// import org.springframework.expression.spel.standard.SpelExpressionParser;
+// import org.springframework.expression.spel.support.StandardEvaluationContext;
 //
-//import com.central.common.exception.LockException;
+// import com.central.common.exception.LockException;
 //
-//import lombok.extern.slf4j.Slf4j;
+// import lombok.extern.slf4j.Slf4j;
 //
-///**
-// * 
+/// **
+// *
 // * @author: bryce
 // * @date: 2020-08-04
 // */
-//@Slf4j
-//@Aspect
-//public class LockAspect {
+// @Slf4j
+// @Aspect
+// public class LockAspect {
 //    @Autowired(required = false)
 //    private DistributedLock locker;
 //
@@ -60,7 +60,8 @@ package medo.common.core.lock;
 //        try {
 //            //加锁
 //            if (lock.waitTime() > 0) {
-//                lockObj = locker.tryLock(lockKey, lock.waitTime(), lock.leaseTime(), lock.unit(), lock.isFair());
+//                lockObj = locker.tryLock(lockKey, lock.waitTime(), lock.leaseTime(), lock.unit(),
+// lock.isFair());
 //            } else {
 //                lockObj = locker.lock(lockKey, lock.leaseTime(), lock.unit(), lock.isFair());
 //            }
@@ -93,4 +94,4 @@ package medo.common.core.lock;
 //        }
 //        return null;
 //    }
-//}
+// }

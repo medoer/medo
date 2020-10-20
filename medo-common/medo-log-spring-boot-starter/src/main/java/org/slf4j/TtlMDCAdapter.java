@@ -2,31 +2,29 @@ package org.slf4j;
 
 import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import org.slf4j.spi.MDCAdapter;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.spi.MDCAdapter;
 
 /**
  * 重构{@link LogbackMDCAdapter}类，搭配TransmittableThreadLocal实现父子线程之间的数据传递
- * 
+ *
  * @author: bryce
  * @date: 2020-08-05
  */
 public class TtlMDCAdapter implements MDCAdapter {
 
-    private final ThreadLocal<Map<String, String>> copyOnInheritThreadLocal = new TransmittableThreadLocal<>();
+    private final ThreadLocal<Map<String, String>> copyOnInheritThreadLocal =
+            new TransmittableThreadLocal<>();
 
     private static final int WRITE_OPERATION = 1;
     private static final int MAP_COPY_OPERATION = 2;
 
     private static TtlMDCAdapter mtcMDCAdapter;
 
-    /**
-     * keeps track of the last operation performed
-     */
+    /** keeps track of the last operation performed */
     private final ThreadLocal<Integer> lastOperation = new ThreadLocal<>();
 
     static {
@@ -63,13 +61,14 @@ public class TtlMDCAdapter implements MDCAdapter {
     }
 
     /**
-     * Put a context value (the <code>val</code> parameter) as identified with the
-     * <code>key</code> parameter into the current thread's context map. Note that
-     * contrary to log4j, the <code>val</code> parameter can be null.
-     * <p/>
-     * <p/>
-     * If the current thread does not have a context map it is created as a side
-     * effect of this call.
+     * Put a context value (the <code>val</code> parameter) as identified with the <code>key</code>
+     * parameter into the current thread's context map. Note that contrary to log4j, the <code>val
+     * </code> parameter can be null.
+     *
+     * <p>
+     *
+     * <p>If the current thread does not have a context map it is created as a side effect of this
+     * call.
      *
      * @throws IllegalArgumentException in case the "key" parameter is null
      */
@@ -92,7 +91,8 @@ public class TtlMDCAdapter implements MDCAdapter {
 
     /**
      * Remove the the context identified by the <code>key</code> parameter.
-     * <p/>
+     *
+     * <p>
      */
     @Override
     public void remove(String key) {
@@ -112,13 +112,9 @@ public class TtlMDCAdapter implements MDCAdapter {
         } else {
             oldMap.remove(key);
         }
-
     }
 
-
-    /**
-     * Clear all entries in the MDC.
-     */
+    /** Clear all entries in the MDC. */
     @Override
     public void clear() {
         lastOperation.set(WRITE_OPERATION);
@@ -127,7 +123,8 @@ public class TtlMDCAdapter implements MDCAdapter {
 
     /**
      * Get the context identified by the <code>key</code> parameter.
-     * <p/>
+     *
+     * <p>
      */
     @Override
     public String get(String key) {
@@ -139,19 +136,13 @@ public class TtlMDCAdapter implements MDCAdapter {
         }
     }
 
-    /**
-     * Get the current thread's MDC as a map. This method is intended to be used
-     * internally.
-     */
+    /** Get the current thread's MDC as a map. This method is intended to be used internally. */
     public Map<String, String> getPropertyMap() {
         lastOperation.set(MAP_COPY_OPERATION);
         return copyOnInheritThreadLocal.get();
     }
 
-    /**
-     * Returns the keys in the MDC as a {@link Set}. The returned value can be
-     * null.
-     */
+    /** Returns the keys in the MDC as a {@link Set}. The returned value can be null. */
     public Set<String> getKeys() {
         Map<String, String> map = getPropertyMap();
 
@@ -162,10 +153,7 @@ public class TtlMDCAdapter implements MDCAdapter {
         }
     }
 
-    /**
-     * Return a copy of the current thread's context map. Returned value may be
-     * null.
-     */
+    /** Return a copy of the current thread's context map. Returned value may be null. */
     @Override
     public Map<String, String> getCopyOfContextMap() {
         Map<String, String> hashMap = copyOnInheritThreadLocal.get();

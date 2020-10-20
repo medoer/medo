@@ -25,8 +25,13 @@ public class SagaInstance {
         this.stateName = stateName;
     }
 
-    public SagaInstance(String sagaType, String sagaId, String stateName, String lastRequestId,
-            SerializedSagaData serializedSagaData, Set<DestinationAndResource> destinationsAndResources) {
+    public SagaInstance(
+            String sagaType,
+            String sagaId,
+            String stateName,
+            String lastRequestId,
+            SerializedSagaData serializedSagaData,
+            Set<DestinationAndResource> destinationsAndResources) {
         this.sagaType = sagaType;
         this.id = sagaId;
         this.stateName = stateName;
@@ -86,5 +91,4 @@ public class SagaInstance {
     public Boolean isCompensating() {
         return compensating;
     }
-
 }

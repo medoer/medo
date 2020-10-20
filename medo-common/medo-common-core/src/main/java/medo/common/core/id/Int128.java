@@ -2,7 +2,7 @@ package medo.common.core.id;
 
 /**
  * 封装 128 位数字
- * 
+ *
  * @author: bryce
  * @date: 2020-08-09
  */
@@ -27,15 +27,12 @@ public class Int128 {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Int128 int128 = (Int128) o;
 
         return hi == int128.hi && lo == int128.lo;
-
     }
 
     @Override
@@ -47,8 +44,7 @@ public class Int128 {
 
     public static Int128 fromString(String str) {
         String[] s = str.split("-");
-        if (s.length != 2)
-            throw new IllegalArgumentException("Should have length of 2: " + str);
+        if (s.length != 2) throw new IllegalArgumentException("Should have length of 2: " + str);
         return new Int128(Long.parseUnsignedLong(s[0], 16), Long.parseUnsignedLong(s[1], 16));
     }
 

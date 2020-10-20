@@ -4,15 +4,11 @@ public class CommandMessageHeader {
 
     public static final String COMMAND_HEADER_PREFIX = "COMMAND_";
 
-    /**
-     * 
-     * @see Command class name
-     */
+    /** @see Command class name */
     public static final String COMMAND_TYPE = COMMAND_HEADER_PREFIX + "TYPE";
-    /**
-     * What this done?
-     */
+    /** What this done? */
     public static final String RESOURCE = COMMAND_HEADER_PREFIX + "RESOURCE";;
+
     public static final String DESTINATION = COMMAND_HEADER_PREFIX + "DESTINATION";
 
     public static final String COMMAND_REPLY_PREFIX = "COMMAND_REPLY_";
@@ -22,5 +18,4 @@ public class CommandMessageHeader {
         assert header.startsWith(COMMAND_HEADER_PREFIX);
         return COMMAND_REPLY_PREFIX + header.substring(COMMAND_HEADER_PREFIX.length());
     }
-
 }

@@ -1,14 +1,12 @@
 package medo.framework.message.messaging.consumer.jdbc;
 
-import org.springframework.dao.DuplicateKeyException;
-
 import lombok.extern.slf4j.Slf4j;
 import medo.common.spring.transactional.TransactionHelper;
 import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAndMessage;
 import medo.framework.message.messaging.consumer.common.handler.DuplicateMessageDetector;
+import org.springframework.dao.DuplicateKeyException;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-12
  */
@@ -19,8 +17,10 @@ public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDe
     private TransactionHelper<?, ?> transactionHelper;
     private String receivedMessageTable;
 
-    public SqlTableBasedDuplicateMessageDetector(MessageConsumerJdbcOptions messageConsumerJdbcOptions,
-            TransactionHelper<?, ?> transactionHelper, String receivedMessageTable) {
+    public SqlTableBasedDuplicateMessageDetector(
+            MessageConsumerJdbcOptions messageConsumerJdbcOptions,
+            TransactionHelper<?, ?> transactionHelper,
+            String receivedMessageTable) {
         this.messageConsumerJdbcOptions = messageConsumerJdbcOptions;
         this.transactionHelper = transactionHelper;
         this.receivedMessageTable = receivedMessageTable;
@@ -29,7 +29,8 @@ public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDe
     @Override
     public boolean isDuplicate(String consumerId, String messageId) {
         try {
-            messageConsumerJdbcOptions.saveReceivedMessage(consumerId, messageId, receivedMessageTable);
+            messageConsumerJdbcOptions.saveReceivedMessage(
+                    consumerId, messageId, receivedMessageTable);
             return false;
         } catch (DuplicateKeyException e) {
             log.info("Message duplicate: consumerId = {}, messageId = {}", consumerId, messageId);
@@ -40,9 +41,11 @@ public class SqlTableBasedDuplicateMessageDetector implements DuplicateMessageDe
     @Override
     public void doWithMessage(SubscriberIdAndMessage subscriberIdAndMessage, Runnable callback) {
         // excute in same transaction
-        transactionHelper.requires(() -> {
-            if (!isDuplicate(subscriberIdAndMessage.getSubscriberId(), subscriberIdAndMessage.getMessage().getId()))
-                callback.run();
-        });
+        transactionHelper.requires(
+                () -> {
+                    if (!isDuplicate(
+                            subscriberIdAndMessage.getSubscriberId(),
+                            subscriberIdAndMessage.getMessage().getId())) callback.run();
+                });
     }
 }

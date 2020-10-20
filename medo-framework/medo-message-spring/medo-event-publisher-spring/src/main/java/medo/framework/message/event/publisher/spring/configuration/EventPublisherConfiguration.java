@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class EventPublisherConfiguration {
 
     @Bean
-    public DomainEventPublisher domainEventPublisher(MessageProducer messageProducer,
-                                                     DomainEventNameMapping domainEventNameMapping) {
+    public DomainEventPublisher domainEventPublisher(
+            MessageProducer messageProducer, DomainEventNameMapping domainEventNameMapping) {
         return new DomainEventPublisherImpl(messageProducer, domainEventNameMapping);
     }
-
 }

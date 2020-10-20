@@ -9,7 +9,8 @@ public class SagaLockManagerImplDefaultSchemaTest extends SagaLockManagerImplSch
 
     @Override
     protected String getExpectedInsertIntoSagaLockTable() {
-        return String.format("INSERT INTO saga_lock_table(target, saga_type, saga_id) VALUES(?, ?,?)");
+        return String.format(
+                "INSERT INTO saga_lock_table(target, saga_type, saga_id) VALUES(?, ?,?)");
     }
 
     @Override
@@ -31,7 +32,8 @@ public class SagaLockManagerImplDefaultSchemaTest extends SagaLockManagerImplSch
 
     @Override
     protected String getExpectedUpdateSagaLockTable() {
-        return String.format("update saga_lock_table set saga_type = ?, saga_id = ? where target = ?");
+        return String.format(
+                "update saga_lock_table set saga_type = ?, saga_id = ? where target = ?");
     }
 
     @Override

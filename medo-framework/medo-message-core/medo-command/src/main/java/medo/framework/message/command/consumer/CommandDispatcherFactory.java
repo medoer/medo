@@ -11,7 +11,7 @@ public class CommandDispatcherFactory {
     private final MessageProducer messageProducer;
 
     public CommandDispatcher make(String commandDispatcherId, CommandHandlers commandHandlers) {
-        return new CommandDispatcher(commandDispatcherId, commandHandlers, messageConsumer, messageProducer);
+        return new CommandDispatcher(
+                commandDispatcherId, commandHandlers, messageConsumer, messageProducer);
     }
-
 }

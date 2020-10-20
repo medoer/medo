@@ -17,5 +17,4 @@ public class SagaInstanceData<Data> {
     public Data getSagaData() {
         return sagaData;
     }
-
 }

@@ -1,10 +1,9 @@
 package medo.framework.message.messaging.consumer.common.handler;
 
 import java.util.Arrays;
-
-import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAndMessage;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageInterceptor;
+import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAndMessage;
 
 public class PrePostReceiveMessageHandlerDecorator implements MessageHandlerDecorator {
 
@@ -15,8 +14,9 @@ public class PrePostReceiveMessageHandlerDecorator implements MessageHandlerDeco
     }
 
     @Override
-    public void accept(SubscriberIdAndMessage subscriberIdAndMessage,
-                       MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
+    public void accept(
+            SubscriberIdAndMessage subscriberIdAndMessage,
+            MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
         Message message = subscriberIdAndMessage.getMessage();
         preReceive(message);
         try {

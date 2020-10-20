@@ -4,9 +4,8 @@ public interface IdGenerator {
 
     /**
      * Generate a new identifier.
-     * 
+     *
      * @return
      */
     Int128 generateId();
-
 }

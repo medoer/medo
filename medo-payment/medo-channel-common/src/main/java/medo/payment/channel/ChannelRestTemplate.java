@@ -1,5 +1,6 @@
 package medo.payment.channel;
 
+import java.util.Map;
 import medo.common.core.exception.CommonExceptionHandler;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelBaseResponse;
@@ -10,18 +11,11 @@ import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Channel Router Use {@link org.springframework.web.client.RestTemplate}
- * TODO
- *
- */
+/** Channel Router Use {@link org.springframework.web.client.RestTemplate} TODO */
 public class ChannelRestTemplate implements ChannelClient {
 
-    private static Map<Long, String> CHANNEL_HOST_OR_CONTEXT_PATH_MAP
-            = ChannelRemoteModeEndpointProperties.channelServerEndpoints;
+    private static Map<Long, String> CHANNEL_HOST_OR_CONTEXT_PATH_MAP =
+            ChannelRemoteModeEndpointProperties.channelServerEndpoints;
 
     private RestTemplate restTemplate;
 
@@ -35,15 +29,21 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(ChannelMicroPayRequest channelMicroPayRequest) {
+    public ChannelBaseResponse<ChannelMicroPayResponse> microPay(
+            ChannelMicroPayRequest channelMicroPayRequest) {
         return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
                 .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run((p) -> {
-                    // TODO deal with the ResponseEntity
-                    String url = getHostOrContextPath() + ChannelServiceURIConstant.MICRO_PAY_URI;
-                     return restTemplate.postForEntity(url,
-                            p, ChannelBaseResponse.class).getBody();
-                }, channelMicroPayRequest);
+                .run(
+                        (p) -> {
+                            // TODO deal with the ResponseEntity
+                            String url =
+                                    getHostOrContextPath()
+                                            + ChannelServiceURIConstant.MICRO_PAY_URI;
+                            return restTemplate
+                                    .postForEntity(url, p, ChannelBaseResponse.class)
+                                    .getBody();
+                        },
+                        channelMicroPayRequest);
     }
 
     @Override
@@ -72,7 +72,8 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<?> fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
+    public ChannelBaseResponse<?> fetchPayment(
+            ChannelFetchPaymentRequest channelFetchPaymentRequest) {
         return null;
     }
 
@@ -102,7 +103,8 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<?> verify(ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
+    public ChannelBaseResponse<?> verify(
+            ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         return null;
     }
 

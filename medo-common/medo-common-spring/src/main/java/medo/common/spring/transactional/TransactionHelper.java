@@ -2,13 +2,12 @@ package medo.common.spring.transactional;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring 事务代理类。用于需要在一个事务中新开启一个事务，或者把一个私有方法交由 Spring 事务管理。 使用时根据需求扩展事务传播类型和参数类型。
- * 
+ *
  * @author: bryce
  * @date: 2020-07-29
  * @param <T>
@@ -42,5 +41,4 @@ public class TransactionHelper<T, R> {
     public void requires(TransactionRunnable runnable) {
         runnable.run();
     }
-
 }

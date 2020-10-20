@@ -3,14 +3,13 @@ package medo.framework.message.messaging.consumer.common.consumer;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import medo.framework.message.messaging.consumer.common.handler.DecoratedMessageHandlerFactory;
 import medo.framework.message.messaging.common.ChannelMapping;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.consumer.MessageHandler;
 import medo.framework.message.messaging.consumer.MessageSubscription;
+import medo.framework.message.messaging.consumer.common.handler.DecoratedMessageHandlerFactory;
 
 @AllArgsConstructor
 @Slf4j
@@ -23,14 +22,22 @@ public final class MessageConsumerImpl implements MessageConsumer {
     private DecoratedMessageHandlerFactory decoratedMessageHandlerFactory;
 
     @Override
-    public MessageSubscription subscribe(String subscriberId, Set<String> channels, MessageHandler handler) {
+    public MessageSubscription subscribe(
+            String subscriberId, Set<String> channels, MessageHandler handler) {
         log.info("Subscribing: subscriberId = {}, channels = {}", subscriberId, channels);
 
-        Consumer<SubscriberIdAndMessage> decoratedHandler = decoratedMessageHandlerFactory.decorate(handler);
-        Set<String> mapChannels = channels.stream().map(channelMapping::transform).collect(Collectors.toSet());
+        Consumer<SubscriberIdAndMessage> decoratedHandler =
+                decoratedMessageHandlerFactory.decorate(handler);
+        Set<String> mapChannels =
+                channels.stream().map(channelMapping::transform).collect(Collectors.toSet());
 
-        MessageSubscription messageSubscription = messageBrokerConsumer.subscribe(subscriberId, mapChannels,
-                message -> decoratedHandler.accept(new SubscriberIdAndMessage(subscriberId, message)));
+        MessageSubscription messageSubscription =
+                messageBrokerConsumer.subscribe(
+                        subscriberId,
+                        mapChannels,
+                        message ->
+                                decoratedHandler.accept(
+                                        new SubscriberIdAndMessage(subscriberId, message)));
 
         log.info("Subscribed: subscriberId = {}, channels = {}", subscriberId, channels);
 
@@ -50,5 +57,4 @@ public final class MessageConsumerImpl implements MessageConsumer {
 
         log.info("Closed consumer");
     }
-
 }
