@@ -5,5 +5,5 @@ jar.enabled = true
 
 dependencies {
     api project(":medo-payment:medo-channel-common")
-    api project(":medo-payment:medo-channel-alipay")
+    api project(":medo-payment:medo-channel-alipay-core")
 }

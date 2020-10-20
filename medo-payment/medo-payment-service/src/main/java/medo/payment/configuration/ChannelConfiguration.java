@@ -11,13 +11,13 @@ import org.springframework.web.client.RestTemplate;
 public class ChannelConfiguration {
 
     /**
-     * deploy-mode enum: remote/bean
+     * deploy-remote enum: true - deploy channel module independent, false - deploy channel as a jar
      *
      * @param restTemplate
      * @return
      */
     @Bean
-    @ConditionalOnProperty(name = "medo.payment.channel.deploy-mode", havingValue = "REMOTE")
+    @ConditionalOnProperty(name = "medo.payment.channel.deploy-remote", havingValue = "true")
     public ChannelClient channelRestTemplate(RestTemplate restTemplate) {
         return new ChannelRestTemplate(restTemplate);
     }
