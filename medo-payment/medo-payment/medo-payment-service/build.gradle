@@ -2,8 +2,8 @@ description = 'Payment Service'
 
 dependencies {
 
-    implementation project(":medo-payment:medo-channel-alipay-spring-boot-starter")
-    implementation project(":medo-payment:medo-payment-service-api")
+    implementation project(":medo-payment:medo-channel-alipay:medo-channel-alipay-spring-boot-starter")
+    implementation project(":medo-payment:medo-payment:medo-payment-service-api")
     implementation project(":medo-payment:medo-payment-common")
     implementation project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
     implementation project(":medo-framework:medo-message-spring:medo-event-publisher-spring-boot-starter")
