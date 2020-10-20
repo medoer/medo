@@ -35,7 +35,7 @@ public class CommonContextTest {
         CommonContext.putValue("1", 2);
         assertThat(currentContext.get("1")).isEqualTo(2);
         CommonContext.remove();
-        assertThat(currentContext.get("1")).isNull();
+        assertThat(currentContext.get("1")).isEqualTo(2);
     }
 
 }
