@@ -1,4 +1,4 @@
-description = 'Auth Client Starter' 
+description = 'Auth Client Starter'
 
 dependencies {
     api project(":medo-common:medo-common-core")

@@ -6,5 +6,4 @@ public class SagaCommandHeader {
 
     public static final String SAGA_TYPE = CommandMessageHeader.COMMAND_HEADER_PREFIX + "SAGA_TYPE";
     public static final String SAGA_ID = CommandMessageHeader.COMMAND_HEADER_PREFIX + "SAGA_ID";
-
 }

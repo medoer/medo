@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({SpringContextHelperConfiguration.class, IdGeneratorConfiguration.class, JacksonConfiguration.class, TransactionHelperConfiguration.class})
-public class MedoCommonAutoConfiguration {
-
-}
+@Import({
+    SpringContextHelperConfiguration.class,
+    IdGeneratorConfiguration.class,
+    JacksonConfiguration.class,
+    TransactionHelperConfiguration.class
+})
+public class MedoCommonAutoConfiguration {}

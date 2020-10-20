@@ -1,4 +1,3 @@
 package medo.payment.channel.request;
 
-public abstract class ChannelBaseRequest {
-}
+public abstract class ChannelBaseRequest {}

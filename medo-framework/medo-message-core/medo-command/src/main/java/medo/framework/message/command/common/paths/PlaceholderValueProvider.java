@@ -8,5 +8,4 @@ public interface PlaceholderValueProvider {
     Optional<String> get(String name);
 
     Map<String, String> getParams();
-
 }

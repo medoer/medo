@@ -1,6 +1,5 @@
 package medo.common.mysql;
 
-
 import medo.common.mysql.domain.model.OptimisticLockerDomain;
 import medo.common.mysql.mapper.OptimisticLockerMapper;
 import org.junit.Assert;
@@ -16,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 public class OptimisticLockerMapperTest {
 
-    @Autowired
-    private OptimisticLockerMapper optimisticLockerMapper;
+    @Autowired private OptimisticLockerMapper optimisticLockerMapper;
 
     @Test
     public void testUpdateFailed() {
@@ -33,5 +31,4 @@ public class OptimisticLockerMapperTest {
         domainToBeUpdate.setVersion(0);
         Assert.assertEquals(0, optimisticLockerMapper.updateById(domainToBeUpdate));
     }
-
 }

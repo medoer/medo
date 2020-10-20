@@ -11,5 +11,4 @@ public class KafkaSubscription {
     public void close() {
         closingCallback.run();
     }
-
 }

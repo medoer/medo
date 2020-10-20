@@ -5,10 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * test
- * 
+ *
  * @author: bryce
  * @date: 2020-08-04
  */
 @Mapper
-public interface TestMapper extends SuperMapper<Test> {
-}
+public interface TestMapper extends SuperMapper<Test> {}

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
 import medo.framework.message.messaging.common.Message;
 
 public class CommandHandlersBuilder {
@@ -30,47 +29,72 @@ public class CommandHandlersBuilder {
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessageReturningMessages(Class<C> commandClass,
+    public <C> CommandHandlersBuilder onMessageReturningMessages(
+            Class<C> commandClass,
             BiFunction<CommandMessage<C>, PathVariables, List<Message>> handler) {
         this.handlers.add(new CommandHandler(channel, resource, commandClass, handler));
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessageReturningOptionalMessage(Class<C> commandClass,
+    public <C> CommandHandlersBuilder onMessageReturningOptionalMessage(
+            Class<C> commandClass,
             BiFunction<CommandMessage<C>, PathVariables, Optional<Message>> handler) {
-        this.handlers.add(new CommandHandler(channel, resource, commandClass,
-                (c, pv) -> handler.apply(c, pv).map(Collections::singletonList).orElse(Collections.emptyList())));
+        this.handlers.add(
+                new CommandHandler(
+                        channel,
+                        resource,
+                        commandClass,
+                        (c, pv) ->
+                                handler.apply(c, pv)
+                                        .map(Collections::singletonList)
+                                        .orElse(Collections.emptyList())));
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessage(Class<C> commandClass,
-            BiFunction<CommandMessage<C>, PathVariables, Message> handler) {
-        this.handlers.add(new CommandHandler(channel, resource, commandClass,
-                (c, pv) -> Collections.singletonList(handler.apply(c, pv))));
+    public <C> CommandHandlersBuilder onMessage(
+            Class<C> commandClass, BiFunction<CommandMessage<C>, PathVariables, Message> handler) {
+        this.handlers.add(
+                new CommandHandler(
+                        channel,
+                        resource,
+                        commandClass,
+                        (c, pv) -> Collections.singletonList(handler.apply(c, pv))));
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessageReturningMessages(Class<C> commandClass,
-            Function<CommandMessage<C>, List<Message>> handler) {
-        this.handlers.add(new CommandHandler(channel, resource, commandClass, (c, pv) -> handler.apply(c)));
+    public <C> CommandHandlersBuilder onMessageReturningMessages(
+            Class<C> commandClass, Function<CommandMessage<C>, List<Message>> handler) {
+        this.handlers.add(
+                new CommandHandler(channel, resource, commandClass, (c, pv) -> handler.apply(c)));
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessageReturningOptionalMessage(Class<C> commandClass,
-            Function<CommandMessage<C>, Optional<Message>> handler) {
-        this.handlers.add(new CommandHandler(channel, resource, commandClass,
-                (c, pv) -> handler.apply(c).map(Collections::singletonList).orElse(Collections.emptyList())));
+    public <C> CommandHandlersBuilder onMessageReturningOptionalMessage(
+            Class<C> commandClass, Function<CommandMessage<C>, Optional<Message>> handler) {
+        this.handlers.add(
+                new CommandHandler(
+                        channel,
+                        resource,
+                        commandClass,
+                        (c, pv) ->
+                                handler.apply(c)
+                                        .map(Collections::singletonList)
+                                        .orElse(Collections.emptyList())));
         return this;
     }
 
-    public <C> CommandHandlersBuilder onMessage(Class<C> commandClass, Function<CommandMessage<C>, Message> handler) {
-        this.handlers.add(new CommandHandler(channel, resource, commandClass,
-                (c, pv) -> Collections.singletonList(handler.apply(c))));
+    public <C> CommandHandlersBuilder onMessage(
+            Class<C> commandClass, Function<CommandMessage<C>, Message> handler) {
+        this.handlers.add(
+                new CommandHandler(
+                        channel,
+                        resource,
+                        commandClass,
+                        (c, pv) -> Collections.singletonList(handler.apply(c))));
         return this;
     }
 
     public CommandHandlers build() {
         return new CommandHandlers(handlers);
     }
-
 }

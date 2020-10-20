@@ -1,9 +1,8 @@
 package medo.gateway.filter;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import javax.servlet.http.HttpServletResponse;
 
 public class PostFilter extends ZuulFilter {
 
@@ -28,5 +27,4 @@ public class PostFilter extends ZuulFilter {
         HttpServletResponse response = ctx.getResponse();
         return null;
     }
-
 }

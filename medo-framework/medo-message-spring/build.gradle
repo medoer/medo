@@ -1,4 +1,4 @@
-description = 'data distribution/message product/message receive' 
+description = 'data distribution/message product/message receive'
 
 subprojects {
 

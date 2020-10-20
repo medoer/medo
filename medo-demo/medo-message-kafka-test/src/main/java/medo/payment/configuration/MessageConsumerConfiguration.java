@@ -6,12 +6,10 @@ import org.springframework.context.annotation.Import;
 
 /**
  * start message producer.
- * 
+ *
  * @author: bryce
  * @date: 2020-08-11
  */
 @Configuration
 @Import(KafkaMessageConsumerConfiguration.class)
-public class MessageConsumerConfiguration {
-
-}
+public class MessageConsumerConfiguration {}

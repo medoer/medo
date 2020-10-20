@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ConditionalOnClass(MessageProducerJdbcConfiguration.class)
 @Import(MessageProducerJdbcConfiguration.class)
-public class MessageProducerJdbcAutoConfiguration {
-}
+public class MessageProducerJdbcAutoConfiguration {}

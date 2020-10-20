@@ -1,5 +1,8 @@
 package medo.payment.domain;
 
+import static java.util.Collections.singletonList;
+import static medo.payment.domain.PaymentState.*;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -14,39 +17,38 @@ import medo.payment.messaging.PaymentSucceed;
 import medo.payment.web.RefundRequest;
 import org.apache.commons.lang3.StringUtils;
 
-import static java.util.Collections.singletonList;
-import static medo.payment.domain.PaymentState.*;
-
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName( value = "payment", autoResultMap = true)
+@TableName(value = "payment", autoResultMap = true)
 public class Payment extends BaseModel<Payment> {
 
     private String paymentId;
     private String originPaymentId;
     // 三方支付订单号
     private String channelTradeId;
-//    private Long merchantId;
-//    private Long branchId;
-//    private Long terminalId;
+    //    private Long merchantId;
+    //    private Long branchId;
+    //    private Long terminalId;
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Money amount;
+
     private PaymentState state;
+
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Money balance;
-//    @TableField(typeHandler = JacksonTypeHandler.class)
-//    private Money channelFee;
+    //    @TableField(typeHandler = JacksonTypeHandler.class)
+    //    private Money channelFee;
     private Long channelId;
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Buyer buyer;
-    private PaymentType type;
-    @Version
-    private Integer version;
 
-    public static Payment createPayment(Terminal terminal,
-                                        Money amount, Long channelId, String paymentId) {
+    private PaymentType type;
+    @Version private Integer version;
+
+    public static Payment createPayment(
+            Terminal terminal, Money amount, Long channelId, String paymentId) {
         // parameter validation
         if (amount == null) {
             throw new RuntimeException();
@@ -58,9 +60,9 @@ public class Payment extends BaseModel<Payment> {
             throw new RuntimeException();
         }
         Payment payment = new Payment();
-//        payment.merchantId = merchantId;
-//        payment.branchId = branchId;
-//        payment.terminalId = terminalId;
+        //        payment.merchantId = merchantId;
+        //        payment.branchId = branchId;
+        //        payment.terminalId = terminalId;
         payment.amount = amount;
         payment.balance = amount;
         payment.channelId = channelId;
@@ -71,8 +73,12 @@ public class Payment extends BaseModel<Payment> {
         return payment;
     }
 
-    public static Payment createRefund(Terminal terminal,
-                                       Money amount, Long channelId, String paymentId, String originPaymentId) {
+    public static Payment createRefund(
+            Terminal terminal,
+            Money amount,
+            Long channelId,
+            String paymentId,
+            String originPaymentId) {
         Payment payment = createPayment(terminal, amount, channelId, paymentId);
         payment.setBalance(null);
         payment.type = PaymentType.REFUND;
@@ -81,8 +87,7 @@ public class Payment extends BaseModel<Payment> {
         return payment;
     }
 
-    private Payment() {
-    }
+    private Payment() {}
 
     public Payment(Long id) {
         setId(id);
@@ -91,8 +96,8 @@ public class Payment extends BaseModel<Payment> {
     public ResultWithDomainEvents<Payment, PaymentDomainEvent> noteSucceed() {
         switch (state) {
             case PAYMENT_PENDING:
-            this.state = SUCCEED;
-            return new ResultWithDomainEvents<>(this, singletonList(new PaymentSucceed()));
+                this.state = SUCCEED;
+                return new ResultWithDomainEvents<>(this, singletonList(new PaymentSucceed()));
             default:
                 // TODO define the detail exception
                 throw new UnsupportedOperationException();
@@ -101,7 +106,7 @@ public class Payment extends BaseModel<Payment> {
 
     public ResultWithDomainEvents<Payment, PaymentDomainEvent> noteFailed() {
         switch (state) {
-            // TODO 维护状态机
+                // TODO 维护状态机
             case PAYMENT_PENDING:
                 this.state = FAILED;
                 return new ResultWithDomainEvents<>(this, singletonList(new PaymentSucceed()));
@@ -135,23 +140,17 @@ public class Payment extends BaseModel<Payment> {
             case SUCCEED:
             case REFUNDED:
                 this.state = REFUND_PENDING;
-                return new ResultWithDomainEvents<>(this, singletonList(new PaymentRefundPending(this)));
+                return new ResultWithDomainEvents<>(
+                        this, singletonList(new PaymentRefundPending(this)));
             default:
                 // TODO define the detail exception
                 throw new UnsupportedOperationException();
         }
     }
 
-    public void refundSucceed() {
+    public void refundSucceed() {}
 
-    }
+    public void refundFailed() {}
 
-    public void refundFailed() {
-
-    }
-
-    public void refundError() {
-
-    }
-
+    public void refundError() {}
 }

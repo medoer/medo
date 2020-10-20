@@ -9,5 +9,4 @@ public class FeignTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(FeignTestApplication.class, args);
     }
-
 }

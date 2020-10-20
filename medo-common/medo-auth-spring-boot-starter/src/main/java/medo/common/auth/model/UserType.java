@@ -1,16 +1,10 @@
 package medo.common.auth.model;
 
-/**
- * 用户类型
- */
+/** 用户类型 */
 public enum UserType {
 
-    /**
-     * 前端app用户
-     */
+    /** 前端app用户 */
     APP,
-    /**
-     * 后端管理用户
-     */
+    /** 后端管理用户 */
     BACKEND
 }

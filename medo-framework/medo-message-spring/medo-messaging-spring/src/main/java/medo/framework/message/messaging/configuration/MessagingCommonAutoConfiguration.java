@@ -14,5 +14,4 @@ public class MessagingCommonAutoConfiguration {
     public ChannelMapping channelMapping() {
         return DefaultChannelMapping.builder().build();
     }
-
 }

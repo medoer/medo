@@ -25,5 +25,4 @@ public class DestinationRootObject {
     public Map<String, String> getPath() {
         return path;
     }
-
 }

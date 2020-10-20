@@ -4,7 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class MessageConsumerJdbcOptions {
 
-    private static final String SQL = "insert into %s(consumer_id, message_id, creation_time) values(?, ?, %s)";
+    private static final String SQL =
+            "insert into %s(consumer_id, message_id, creation_time) values(?, ?, %s)";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -15,11 +16,11 @@ public class MessageConsumerJdbcOptions {
         this.receivedMessageTable = receivedMessageTable;
     }
 
-    public void saveReceivedMessage(String consumerId, String messageId, String currentTimeInMillisecondsSql) {
+    public void saveReceivedMessage(
+            String consumerId, String messageId, String currentTimeInMillisecondsSql) {
 
         String sql = String.format(SQL, receivedMessageTable, currentTimeInMillisecondsSql);
 
         jdbcTemplate.update(sql, consumerId, messageId);
     }
-
 }

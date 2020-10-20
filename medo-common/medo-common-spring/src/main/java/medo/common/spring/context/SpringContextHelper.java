@@ -15,7 +15,7 @@ public class SpringContextHelper {
     }
 
     public static <T> T getBean(String name) {
-        return (T)applicationContext.getBean(name);
+        return (T) applicationContext.getBean(name);
     }
 
     public static ApplicationContext getApplicationContext() {

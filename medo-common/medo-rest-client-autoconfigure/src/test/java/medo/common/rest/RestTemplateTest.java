@@ -13,13 +13,11 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringRunner.class)
 public class RestTemplateTest {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    @Autowired private RestTemplate restTemplate;
 
     @Test
     public void test() {
         String response = restTemplate.getForObject("https://www.bing.com", String.class);
         Assert.assertTrue(StringUtils.isNotEmpty(response));
     }
-
 }

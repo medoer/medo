@@ -11,5 +11,4 @@ public interface TestClient {
     // @RequestParam 必须写，否则会被认定为 post 请求
     @GetMapping
     ResponseEntity<String> test(@RequestParam("mkt") String mkt);
-
 }

@@ -6,11 +6,10 @@ public interface MessageProducer {
 
     /**
      * Send a message
-     * 
+     *
      * @param channel the destination channel
-     * @param message     the message to doSend
+     * @param message the message to doSend
      * @see Message
      */
     void send(String channel, Message message);
-
 }

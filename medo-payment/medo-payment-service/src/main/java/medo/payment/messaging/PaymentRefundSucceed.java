@@ -10,5 +10,4 @@ import medo.payment.domain.PaymentDomainEvent;
 public class PaymentRefundSucceed implements PaymentDomainEvent {
 
     private Payment refund;
-
 }

@@ -1,16 +1,13 @@
 package medo.payment.common.domain;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-/**
- * Value Object - Money
- */
+/** Value Object - Money */
 @Data
 public class Money implements Serializable {
 
@@ -18,8 +15,7 @@ public class Money implements Serializable {
 
     private BigDecimal amount;
 
-    private Money() {
-    }
+    private Money() {}
 
     public Money(BigDecimal amount) {
         this.amount = amount;
@@ -41,25 +37,18 @@ public class Money implements Serializable {
 
         Money money = (Money) o;
 
-        return new EqualsBuilder()
-                .append(amount, money.amount)
-                .isEquals();
+        return new EqualsBuilder().append(amount, money.amount).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(amount)
-                .toHashCode();
+        return new HashCodeBuilder(17, 37).append(amount).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("amount", amount)
-                .toString();
+        return new ToStringBuilder(this).append("amount", amount).toString();
     }
-
 
     public Money add(Money delta) {
         return new Money(amount.add(delta.amount));
@@ -81,12 +70,12 @@ public class Money implements Serializable {
         return new Money(amount.multiply(new BigDecimal(x)));
     }
 
-//    // getter setter for mybatis plus map
-//    public BigDecimal getAmount() {
-//        return amount;
-//    }
-//
-//    public void setAmount(BigDecimal amount) {
-//        this.amount = amount;
-//    }
+    //    // getter setter for mybatis plus map
+    //    public BigDecimal getAmount() {
+    //        return amount;
+    //    }
+    //
+    //    public void setAmount(BigDecimal amount) {
+    //        this.amount = amount;
+    //    }
 }

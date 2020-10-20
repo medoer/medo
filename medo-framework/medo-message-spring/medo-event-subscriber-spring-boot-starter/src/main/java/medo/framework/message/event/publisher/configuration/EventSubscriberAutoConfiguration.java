@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ConditionalOnClass(EventSubscriberConfiguration.class)
 @Import(EventSubscriberConfiguration.class)
-public class EventSubscriberAutoConfiguration {
-}
+public class EventSubscriberAutoConfiguration {}

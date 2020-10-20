@@ -1,4 +1,4 @@
-description = 'Message Consumer JDBC' 
+description = 'Message Consumer JDBC'
 
 dependencies {
 
@@ -6,6 +6,6 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-jdbc"
     api "org.springframework:spring-context"
     api "org.mariadb.jdbc:mariadb-java-client"
-    
+
 
 }

@@ -19,5 +19,4 @@ public class SubscriberIdAndMessage {
     public Message getMessage() {
         return message;
     }
-
 }

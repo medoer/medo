@@ -6,24 +6,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.annotation.PostConstruct;
-
 import lombok.extern.slf4j.Slf4j;
-import medo.framework.message.command.common.CommandMessageHeader;
-import medo.framework.message.command.common.CommandReplyOutcome;
-import medo.framework.message.command.common.Failure;
-import medo.framework.message.command.common.ReplyMessageHeader;
-import medo.framework.message.command.common.Success;
+import medo.framework.message.command.common.*;
 import medo.framework.message.command.producer.CommandProducer;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.consumer.MessageConsumer;
 import medo.framework.message.messaging.producer.MessageBuilder;
-import medo.framework.saga.common.LockTarget;
-import medo.framework.saga.common.SagaCommandHeader;
-import medo.framework.saga.common.SagaLockManager;
-import medo.framework.saga.common.SagaReplyHeader;
-import medo.framework.saga.common.SagaUnlockCommand;
+import medo.framework.saga.common.*;
 
 @Slf4j
 public class SagaManagerImpl<T> implements SagaManager<T> {
@@ -35,8 +25,12 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
     private SagaLockManager sagaLockManager;
     private SagaCommandProducer sagaCommandProducer;
 
-    public SagaManagerImpl(Saga<T> saga, SagaInstanceRepository sagaInstanceRepository,
-            CommandProducer commandProducer, MessageConsumer messageConsumer, SagaLockManager sagaLockManager,
+    public SagaManagerImpl(
+            Saga<T> saga,
+            SagaInstanceRepository sagaInstanceRepository,
+            CommandProducer commandProducer,
+            MessageConsumer messageConsumer,
+            SagaLockManager sagaLockManager,
             SagaCommandProducer sagaCommandProducer) {
         this.saga = saga;
         this.sagaInstanceRepository = sagaInstanceRepository;
@@ -79,8 +73,14 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
     @Override
     public SagaInstance create(T sagaData, Optional<String> resource) {
 
-        SagaInstance sagaInstance = new SagaInstance(getSagaType(), null, "????", null,
-                SagaDataSerde.serializeSagaData(sagaData), new HashSet<>());
+        SagaInstance sagaInstance =
+                new SagaInstance(
+                        getSagaType(),
+                        null,
+                        "????",
+                        null,
+                        SagaDataSerde.serializeSagaData(sagaData),
+                        new HashSet<>());
 
         sagaInstanceRepository.save(sagaInstance);
 
@@ -88,39 +88,46 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
 
         saga.onStarting(sagaId, sagaData);
 
-        resource.ifPresent(r -> {
-            if (!sagaLockManager.claimLock(getSagaType(), sagaId, r)) {
-                throw new RuntimeException("Cannot claim lock for resource");
-            }
-        });
+        resource.ifPresent(
+                r -> {
+                    if (!sagaLockManager.claimLock(getSagaType(), sagaId, r)) {
+                        throw new RuntimeException("Cannot claim lock for resource");
+                    }
+                });
 
         SagaActions<T> actions = getStateDefinition().start(sagaData);
 
-        actions.getLocalException().ifPresent(e -> {
-            throw e;
-        });
+        actions.getLocalException()
+                .ifPresent(
+                        e -> {
+                            throw e;
+                        });
 
         processActions(sagaId, sagaInstance, sagaData, actions);
 
         return sagaInstance;
     }
 
-    private void performEndStateActions(String sagaId, SagaInstance sagaInstance, boolean compensating, T sagaData) {
+    private void performEndStateActions(
+            String sagaId, SagaInstance sagaInstance, boolean compensating, T sagaData) {
         for (DestinationAndResource dr : sagaInstance.getDestinationsAndResources()) {
             Map<String, String> headers = new HashMap<>();
             headers.put(SagaCommandHeader.SAGA_ID, sagaId);
-            headers.put(SagaCommandHeader.SAGA_TYPE, getSagaType()); // FTGO SagaCommandHandler failed without this but
-                                                                      // the OrdersAndCustomersIntegrationTest was
-                                                                      // fine?!?
-            commandProducer.send(dr.getDestination(), dr.getResource(), new SagaUnlockCommand(), makeSagaReplyChannel(),
+            headers.put(
+                    SagaCommandHeader.SAGA_TYPE,
+                    getSagaType()); // FTGO SagaCommandHandler failed without this but
+            // the OrdersAndCustomersIntegrationTest was
+            // fine?!?
+            commandProducer.send(
+                    dr.getDestination(),
+                    dr.getResource(),
+                    new SagaUnlockCommand(),
+                    makeSagaReplyChannel(),
                     headers);
         }
 
-        if (compensating)
-            saga.onSagaRolledBack(sagaId, sagaData);
-        else
-            saga.onSagaCompletedSuccessfully(sagaId, sagaData);
-
+        if (compensating) saga.onSagaRolledBack(sagaId, sagaData);
+        else saga.onSagaCompletedSuccessfully(sagaId, sagaData);
     }
 
     private SagaDefinition<T> getStateDefinition() {
@@ -139,7 +146,9 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
 
     @PostConstruct
     public void subscribeToReplyChannel() {
-        messageConsumer.subscribe(saga.getSagaType() + "-consumer", singleton(makeSagaReplyChannel()),
+        messageConsumer.subscribe(
+                saga.getSagaType() + "-consumer",
+                singleton(makeSagaReplyChannel()),
                 this::handleMessage);
     }
 
@@ -158,8 +167,7 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
 
     private void handleReply(Message message) {
 
-        if (!isReplyForThisSagaType(message))
-            return;
+        if (!isReplyForThisSagaType(message)) return;
 
         log.debug("Handle reply: {}", message);
 
@@ -169,11 +177,17 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
         SagaInstance sagaInstance = sagaInstanceRepository.find(sagaType, sagaId);
         T sagaData = SagaDataSerde.deserializeSagaData(sagaInstance.getSerializedSagaData());
 
-        message.getHeader(SagaReplyHeader.REPLY_LOCKED).ifPresent(lockedTarget -> {
-            String destination = message
-                    .getRequiredHeader(CommandMessageHeader.inReply(CommandMessageHeader.DESTINATION));
-            sagaInstance.addDestinationsAndResources(singleton(new DestinationAndResource(destination, lockedTarget)));
-        });
+        message.getHeader(SagaReplyHeader.REPLY_LOCKED)
+                .ifPresent(
+                        lockedTarget -> {
+                            String destination =
+                                    message.getRequiredHeader(
+                                            CommandMessageHeader.inReply(
+                                                    CommandMessageHeader.DESTINATION));
+                            sagaInstance.addDestinationsAndResources(
+                                    singleton(
+                                            new DestinationAndResource(destination, lockedTarget)));
+                        });
 
         String currentState = sagaInstance.getStateName();
 
@@ -184,60 +198,85 @@ public class SagaManagerImpl<T> implements SagaManager<T> {
         log.info("Handled reply. Sending commands {}", actions.getCommands());
 
         processActions(sagaId, sagaInstance, sagaData, actions);
-
     }
 
-    private void processActions(String sagaId, SagaInstance sagaInstance, T sagaData, SagaActions<T> actions) {
+    private void processActions(
+            String sagaId, SagaInstance sagaInstance, T sagaData, SagaActions<T> actions) {
 
         while (true) {
 
             if (actions.getLocalException().isPresent()) {
 
-                actions = getStateDefinition().handleReply(actions.getUpdatedState().get(),
-                        actions.getUpdatedSagaData().get(),
-                        MessageBuilder.withPayload("{}")
-                                .withHeader(ReplyMessageHeader.REPLY_OUTCOME, CommandReplyOutcome.FAILURE.name())
-                                .withHeader(ReplyMessageHeader.REPLY_TYPE, Failure.class.getName()).build());
+                actions =
+                        getStateDefinition()
+                                .handleReply(
+                                        actions.getUpdatedState().get(),
+                                        actions.getUpdatedSagaData().get(),
+                                        MessageBuilder.withPayload("{}")
+                                                .withHeader(
+                                                        ReplyMessageHeader.REPLY_OUTCOME,
+                                                        CommandReplyOutcome.FAILURE.name())
+                                                .withHeader(
+                                                        ReplyMessageHeader.REPLY_TYPE,
+                                                        Failure.class.getName())
+                                                .build());
 
             } else {
                 // only do this if successful
 
-                String lastRequestId = sagaCommandProducer.sendCommands(this.getSagaType(), sagaId,
-                        actions.getCommands(), this.makeSagaReplyChannel());
+                String lastRequestId =
+                        sagaCommandProducer.sendCommands(
+                                this.getSagaType(),
+                                sagaId,
+                                actions.getCommands(),
+                                this.makeSagaReplyChannel());
                 sagaInstance.setLastRequestId(lastRequestId);
 
                 updateState(sagaInstance, actions);
 
                 sagaInstance.setSerializedSagaData(
-                        SagaDataSerde.serializeSagaData(actions.getUpdatedSagaData().orElse(sagaData)));
+                        SagaDataSerde.serializeSagaData(
+                                actions.getUpdatedSagaData().orElse(sagaData)));
 
                 if (actions.isEndState()) {
-                    performEndStateActions(sagaId, sagaInstance, actions.isCompensating(), sagaData);
+                    performEndStateActions(
+                            sagaId, sagaInstance, actions.isCompensating(), sagaData);
                 }
 
                 sagaInstanceRepository.update(sagaInstance);
 
-                if (!actions.isLocal())
-                    break;
+                if (!actions.isLocal()) break;
 
-                actions = getStateDefinition().handleReply(actions.getUpdatedState().get(),
-                        actions.getUpdatedSagaData().get(),
-                        MessageBuilder.withPayload("{}")
-                                .withHeader(ReplyMessageHeader.REPLY_OUTCOME, CommandReplyOutcome.SUCCESS.name())
-                                .withHeader(ReplyMessageHeader.REPLY_TYPE, Success.class.getName()).build());
+                actions =
+                        getStateDefinition()
+                                .handleReply(
+                                        actions.getUpdatedState().get(),
+                                        actions.getUpdatedSagaData().get(),
+                                        MessageBuilder.withPayload("{}")
+                                                .withHeader(
+                                                        ReplyMessageHeader.REPLY_OUTCOME,
+                                                        CommandReplyOutcome.SUCCESS.name())
+                                                .withHeader(
+                                                        ReplyMessageHeader.REPLY_TYPE,
+                                                        Success.class.getName())
+                                                .build());
             }
         }
     }
 
     private void updateState(SagaInstance sagaInstance, SagaActions<T> actions) {
-        actions.getUpdatedState().ifPresent(stateName -> {
-            sagaInstance.setStateName(stateName);
-            sagaInstance.setEndState(actions.isEndState());
-            sagaInstance.setCompensating(actions.isCompensating());
-        });
+        actions.getUpdatedState()
+                .ifPresent(
+                        stateName -> {
+                            sagaInstance.setStateName(stateName);
+                            sagaInstance.setEndState(actions.isEndState());
+                            sagaInstance.setCompensating(actions.isCompensating());
+                        });
     }
 
     private Boolean isReplyForThisSagaType(Message message) {
-        return message.getHeader(SagaReplyHeader.REPLY_SAGA_TYPE).map(x -> x.equals(getSagaType())).orElse(false);
+        return message.getHeader(SagaReplyHeader.REPLY_SAGA_TYPE)
+                .map(x -> x.equals(getSagaType()))
+                .orElse(false);
     }
 }

@@ -1,7 +1,6 @@
 package medo.common.core.exception;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-04
  */

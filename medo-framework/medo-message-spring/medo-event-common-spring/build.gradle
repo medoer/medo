@@ -1,4 +1,4 @@
-description = '' 
+description = ''
 
 dependencies {
     api project(":medo-framework:medo-message-core:medo-event")

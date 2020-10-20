@@ -17,5 +17,4 @@ public class SerializedSagaData {
     public String getSagaDataType() {
         return sagaDataType;
     }
-
 }

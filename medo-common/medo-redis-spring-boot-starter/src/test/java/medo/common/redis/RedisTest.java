@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class RedisTest {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    @Autowired private StringRedisTemplate redisTemplate;
 
     @Test
     public void testSet() {
@@ -21,5 +20,4 @@ public class RedisTest {
         String string = redisTemplate.opsForValue().get("test-redis");
         Assert.assertTrue("test".equals(string));
     }
-
 }

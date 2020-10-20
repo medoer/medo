@@ -6,12 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-
 import java.io.IOException;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-13
  */
@@ -20,7 +17,8 @@ public class JSONMapper {
     public static ObjectMapper objectMapper = new ObjectMapper();
 
     static {
-        objectMapper.configure(com.fasterxml.jackson.core.JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
+        objectMapper.configure(
+                com.fasterxml.jackson.core.JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -46,8 +44,10 @@ public class JSONMapper {
 
     public static <T> T fromJSONByName(String json, String targetType) {
         try {
-            return objectMapper.readValue(json,
-                    (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(targetType));
+            return objectMapper.readValue(
+                    json,
+                    (Class<T>)
+                            Thread.currentThread().getContextClassLoader().loadClass(targetType));
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

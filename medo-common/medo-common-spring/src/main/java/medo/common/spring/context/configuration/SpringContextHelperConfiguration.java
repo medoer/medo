@@ -12,5 +12,4 @@ public class SpringContextHelperConfiguration {
     public SpringContextHelper springContextHelper(ApplicationContext applicationContext) {
         return new SpringContextHelper(applicationContext);
     }
-
 }

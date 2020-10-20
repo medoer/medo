@@ -10,11 +10,9 @@ public class DestinationRootObjectForException extends DestinationRootObject {
         return throwable;
     }
 
-    public DestinationRootObjectForException(Object parameter, Object result, Map<String, String> pathVars,
-            Throwable throwable) {
+    public DestinationRootObjectForException(
+            Object parameter, Object result, Map<String, String> pathVars, Throwable throwable) {
         super(parameter, result, pathVars);
         this.throwable = throwable;
-
     }
-
 }

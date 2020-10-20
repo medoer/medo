@@ -1,25 +1,25 @@
 package medo.common.kafka.common;
 
+import io.eventuate.messaging.kafka.common.sbe.MessageHeaderDecoder;
+import io.eventuate.messaging.kafka.common.sbe.MessageHeaderEncoder;
+import io.eventuate.messaging.kafka.common.sbe.MultiMessageDecoder;
+import io.eventuate.messaging.kafka.common.sbe.MultiMessageEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.agrona.ExpandableArrayBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 
-import io.eventuate.messaging.kafka.common.sbe.MessageHeaderDecoder;
-import io.eventuate.messaging.kafka.common.sbe.MessageHeaderEncoder;
-import io.eventuate.messaging.kafka.common.sbe.MultiMessageDecoder;
-import io.eventuate.messaging.kafka.common.sbe.MultiMessageEncoder;
-
 public class KafkaMultiMessageConverter {
 
-    public static int HEADER_SIZE = MessageHeaderEncoder.ENCODED_LENGTH
-            + MultiMessageEncoder.MessagesEncoder.HEADER_SIZE + MultiMessageEncoder.HeadersEncoder.HEADER_SIZE;
+    public static int HEADER_SIZE =
+            MessageHeaderEncoder.ENCODED_LENGTH
+                    + MultiMessageEncoder.MessagesEncoder.HEADER_SIZE
+                    + MultiMessageEncoder.HeadersEncoder.HEADER_SIZE;
     public static final String MAGIC_ID = "a8c79db675e14c4cbf1eb77d0d6d0f00"; // generated UUID
     public static final byte[] MAGIC_ID_BYTES = BinaryMessageEncoding.stringToBytes(MAGIC_ID);
 
@@ -53,14 +53,20 @@ public class KafkaMultiMessageConverter {
 
         messageHeaderDecoder.wrap(buffer, 0);
 
-//        final int templateId = messageHeaderDecoder.templateId();
+        //        final int templateId = messageHeaderDecoder.templateId();
         final int actingBlockLength = messageHeaderDecoder.blockLength();
         final int actingVersion = messageHeaderDecoder.version();
 
-        MultiMessageDecoder multiMessageDecoder = new MultiMessageDecoder().wrap(buffer,
-                messageHeaderDecoder.encodedLength(), actingBlockLength, actingVersion);
+        MultiMessageDecoder multiMessageDecoder =
+                new MultiMessageDecoder()
+                        .wrap(
+                                buffer,
+                                messageHeaderDecoder.encodedLength(),
+                                actingBlockLength,
+                                actingVersion);
 
-        List<KafkaMultiMessagesHeader> headers = decodeEventuateKafkaMultiMessagesHeaders(multiMessageDecoder);
+        List<KafkaMultiMessagesHeader> headers =
+                decodeEventuateKafkaMultiMessagesHeaders(multiMessageDecoder);
         List<KafkaMultiMessage> messages = decodeEventuateKafkaMultiMessages(multiMessageDecoder);
 
         return new KafkaMultiMessages(headers, messages);
@@ -89,15 +95,16 @@ public class KafkaMultiMessageConverter {
         return headers;
     }
 
-    private List<KafkaMultiMessage> decodeEventuateKafkaMultiMessages(MultiMessageDecoder multiMessageDecoder) {
+    private List<KafkaMultiMessage> decodeEventuateKafkaMultiMessages(
+            MultiMessageDecoder multiMessageDecoder) {
         MultiMessageDecoder.MessagesDecoder messagesDecoder = multiMessageDecoder.messages();
         List<KafkaMultiMessage> messages = new ArrayList<>();
 
         for (int i = 0; i < messagesDecoder.count(); i++) {
             messagesDecoder.next();
 
-            List<KafkaMultiMessageHeader> messageHeaders = decodeEventuateKafkaMultiMessageHeaders(
-                    messagesDecoder);
+            List<KafkaMultiMessageHeader> messageHeaders =
+                    decodeEventuateKafkaMultiMessageHeaders(messagesDecoder);
 
             int keyLength = messagesDecoder.keyLength();
             byte[] keyBytes = new byte[keyLength];
@@ -118,7 +125,8 @@ public class KafkaMultiMessageConverter {
     private List<KafkaMultiMessageHeader> decodeEventuateKafkaMultiMessageHeaders(
             MultiMessageDecoder.MessagesDecoder messagesDecoder) {
         List<KafkaMultiMessageHeader> messageHeaders = new ArrayList<>();
-        MultiMessageDecoder.MessagesDecoder.HeadersDecoder messageHeadersDecoder = messagesDecoder.headers();
+        MultiMessageDecoder.MessagesDecoder.HeadersDecoder messageHeadersDecoder =
+                messagesDecoder.headers();
 
         for (int j = 0; j < messageHeadersDecoder.count(); j++) {
             messageHeadersDecoder.next();
@@ -141,7 +149,8 @@ public class KafkaMultiMessageConverter {
 
     public List<String> convertBytesToValues(byte[] bytes) {
         if (isMultiMessage(bytes)) {
-            return convertBytesToMessages(bytes).getMessages().stream().map(KafkaMultiMessage::getValue)
+            return convertBytesToMessages(bytes).getMessages().stream()
+                    .map(KafkaMultiMessage::getValue)
                     .collect(Collectors.toList());
         } else {
             return Collections.singletonList(BinaryMessageEncoding.bytesToString(bytes));
@@ -149,12 +158,10 @@ public class KafkaMultiMessageConverter {
     }
 
     public boolean isMultiMessage(byte[] message) {
-        if (message.length < MAGIC_ID_BYTES.length)
-            return false;
+        if (message.length < MAGIC_ID_BYTES.length) return false;
 
         for (int i = 0; i < MAGIC_ID_BYTES.length; i++)
-            if (message[i] != MAGIC_ID_BYTES[i])
-                return false;
+            if (message[i] != MAGIC_ID_BYTES[i]) return false;
 
         return true;
     }
@@ -217,7 +224,8 @@ public class KafkaMultiMessageConverter {
 
         public byte[] toBinaryArray() {
 
-            ExpandableArrayBuffer buffer = new ExpandableArrayBuffer(2 * size); // Think about the size
+            ExpandableArrayBuffer buffer =
+                    new ExpandableArrayBuffer(2 * size); // Think about the size
 
             MessageHeaderEncoder messageHeaderEncoder = new MessageHeaderEncoder();
 
@@ -228,31 +236,38 @@ public class KafkaMultiMessageConverter {
                 he.magicBytes(i, b);
             }
 
-            MultiMessageEncoder multiMessageEncoder = new MultiMessageEncoder().wrapAndApplyHeader(buffer, 0,
-                    messageHeaderEncoder);
+            MultiMessageEncoder multiMessageEncoder =
+                    new MultiMessageEncoder().wrapAndApplyHeader(buffer, 0, messageHeaderEncoder);
 
-            MultiMessageEncoder.HeadersEncoder headersEncoder = multiMessageEncoder.headersCount(headers.size());
-            headers.forEach(header -> headersEncoder.next().key(header.getKey()).value(header.getValue()));
+            MultiMessageEncoder.HeadersEncoder headersEncoder =
+                    multiMessageEncoder.headersCount(headers.size());
+            headers.forEach(
+                    header -> headersEncoder.next().key(header.getKey()).value(header.getValue()));
 
-            MultiMessageEncoder.MessagesEncoder messagesEncoder = multiMessageEncoder
-                    .messagesCount(messagesToWrite.size());
-            messagesToWrite.forEach(message -> {
-                messagesEncoder.next();
+            MultiMessageEncoder.MessagesEncoder messagesEncoder =
+                    multiMessageEncoder.messagesCount(messagesToWrite.size());
+            messagesToWrite.forEach(
+                    message -> {
+                        messagesEncoder.next();
 
-                MultiMessageEncoder.MessagesEncoder.HeadersEncoder messageHeadersEncoder = messagesEncoder
-                        .headersCount(message.getHeaders().size());
+                        MultiMessageEncoder.MessagesEncoder.HeadersEncoder messageHeadersEncoder =
+                                messagesEncoder.headersCount(message.getHeaders().size());
 
-                for (int i = 0; i < message.getHeaders().size(); i++) {
-                    KafkaMultiMessageHeader header = message.getHeaders().get(i);
-                    messageHeadersEncoder.next().key(header.getKey()).value(header.getValue());
-                }
+                        for (int i = 0; i < message.getHeaders().size(); i++) {
+                            KafkaMultiMessageHeader header = message.getHeaders().get(i);
+                            messageHeadersEncoder
+                                    .next()
+                                    .key(header.getKey())
+                                    .value(header.getValue());
+                        }
 
-                messagesEncoder.key(message.getKey()).value(message.getValue());
-            });
+                        messagesEncoder.key(message.getKey()).value(message.getValue());
+                    });
 
-            return Arrays.copyOfRange(buffer.byteArray(), 0,
+            return Arrays.copyOfRange(
+                    buffer.byteArray(),
+                    0,
                     multiMessageEncoder.encodedLength() + messageHeaderEncoder.encodedLength());
         }
     }
-
 }

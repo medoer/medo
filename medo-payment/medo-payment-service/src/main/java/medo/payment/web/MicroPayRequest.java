@@ -1,12 +1,11 @@
 package medo.payment.web;
 
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
 import medo.payment.domain.Terminal;
-
-import javax.validation.constraints.NotEmpty;
 
 @Data
 public class MicroPayRequest {
@@ -21,11 +20,9 @@ public class MicroPayRequest {
 
     public MicroPayRequest() {}
 
-    @NotEmpty
-    private String authCode;
+    @NotEmpty private String authCode;
 
-    @NotEmpty
-    private Money money;
+    @NotEmpty private Money money;
 
     private Long channelId;
 
@@ -36,5 +33,4 @@ public class MicroPayRequest {
     public Long getChannelId() {
         return ChannelId.getChannelId(authCode);
     }
-
 }

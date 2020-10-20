@@ -1,14 +1,11 @@
 package medo.common.redis.properties;
 
 import java.util.List;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-04
  */
@@ -23,14 +20,10 @@ public class CacheManagerProperties {
     @Getter
     public static class CacheConfig {
 
-        /**
-         * cache key
-         */
+        /** cache key */
         private String key;
 
-        /**
-         * 过期时间，sec
-         */
+        /** 过期时间，sec */
         private long second = 60;
     }
 }

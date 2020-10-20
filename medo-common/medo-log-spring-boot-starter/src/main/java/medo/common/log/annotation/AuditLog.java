@@ -3,7 +3,6 @@ package medo.common.log.annotation;
 import java.lang.annotation.*;
 
 /**
- * 
  * @author: bryce
  * @date: 2020-08-05
  */
@@ -12,9 +11,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface AuditLog {
 
-    /**
-     * 操作信息
-     */
+    /** 操作信息 */
     String operation();
-
 }

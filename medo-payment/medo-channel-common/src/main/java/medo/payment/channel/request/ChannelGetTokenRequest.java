@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Builder
 @Data
-public class ChannelGetTokenRequest extends ChannelBaseRequest{
+public class ChannelGetTokenRequest extends ChannelBaseRequest {
     private String authCode;
 }

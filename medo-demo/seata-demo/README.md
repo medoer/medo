@@ -18,14 +18,14 @@
 目前的Seata有两种模式可使用分别对应不同业务场景
 
 
-## 安装 SEATA server 
+## 安装 SEATA server
 
 ### docker
 
-[docker hub](https://hub.docker.com/r/seataio/seata-server)  
+[docker hub](https://hub.docker.com/r/seataio/seata-server)
 
 
-docker pull seataio/seata-server  
+docker pull seataio/seata-server
 docker run --name seata-server -p 8091:8091 seataio/seata-server:latest
 
 #### docker-compose

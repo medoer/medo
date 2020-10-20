@@ -1,6 +1,5 @@
 package medo.demo;
 
-
 import medo.common.core.id.IdGenerator;
 import medo.common.core.id.Int128;
 import org.junit.Assert;
@@ -14,8 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class IdGeneratorTest {
 
-    @Autowired
-    private IdGenerator idGenerator;
+    @Autowired private IdGenerator idGenerator;
 
     @Test
     public void testGenerateId() {

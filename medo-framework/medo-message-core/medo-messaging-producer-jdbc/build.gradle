@@ -1,4 +1,4 @@
-description = 'Message Producer - send the message to local database' 
+description = 'Message Producer - send the message to local database'
 
 dependencies {
 

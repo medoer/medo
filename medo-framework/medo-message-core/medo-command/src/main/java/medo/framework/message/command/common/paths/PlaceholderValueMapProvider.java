@@ -24,5 +24,4 @@ public class PlaceholderValueMapProvider implements PlaceholderValueProvider {
     public Map<String, String> getParams() {
         return params;
     }
-
 }

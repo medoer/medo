@@ -1,14 +1,12 @@
 package medo.framework.message.event.publisher;
 
-import medo.framework.message.event.common.DomainEvent;
-
 import java.util.Arrays;
 import java.util.List;
-
+import medo.framework.message.event.common.DomainEvent;
 
 /**
  * TODO 框架未使用。
- * 
+ *
  * @author: bryce
  * @date: 2020-08-16
  * @param <T>
@@ -27,5 +25,4 @@ public class ResultWithEvents<T> {
         this.result = result;
         this.events = Arrays.asList(events);
     }
-
 }

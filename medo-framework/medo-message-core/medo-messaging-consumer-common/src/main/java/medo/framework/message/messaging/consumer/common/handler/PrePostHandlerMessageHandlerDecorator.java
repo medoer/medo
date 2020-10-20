@@ -1,11 +1,10 @@
 package medo.framework.message.messaging.consumer.common.handler;
 
 import java.util.Arrays;
-
 import lombok.extern.slf4j.Slf4j;
-import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAndMessage;
 import medo.framework.message.messaging.common.Message;
 import medo.framework.message.messaging.common.MessageInterceptor;
+import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAndMessage;
 
 @Slf4j
 public class PrePostHandlerMessageHandlerDecorator implements MessageHandlerDecorator {
@@ -17,8 +16,9 @@ public class PrePostHandlerMessageHandlerDecorator implements MessageHandlerDeco
     }
 
     @Override
-    public void accept(SubscriberIdAndMessage subscriberIdAndMessage,
-                       MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
+    public void accept(
+            SubscriberIdAndMessage subscriberIdAndMessage,
+            MessageHandlerDecoratorChain messageHandlerDecoratorChain) {
         Message message = subscriberIdAndMessage.getMessage();
         String subscriberId = subscriberIdAndMessage.getSubscriberId();
         preHandle(subscriberId, message);
@@ -30,7 +30,6 @@ public class PrePostHandlerMessageHandlerDecorator implements MessageHandlerDeco
             postHandle(subscriberId, message, t);
             throw t;
         }
-
     }
 
     private void preHandle(String subscriberId, Message message) {
@@ -45,5 +44,4 @@ public class PrePostHandlerMessageHandlerDecorator implements MessageHandlerDeco
     public int getOrder() {
         return BuiltInMessageHandlerDecoratorOrder.PRE_POST_HANDLER_MESSAGE_HANDLER_DECORATOR;
     }
-
 }

@@ -5,5 +5,4 @@ import medo.framework.message.messaging.consumer.common.consumer.SubscriberIdAnd
 public interface MessageHandlerDecoratorChain {
 
     void invokeNext(SubscriberIdAndMessage subscriberIdAndMessage);
-
 }

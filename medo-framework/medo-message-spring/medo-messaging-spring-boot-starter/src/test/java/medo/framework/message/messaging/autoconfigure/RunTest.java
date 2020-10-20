@@ -15,13 +15,10 @@ public class RunTest {
     private String a;
 
     @Test
-    public void test() {
-
-    }
+    public void test() {}
 
     @Test
     public void kafkaPropertiesTest() {
         Assert.assertNotNull(a);
     }
-
 }

@@ -1,5 +1,8 @@
 package medo.payment.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.response.ChannelMicroPayResponse;
@@ -14,21 +17,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PaymentServiceTest {
 
-    @Autowired
-    private PaymentService paymentService;
+    @Autowired private PaymentService paymentService;
 
-    @MockBean
-    private ChannelRouter channelRouter;
+    @MockBean private ChannelRouter channelRouter;
 
     private String aliPayAuthCode = "286363410667260325";
 
@@ -44,16 +41,19 @@ public class PaymentServiceTest {
         MicroPayRequest microPayRequestWechat = new MicroPayRequest(wechatAuthCode);
         assertThat(microPayRequestWechat.getChannelId()).isEqualTo(ChannelId.WECHATPAY);
         // error auth code, throw a Exception
-        assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> {
-            new MicroPayRequest("test");
-        });
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(
+                        () -> {
+                            new MicroPayRequest("test");
+                        });
     }
 
     @Test
     public void testMicroPay() {
         MicroPayRequest microPayRequestAliPay = new MicroPayRequest(aliPayAuthCode);
         microPayRequestAliPay.setMoney(new Money(20));
-        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any()))
+                .thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         Payment payment = paymentService.microPay(microPayRequestAliPay);
         assertThat(payment).isNotNull();
         assertThat(payment.getState()).isEqualTo(PaymentState.SUCCEED);
@@ -61,16 +61,23 @@ public class PaymentServiceTest {
         // success event dispatcher TODO
 
         // invoke channel failed
-        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.failed(new ChannelMicroPayResponse()));
-        assertThatExceptionOfType(RuntimeException.class).as("invoke channel failed").isThrownBy(() -> {
-            paymentService.microPay(microPayRequestAliPay);
-        });
+        Mockito.when(channelRouter.microPay(Mockito.any()))
+                .thenReturn(ChannelBaseResponse.failed(new ChannelMicroPayResponse()));
+        assertThatExceptionOfType(RuntimeException.class)
+                .as("invoke channel failed")
+                .isThrownBy(
+                        () -> {
+                            paymentService.microPay(microPayRequestAliPay);
+                        });
         // invoke channel error
-        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.error(new ChannelMicroPayResponse()));
-        assertThatExceptionOfType(RuntimeException.class).as("invoke channel error").isThrownBy(() -> {
-            paymentService.microPay(microPayRequestAliPay);
-        });
-
+        Mockito.when(channelRouter.microPay(Mockito.any()))
+                .thenReturn(ChannelBaseResponse.error(new ChannelMicroPayResponse()));
+        assertThatExceptionOfType(RuntimeException.class)
+                .as("invoke channel error")
+                .isThrownBy(
+                        () -> {
+                            paymentService.microPay(microPayRequestAliPay);
+                        });
     }
 
     @Test
@@ -78,14 +85,16 @@ public class PaymentServiceTest {
         // create payment order
         MicroPayRequest microPayRequestAliPay = new MicroPayRequest(aliPayAuthCode);
         microPayRequestAliPay.setMoney(new Money(20));
-        Mockito.when(channelRouter.microPay(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
+        Mockito.when(channelRouter.microPay(Mockito.any()))
+                .thenReturn(ChannelBaseResponse.succeed(new ChannelMicroPayResponse()));
         Payment payment = paymentService.microPay(microPayRequestAliPay);
 
         RefundRequest refundRequest = new RefundRequest();
         refundRequest.setPaymentId(payment.getPaymentId());
         refundRequest.setMoney(new Money(20));
         refundRequest.setDesc("项链");
-        Mockito.when(channelRouter.refund(Mockito.any())).thenReturn(ChannelBaseResponse.succeed(new ChannelRefundResponse()));
+        Mockito.when(channelRouter.refund(Mockito.any()))
+                .thenReturn(ChannelBaseResponse.succeed(new ChannelRefundResponse()));
         Payment refund = paymentService.refund(refundRequest);
         assertThat(refund).isNotNull();
     }
