@@ -168,3 +168,10 @@ medo
 
 - 参考 .evn.example 文件，添加 .env 文件。
 - `docker-compose -f docker-compose-dependency-server.yml up -d` 启动 mysql、zookeeper、kafka、cdc 服务。
+
+## 其他配置
+
+### Code Style
+
+使用 [spotless](https://github.com/diffplug/spotless)
+通过 gradle 命令会执行代码格式检查，现有 eclipse 和 vs code 插件，不支持 idea。 
