@@ -4,6 +4,6 @@ bootJar.enabled = false
 jar.enabled = true
 
 dependencies {
-    api project(":medo-payment:medo-channel-common")
+    api project(":medo-payment:medo-channel:medo-channel-common")
     api project(":medo-payment:medo-channel-alipay:medo-channel-alipay-core")
 }

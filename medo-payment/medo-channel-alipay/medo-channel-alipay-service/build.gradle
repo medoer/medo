@@ -5,5 +5,5 @@ jar.enabled = true
 
 dependencies {
     implementation project(":medo-payment:medo-channel-alipay:medo-channel-alipay-spring-boot-starter")
-    implementation project(":medo-payment:medo-channel-service-common")
+    implementation project(":medo-payment:medo-channel:medo-channel-service-common")
 }
