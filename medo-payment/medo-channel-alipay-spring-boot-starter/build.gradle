@@ -1,9 +1,0 @@
-description = 'AliPay Channel Implement'
-
-bootJar.enabled = false
-jar.enabled = true
-
-dependencies {
-    api project(":medo-payment:medo-channel-api")
-    api project(":medo-payment:medo-channel-alipay")
-}

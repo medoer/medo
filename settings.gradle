@@ -64,12 +64,3 @@ include "medo-framework:medo-saga-spring:medo-saga-common-spring"
 include "medo-framework:medo-saga-spring:medo-saga-orchestration-spring"
 include "medo-framework:medo-saga-spring:medo-saga-participant-spring"
 include "medo-framework:medo-saga-spring:medo-saga-spring-boot-starter"
-
-// domain module
-
-include "medo-payment:medo-channel-api"
-include "medo-payment:medo-channel-alipay"
-include "medo-payment:medo-channel-alipay-spring-boot-starter"
-include "medo-payment:medo-payment-common"
-include "medo-payment:medo-payment-service"
-include "medo-payment:medo-payment-service-api"
