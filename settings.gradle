@@ -69,10 +69,15 @@ include "medo-framework:medo-saga-spring:medo-saga-spring-boot-starter"
 
 include "medo-payment"
 include "medo-payment:medo-channel-common"
-include "medo-payment:medo-channel-service-common"
-include "medo-payment:medo-channel-alipay-core"
-include "medo-payment:medo-channel-alipay-service"
-include "medo-payment:medo-channel-alipay-spring-boot-starter"
 include "medo-payment:medo-payment-common"
-include "medo-payment:medo-payment-service"
-include "medo-payment:medo-payment-service-api"
+include "medo-payment:medo-channel-service-common"
+// alipay
+include "medo-payment:medo-channel-alipay:medo-channel-alipay-core"
+include "medo-payment:medo-channel-alipay:medo-channel-alipay-service"
+include "medo-payment:medo-channel-alipay:medo-channel-alipay-spring-boot-starter"
+// payment domain
+include "medo-payment:medo-payment:medo-payment-service"
+include "medo-payment:medo-payment:medo-payment-service-api"
+// wechat
+//include 'medo-payment:medo-channel-wechat:medo-channel-wechat-core'
+
