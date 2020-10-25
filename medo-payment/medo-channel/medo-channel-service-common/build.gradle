@@ -5,7 +5,7 @@ jar.enabled = true
 
 dependencies {
 
-    api project(":medo-payment:medo-channel-common")
+    api project(":medo-payment:medo-channel:medo-channel-common")
     api "org.springframework.boot:spring-boot-starter-web"
 
 }

@@ -4,4 +4,5 @@ dependencies {
     api project(":medo-common:medo-common-core")
     api "org.springframework:spring-context"
     api "io.eventuate.messaging.kafka:eventuate-messaging-kafka-consumer"
+    api "org.springframework.kafka:spring-kafka"
 }

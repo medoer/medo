@@ -9,6 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class MessageJdbcOptionsConfiguration {
 
+    /**
+     * TODO 添加实例化条件，在 persistent producer jdbc bean 实例化时创建。形成循环条件以来
+     *
+     * @param jdbcTemplate
+     * @param outboxTable
+     * @return
+     */
     @Bean
     public MessageJdbcOptions messageJdbcOptions(
             JdbcTemplate jdbcTemplate,
