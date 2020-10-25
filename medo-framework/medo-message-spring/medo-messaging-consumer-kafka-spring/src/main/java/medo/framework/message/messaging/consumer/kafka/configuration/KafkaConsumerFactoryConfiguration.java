@@ -9,9 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KafkaConsumerFactoryConfiguration {
 
+    /**
+     * the "kafkaConsumerFactory" bean name is same to kafka-spring.
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
-    public KafkaConsumerFactory kafkaConsumerFactory() {
+    public KafkaConsumerFactory kafkaConsumerFactory1() {
         return new DefaultKafkaConsumerFactory();
     }
 }
