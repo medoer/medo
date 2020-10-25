@@ -1,29 +1,21 @@
 spring:
   application:
     name: message-kafka-test
-  datasource:
-    url: jdbc:mysql://localhost:3306/eventuate?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    platform: mysql
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      initialSize: 1
-      minIdle: 3
-      maxActive: 20
-      maxWait: 5000
-      timeBetweenEvictionRunsMillis: 30000
-      minEvictableIdleTimeMillis: 30000
-      validationQuery: select 'x'
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
-      filters: stat,wall,slf4j
-      connectionProperties: druid.stat.mergeSql=true; druid.stat.slowSqlMillis=2000
-      useGlobalDataSourceStat: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+    producer:
+      bootstrap-servers: localhost:9092
+
+#      #kafka默认消费者配置
+#      spring.kafka.consumer.bootstrap-servers=192.168.0.15:9092
+#      spring.kafka.consumer.enable-auto-commit=false
+#      spring.kafka.consumer.auto-offset-reset=earliest
+#      #kafka默认生产者配置
+#      spring.kafka.producer.bootstrap-servers=192.168.0.15:9092
+#      spring.kafka.producer.acks=-1
+#      spring.kafka.client-id=kafka-producer
+
 
 logging:
   level:

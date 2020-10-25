@@ -1,0 +1,10 @@
+description = 'Message Producer - send the message to local database'
+
+dependencies {
+
+    api project(":medo-common:medo-common-core")
+    api project(":medo-framework:medo-message-core:medo-messaging-producer-common")
+    // implement kafka client
+    api project(":medo-common:medo-kafka-spring-boot-starter")
+
+}

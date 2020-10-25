@@ -1,6 +1,6 @@
 package medo.payment.configuration;
 
-import medo.framework.message.messaging.producer.configuration.MessageProducerJdbcConfiguration;
+import medo.framework.message.messaging.producer.configuration.MessageProducerKafkaConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -11,5 +11,5 @@ import org.springframework.context.annotation.Import;
  * @date: 2020-08-11
  */
 @Configuration
-@Import(MessageProducerJdbcConfiguration.class)
+@Import(MessageProducerKafkaConfiguration.class)
 public class MessageProducerConfiguration {}
