@@ -11,6 +11,7 @@ public class KafkaConsumerFactoryConfiguration {
 
     /**
      * the "kafkaConsumerFactory" bean name is same to kafka-spring.
+     *
      * @return
      */
     @Bean
