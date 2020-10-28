@@ -7,7 +7,7 @@ public class ExceptionalTest {
 
     @Test(expected = RuntimeException.class)
     public void testOrElseThrow() {
-        Exceptional.of(
+        RunnableExceptional.of(
                         "test",
                         () -> {
                             throw new RuntimeException("inner exception");
@@ -17,7 +17,7 @@ public class ExceptionalTest {
 
     @Test
     public void testOrElseThrowWithNoException() {
-        Exceptional.of(
+        RunnableExceptional.of(
                         "success",
                         () -> {
                             System.out.println("test");
@@ -31,7 +31,7 @@ public class ExceptionalTest {
         // expect return origin value;
         String businessError =
                 (String)
-                        Exceptional.of(
+                        RunnableExceptional.of(
                                         originValue,
                                         () -> {;
                                         })
@@ -40,7 +40,7 @@ public class ExceptionalTest {
         // expect return other value;
         String businessError1 =
                 (String)
-                        Exceptional.of(
+                        RunnableExceptional.of(
                                         originValue,
                                         () -> {
                                             throw new RuntimeException("business error");

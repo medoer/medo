@@ -9,19 +9,19 @@ import java.util.function.Supplier;
  *
  * @param <T>
  */
-public final class Exceptional<T> {
+public final class RunnableExceptional<T> {
 
     private final T value;
 
     private final Runnable runnable;
 
-    public Exceptional(T value, Runnable runnable) {
+    public RunnableExceptional(T value, Runnable runnable) {
         this.value = value;
         this.runnable = runnable;
     }
 
-    public static <T> Exceptional<T> of(T value, Runnable runnable) {
-        return new Exceptional<>(value, runnable);
+    public static <T> RunnableExceptional<T> of(T value, Runnable runnable) {
+        return new RunnableExceptional<>(value, runnable);
     }
 
     public T get() {
