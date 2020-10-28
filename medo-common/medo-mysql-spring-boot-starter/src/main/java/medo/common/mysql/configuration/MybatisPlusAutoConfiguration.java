@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
+import java.util.Collections;
 import medo.common.core.properties.TenantProperties;
 import medo.common.mysql.properties.MybatisPlusAutoFillProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.CollectionUtils;
 
 /**
  * MybatisPlus Auto Configuration
@@ -41,7 +41,7 @@ public class MybatisPlusAutoConfiguration {
         if (enableTenant) {
             TenantSqlParser tenantSqlParser = new TenantSqlParser().setTenantHandler(tenantHandler);
             // TODO test to list method
-            paginationInterceptor.setSqlParserList(CollectionUtils.arrayToList(tenantSqlParser));
+            paginationInterceptor.setSqlParserList(Collections.singletonList(tenantSqlParser));
             paginationInterceptor.setSqlParserFilter(sqlParserFilter);
         }
         return paginationInterceptor;

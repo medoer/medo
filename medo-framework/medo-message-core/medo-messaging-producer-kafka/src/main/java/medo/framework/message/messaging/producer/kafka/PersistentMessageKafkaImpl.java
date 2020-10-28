@@ -26,6 +26,7 @@ public class PersistentMessageKafkaImpl implements PersistentMessage {
     @Override
     public void save(Message message) {
         // TODO 映射 message 和 kafka 关系
-        kafkaTemplate.send(message.getRequiredHeader(MessageHeader.DESTINATION), JSONMapper.toJSON(message));
+        kafkaTemplate.send(
+                message.getRequiredHeader(MessageHeader.DESTINATION), JSONMapper.toJSON(message));
     }
 }
