@@ -15,6 +15,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
+
 /**
  * MybatisPlus Auto Configuration
  *
@@ -41,7 +43,7 @@ public class MybatisPlusAutoConfiguration {
         if (enableTenant) {
             TenantSqlParser tenantSqlParser = new TenantSqlParser().setTenantHandler(tenantHandler);
             // TODO test to list method
-            paginationInterceptor.setSqlParserList(CollectionUtils.arrayToList(tenantSqlParser));
+            paginationInterceptor.setSqlParserList(Collections.singletonList(tenantSqlParser));
             paginationInterceptor.setSqlParserFilter(sqlParserFilter);
         }
         return paginationInterceptor;
