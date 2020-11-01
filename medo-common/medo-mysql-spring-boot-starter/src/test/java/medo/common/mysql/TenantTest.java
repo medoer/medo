@@ -33,4 +33,9 @@ public class TenantTest {
         Assertions.assertThat(tenant).isNotNull();
         dateMapper.selectById("tes");
     }
+
+    @Test
+    public void testDelete() {
+        dateMapper.deleteById(-1L);
+    }
 }
