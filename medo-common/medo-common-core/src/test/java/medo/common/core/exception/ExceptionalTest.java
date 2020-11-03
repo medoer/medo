@@ -48,4 +48,15 @@ public class ExceptionalTest {
                                 .orElseGet(() -> "other");
         Assert.assertEquals("other", businessError1);
     }
+
+    @Test
+    public void testThrowException() {
+        String s = RunnableExceptional.of("exception", this::throwException).orElse("error");
+        Assert.assertEquals("error", s);
+    }
+
+    private void throwException() throws Exception {
+        throw new Exception();
+    }
+
 }

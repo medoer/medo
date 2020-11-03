@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: message-kafka-test
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+    producer:
+      bootstrap-servers: localhost:9092
+
+#      #kafka默认消费者配置
+#      spring.kafka.consumer.bootstrap-servers=192.168.0.15:9092
+#      spring.kafka.consumer.enable-auto-commit=false
+#      spring.kafka.consumer.auto-offset-reset=earliest
+#      #kafka默认生产者配置
+#      spring.kafka.producer.bootstrap-servers=192.168.0.15:9092
+#      spring.kafka.producer.acks=-1
+#      spring.kafka.client-id=kafka-producer
+
+
+logging:
+  level:
+    root: info
+
+medo:
+  database:
+    schema: eventuate

@@ -1,0 +1,8 @@
+description = 'Code Generator'
+
+dependencies {
+    implementation project(":medo-common:medo-common-core")
+    implementation project(":medo-common:medo-common-spring-boot-starter")
+    implementation project(":medo-common:medo-mysql-spring-boot-starter")
+    implementation project(":medo-common:medo-swagger2-spring-boot-starter")
+}

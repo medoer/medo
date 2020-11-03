@@ -1,5 +1,7 @@
 package medo.common.core.exception;
 
+import medo.common.core.java.RunnableWithException;
+
 import java.util.function.Supplier;
 
 /**
@@ -13,14 +15,14 @@ public final class RunnableExceptional<T> {
 
     private final T value;
 
-    private final Runnable runnable;
+    private final RunnableWithException runnable;
 
-    public RunnableExceptional(T value, Runnable runnable) {
+    public RunnableExceptional(T value, RunnableWithException runnable) {
         this.value = value;
         this.runnable = runnable;
     }
 
-    public static <T> RunnableExceptional<T> of(T value, Runnable runnable) {
+    public static <T> RunnableExceptional<T> of(T value, RunnableWithException runnable) {
         return new RunnableExceptional<>(value, runnable);
     }
 

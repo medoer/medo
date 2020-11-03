@@ -1,5 +1,7 @@
 package medo.common.core.exception;
 
+import medo.common.core.java.SupplierWithException;
+
 import java.util.function.Supplier;
 
 /**
@@ -11,19 +13,23 @@ import java.util.function.Supplier;
  */
 public final class SupplierExceptional<T> {
 
-    private final Supplier<T> supplier;
+    private final SupplierWithException<T> supplier;
 
-    public SupplierExceptional(Supplier<T> supplier) {
+    public SupplierExceptional(SupplierWithException<T> supplier) {
         this.supplier = supplier;
     }
 
-    public static <T> SupplierExceptional<T> of(Supplier<T> supplier) {
+    public static <T> SupplierExceptional<T> of(SupplierWithException<T> supplier) {
         return new SupplierExceptional<>(supplier);
     }
 
-    public T get() {
-        return supplier.get();
-    }
+//    public T get() {
+//        try {
+//            return supplier.get();
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        }
+//    }
 
     public T orElse(T value){
         try {
