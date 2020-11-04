@@ -1,17 +1,12 @@
 package medo.common.mysql.mybatis;
 
+import javax.annotation.Resource;
 import medo.common.core.context.TenantContextHolder;
 import medo.common.core.properties.TenantProperties;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
-/**
- * @Author: Bryce
- * @Date: 2020/10/29 21:34
- */
+/** @Author: Bryce @Date: 2020/10/29 21:34 */
 @Component
 public class MySqlParserUtil {
 
@@ -27,7 +22,10 @@ public class MySqlParserUtil {
         String where = "";
         if (!StringUtils.isEmpty(tenantProperties.getCountWhereSupplement())) {
             // TODO 更灵活的配置
-            where = String.format(tenantProperties.getCountWhereSupplement(), TenantContextHolder.getTenant());
+            where =
+                    String.format(
+                            tenantProperties.getCountWhereSupplement(),
+                            TenantContextHolder.getTenant());
         }
         return String.format("SELECT COUNT(*) FROM (%s) TOTAL %s", originalSql, where);
     }
@@ -36,5 +34,4 @@ public class MySqlParserUtil {
     public void setTenantProperties(TenantProperties tenantProperties) {
         MySqlParserUtil.tenantProperties = tenantProperties;
     }
-
 }

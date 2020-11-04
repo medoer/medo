@@ -4,5 +4,4 @@ package medo.common.core.java;
 public interface SupplierWithException<R> {
 
     R get() throws Throwable;
-
 }

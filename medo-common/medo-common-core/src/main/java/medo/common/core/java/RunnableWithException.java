@@ -4,5 +4,4 @@ package medo.common.core.java;
 public interface RunnableWithException {
 
     void run() throws Throwable;
-
 }
