@@ -1,7 +1,11 @@
 package medo.common.core.exception;
 
+import lombok.extern.slf4j.Slf4j;
+import medo.common.core.java.FunctionWithException;
 import medo.common.core.java.SupplierWithException;
 
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -11,6 +15,7 @@ import java.util.function.Supplier;
 
  * @param <T>
  */
+@Slf4j
 public final class SupplierExceptional<T> {
 
     private final SupplierWithException<T> supplier;
@@ -23,13 +28,33 @@ public final class SupplierExceptional<T> {
         return new SupplierExceptional<>(supplier);
     }
 
-//    public T get() {
-//        try {
-//            return supplier.get();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//    }
+    public <R> SupplierExceptional<R> map(Function<? super T, ? extends R> mapper, Supplier<R> callback) {
+        Objects.requireNonNull(mapper);
+        T t = null;
+        try {
+            t = supplier.get();
+        } catch (Throwable throwable) {
+            R r = callback.get();
+            return new SupplierExceptional<>(() -> r);
+        }
+        R r = mapper.apply(t);
+        return new SupplierExceptional<>(() -> r);
+    }
+
+    public <R> SupplierExceptional<R> map(FunctionWithException<? super T, ? extends R> mapper) throws Throwable {
+        Objects.requireNonNull(mapper);
+        R r = mapper.apply(supplier.get());
+        return new SupplierExceptional<>(() -> r);
+    }
+
+    public T get() {
+        try {
+            return supplier.get();
+        } catch (Throwable ignored) {
+            log.error("invoke get error", ignored);
+            throw new RuntimeException(ignored.getMessage());
+        }
+    }
 
     public T orElse(T value){
         try {
