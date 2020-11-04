@@ -22,6 +22,9 @@ public class TenantProperties {
     /** 是否开启多租户 */
     private Boolean enable = false;
 
+    /** 多租户分页 count 查询条件,为引入分库插件解决分页问题做准备,eg: "WHERE tenant_id = %s AND tenant2_id = %s" (replace placeholder on business)*/
+    private String countWhereSupplement = "WHERE TOTAL.id = %s";
+
     /** 配置不进行多租户隔离的表名 */
     private List<String> ignoreTables = new ArrayList<>();
 
