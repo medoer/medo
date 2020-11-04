@@ -1,7 +1,7 @@
 package medo.payment.channel;
 
 import java.util.Map;
-import medo.common.core.exception.CommonExceptionHandler;
+import medo.common.core.exception.SupplierExceptional;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
@@ -31,19 +31,18 @@ public class ChannelRestTemplate implements ChannelClient {
     @Override
     public ChannelBaseResponse<ChannelMicroPayResponse> microPay(
             ChannelMicroPayRequest channelMicroPayRequest) {
-        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-                .run(
-                        (p) -> {
+        return SupplierExceptional.of(
+                        () -> {
                             // TODO deal with the ResponseEntity
                             String url =
                                     getHostOrContextPath()
                                             + ChannelServiceURIConstant.MICRO_PAY_URI;
                             return restTemplate
-                                    .postForEntity(url, p, ChannelBaseResponse.class)
+                                    .postForEntity(
+                                            url, channelMicroPayRequest, ChannelBaseResponse.class)
                                     .getBody();
-                        },
-                        channelMicroPayRequest);
+                        })
+                .orElse(() -> ChannelBaseResponse.error(ChannelMicroPayResponse.create()));
     }
 
     @Override
