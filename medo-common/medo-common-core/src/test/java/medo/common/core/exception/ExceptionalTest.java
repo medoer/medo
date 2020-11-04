@@ -58,5 +58,4 @@ public class ExceptionalTest {
     private void throwException() throws Exception {
         throw new Exception();
     }
-
 }

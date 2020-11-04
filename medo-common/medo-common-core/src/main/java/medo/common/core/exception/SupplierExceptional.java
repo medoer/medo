@@ -1,18 +1,17 @@
 package medo.common.core.exception;
 
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.java.FunctionWithException;
 import medo.common.core.java.SupplierWithException;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 /**
  * 参照 {@link java.util.Optional} 实现一个异常处理类。
  *
- * A container object which catch the exception.
-
+ * <p>A container object which catch the exception.
+ *
  * @param <T>
  */
 @Slf4j
@@ -28,7 +27,8 @@ public final class SupplierExceptional<T> {
         return new SupplierExceptional<>(supplier);
     }
 
-    public <R> SupplierExceptional<R> map(Function<? super T, ? extends R> mapper, Function<Throwable, R> callback) {
+    public <R> SupplierExceptional<R> map(
+            Function<? super T, ? extends R> mapper, Function<Throwable, R> callback) {
         Objects.requireNonNull(mapper);
         T t = null;
         try {
@@ -41,7 +41,8 @@ public final class SupplierExceptional<T> {
         return new SupplierExceptional<>(() -> r);
     }
 
-    public <R> SupplierExceptional<R> map(FunctionWithException<? super T, ? extends R> mapper) throws Throwable {
+    public <R> SupplierExceptional<R> map(FunctionWithException<? super T, ? extends R> mapper)
+            throws Throwable {
         Objects.requireNonNull(mapper);
         R r = mapper.apply(supplier.get());
         return new SupplierExceptional<>(() -> r);
@@ -56,7 +57,7 @@ public final class SupplierExceptional<T> {
         }
     }
 
-    public T orElse(T value){
+    public T orElse(T value) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -64,7 +65,7 @@ public final class SupplierExceptional<T> {
         }
     }
 
-    public T orElse(Supplier<? extends T> other){
+    public T orElse(Supplier<? extends T> other) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -72,7 +73,7 @@ public final class SupplierExceptional<T> {
         }
     }
 
-    public Object orElseGet(Supplier<Object> other){
+    public Object orElseGet(Supplier<Object> other) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -87,5 +88,4 @@ public final class SupplierExceptional<T> {
             throw exceptionSupplier.get();
         }
     }
-
 }

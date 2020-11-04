@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.plugins.tenant.TenantHandler;
 import com.baomidou.mybatisplus.extension.plugins.tenant.TenantSqlParser;
 import java.util.Collections;
 import java.util.List;
-
 import medo.common.core.properties.TenantProperties;
 import medo.common.mysql.mybatis.CountSqlParser;
 import medo.common.mysql.properties.MybatisPlusAutoFillProperties;
@@ -39,12 +38,13 @@ public class MybatisPlusAutoConfiguration {
 
     /**
      * Override default sql optimize parse
+     *
      * @return
      */
-//    @Bean
-//    public CountSqlParser countSqlParser() {
-//        return new CountSqlParser();
-//    }
+    //    @Bean
+    //    public CountSqlParser countSqlParser() {
+    //        return new CountSqlParser();
+    //    }
 
     /** 分页插件，自动识别数据库类型 */
     @Bean
