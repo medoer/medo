@@ -28,13 +28,13 @@ public final class SupplierExceptional<T> {
         return new SupplierExceptional<>(supplier);
     }
 
-    public <R> SupplierExceptional<R> map(Function<? super T, ? extends R> mapper, Supplier<R> callback) {
+    public <R> SupplierExceptional<R> map(Function<? super T, ? extends R> mapper, Function<Throwable, R> callback) {
         Objects.requireNonNull(mapper);
         T t = null;
         try {
             t = supplier.get();
         } catch (Throwable throwable) {
-            R r = callback.get();
+            R r = callback.apply(throwable);
             return new SupplierExceptional<>(() -> r);
         }
         R r = mapper.apply(t);
