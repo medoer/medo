@@ -1,8 +1,7 @@
 package medo.common.core.exception;
 
-import medo.common.core.java.RunnableWithException;
-
 import java.util.function.Supplier;
+import medo.common.core.java.RunnableWithException;
 
 /**
  * 参照 {@link java.util.Optional} 实现一个异常处理类。

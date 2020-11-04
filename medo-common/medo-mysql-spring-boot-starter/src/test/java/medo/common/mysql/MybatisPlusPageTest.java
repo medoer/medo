@@ -6,19 +6,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import medo.common.mysql.domain.model.*;
 import medo.common.mysql.mapper.DateMapper;
-import medo.common.mysql.mapper.EnumMapper;
 import medo.common.mysql.mapper.TestMapper;
-import medo.common.mysql.mapper.ValueObjectMapper;
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 /**
  * mybatis plus crud demo
@@ -31,8 +26,7 @@ public class MybatisPlusPageTest {
 
     @Autowired private DateMapper dateMapper;
 
-    @Autowired
-    private TestMapper testMapper;
+    @Autowired private TestMapper testMapper;
 
     @Test
     public void testPageWithGroupBy() {
@@ -41,9 +35,8 @@ public class MybatisPlusPageTest {
         LambdaQueryWrapper<DateDomain> queryWrapper =
                 new QueryWrapper<DateDomain>()
                         .lambda()
-                .groupBy(DateDomain::getId)
-                .orderByDesc(DateDomain::getCreateTime)
-                        ;
+                        .groupBy(DateDomain::getId)
+                        .orderByDesc(DateDomain::getCreateTime);
         IPage<DateDomain> dateDomainIPage = dateMapper.selectPage(page, queryWrapper);
         Assertions.assertThat(dateDomainIPage.getTotal()).isGreaterThan(1);
     }
@@ -55,9 +48,8 @@ public class MybatisPlusPageTest {
         LambdaQueryWrapper<medo.common.mysql.domain.model.Test> queryWrapper =
                 new QueryWrapper<medo.common.mysql.domain.model.Test>()
                         .lambda()
-                        .groupBy(medo.common.mysql.domain.model.Test::getId)
-                ;
+                        .groupBy(medo.common.mysql.domain.model.Test::getId);
         testMapper.selectLeftJoin(page);
-//        Assertions.assertThat(dateDomainIPage.getTotal()).isGreaterThan(1);
+        //        Assertions.assertThat(dateDomainIPage.getTotal()).isGreaterThan(1);
     }
 }
