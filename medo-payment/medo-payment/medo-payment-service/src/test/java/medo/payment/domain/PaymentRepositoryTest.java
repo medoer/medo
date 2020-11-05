@@ -23,7 +23,7 @@ public class PaymentRepositoryTest {
     public void testCreate() {
         Payment payment =
                 Payment.createPayment(
-                        -1L, -1L, -1L, Money.ZERO, 1L, idGenerator.generateId().asString());
+                        new Terminal(), Money.ZERO, 1L, idGenerator.generateId().asString());
         //        int insert = paymentRepository.insert(payment);
         //        Assert.assertEquals(insert, 1);
     }
