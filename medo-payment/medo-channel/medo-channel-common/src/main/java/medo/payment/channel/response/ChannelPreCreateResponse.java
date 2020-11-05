@@ -5,12 +5,9 @@ import lombok.Data;
 @Data
 public class ChannelPreCreateResponse {
 
-    private String channelPaymentId;
     private String paymentId;
+    private String qrCode;
     private String msg;
-    private String buyerId;
-    private String buyerName;
-    private String buyerEmail;
 
     public static ChannelPreCreateResponse create() {
         return new ChannelPreCreateResponse();

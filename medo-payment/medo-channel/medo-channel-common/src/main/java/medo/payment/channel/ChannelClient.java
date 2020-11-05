@@ -20,9 +20,9 @@ public interface ChannelClient {
      * @param channelGetTokenRequest
      * @return
      */
-    ChannelBaseResponse<String> getToken(ChannelGetTokenRequest channelGetTokenRequest);
+    ChannelBaseResponse<?> getToken(ChannelGetTokenRequest channelGetTokenRequest);
 
-    ChannelBaseResponse<String> refreshToken(String refreshToken);
+    ChannelBaseResponse<?> refreshToken(String refreshToken);
 
     ChannelBaseResponse<?> authCallback();
 
