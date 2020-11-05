@@ -8,7 +8,7 @@ public class MedoPairTest {
 
     @Test
     public void testCreate() {
-        MedoPair<String> stringMedoPair = MedoPair.create("key", "value");
+        MedoPair<String, String> stringMedoPair = MedoPair.create("key", "value");
         Assertions.assertThat(stringMedoPair.getKey()).isEqualTo("key");
         Assertions.assertThat(stringMedoPair.getValue()).isEqualTo("value");
     }
