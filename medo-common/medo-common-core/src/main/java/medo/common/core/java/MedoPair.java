@@ -4,12 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * KEY:VALUE Object
- *
- * @Author: Bryce
- * @Date: 2020/11/5 13:10
- */
+/** KEY:VALUE Object @Author: Bryce @Date: 2020/11/5 13:10 */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
