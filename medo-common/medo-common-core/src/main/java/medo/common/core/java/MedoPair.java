@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MedoPair<T> {
+public class MedoPair<K, V> {
 
-    private String key;
-    private T value;
+    private K key;
+    private V value;
 
-    public static <T> MedoPair<T> create(String key, T value) {
+    public static <K, V> MedoPair<K, V> create(K key, V value) {
         return new MedoPair<>(key, value);
     }
 }
