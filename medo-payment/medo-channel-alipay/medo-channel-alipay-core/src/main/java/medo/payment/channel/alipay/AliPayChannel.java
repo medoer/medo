@@ -143,16 +143,18 @@ public class AliPayChannel implements ChannelClient {
 
     @Override
     public ChannelBaseResponse fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            AlipayTradeQueryResponse alipayTradeQueryResponse =
-        //                                    Factory.Payment.Common().query(p);
-        //                            return aliPayResponseHandler(alipayTradeQueryResponse);
-        //                        },
-        //                        channelFetchPaymentRequest.getPaymentId());
-        return null;
+        return SupplierExceptional.of(
+                () -> Factory.Payment.Common().query(channelFetchPaymentRequest.getPaymentId()))
+                .map(
+                        teaModel -> {
+                            if (ResponseChecker.success(teaModel)) {
+                                return ChannelBaseResponse.succeed("");
+                            }
+                            return ChannelBaseResponse.failed("");
+                        },
+                        e -> ChannelBaseResponse.error("")
+                )
+                .get();
     }
 
     @Override
