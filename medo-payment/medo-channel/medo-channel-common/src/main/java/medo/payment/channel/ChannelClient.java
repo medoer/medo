@@ -2,27 +2,19 @@ package medo.payment.channel;
 
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
-import medo.payment.channel.response.ChannelMicroPayResponse;
 
 /** Channel Common Interface */
 public interface ChannelClient {
 
     ChannelBaseResponse<?> generateQR(ChannelGenQRRequest genQRRequest);
 
-    ChannelBaseResponse<ChannelMicroPayResponse> microPay(
-            ChannelMicroPayRequest channelMicroPayRequest);
+    ChannelBaseResponse<?> microPay(ChannelMicroPayRequest channelMicroPayRequest);
 
     ChannelBaseResponse<?> preCreate(ChannelPreCreateRequest channelPreCreateRequest);
 
-    /**
-     * get authorization token
-     *
-     * @param channelGetTokenRequest
-     * @return
-     */
-    ChannelBaseResponse<String> getToken(ChannelGetTokenRequest channelGetTokenRequest);
+    ChannelBaseResponse<?> getToken(ChannelGetTokenRequest channelGetTokenRequest);
 
-    ChannelBaseResponse<String> refreshToken(String refreshToken);
+    ChannelBaseResponse<?> refreshToken(String refreshToken);
 
     ChannelBaseResponse<?> authCallback();
 

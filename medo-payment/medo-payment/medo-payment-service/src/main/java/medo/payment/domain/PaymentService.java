@@ -28,6 +28,13 @@ public class PaymentService {
 
     private IdGenerator idGenerator;
 
+    public String preCreate() {
+        // create payment record
+        ChannelBaseResponse<String> channelBaseResponse = channelRouter.preCreate(null);
+        String qrCode = channelBaseResponse.getData();
+        return qrCode;
+    }
+
     public Payment microPay(MicroPayRequest microPayRequest) {
         Terminal terminal = microPayRequest.getTerminal();
         // create payment

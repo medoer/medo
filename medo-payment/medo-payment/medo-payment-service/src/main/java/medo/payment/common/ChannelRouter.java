@@ -54,8 +54,9 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
-        return null;
+    public ChannelBaseResponse<String> preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
+        ChannelClient channelClient = getBean();
+        return channelClient.preCreate(channelPreCreateRequest);
     }
 
     @Override
