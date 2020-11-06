@@ -2,21 +2,19 @@
 
 > A demo project
 
-基于 Springboot + K8S  的微服务脚手架。
+基于 Springboot + K8S 的微服务落地。
 
 项目参考 [Eventuate Core](https://github.com/eventuate-tram/eventuate-tram-core)
 
 ## 目的
 
-积累、学习微服务关键技术。
-
-聚合支付场景。
+积累、学习微服务开发相关知识。
 
 ## 架构
 
-[Medo 架构文档](https://xie.infoq.cn/article/a7f4005fe9c0645eb1dde1a70)
+[Payment 项目文档](https://xie.infoq.cn/article/a7f4005fe9c0645eb1dde1a70)
 
-## GIT 分支 
+## GIT 分支
 
 ### platform
 
@@ -28,11 +26,11 @@
 
 ### payment
 
-聚合支付
+支付
 
 ### master
 
-在 platform 基础上实现一个业务场景。
+所有项目整合
 
 ## 模块
 
@@ -114,6 +112,18 @@ medo
     - mall-admin-goods -- 商品管理
     - mall-admin-order -- 订单管理
 - medo-payment -- 聚合支付系统
+    - medo-channel -- 支付渠道相关
+        - medo-channel-common -- 支付渠道通用模块
+        - medo-channel-service-common -- 支付渠道独立部署通用模块
+    - medo-channel-alipay -- 支付宝对接
+        - medo-channel-alipay-core -- 支付宝集成
+        - medo-channel-alipay-service -- 支付宝微服务
+        - medo-channel-alipay-spring-boot-starter -- 支付宝 starter 模块
+    - medo-channel-wechat -- 微信对接 TODO
+    - medo-payment-common -- 支付模块通用模块
+    - medo-payment -- 支付业务相关
+        - medo-payment-service-api -- 支付业务 API 模块
+        - medo-payment-service -- 支付业务服务
     - medo-channel-api -- 支付渠道抽象 api
     - medo-channel-alipay -- alipay 支付渠道对接
     - medo-channel-wechat -- wechat 支付渠道对接
@@ -122,14 +132,6 @@ medo
     - medo-payment-service -- 支付业务模块
 
 ```
-
-### Medo Message
-
-
-
-### Medo Saga
-
-
 
 ## TODO List
 
