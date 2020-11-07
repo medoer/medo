@@ -2,6 +2,8 @@ package medo.payment.channel.common;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class ChannelId {
 
     public static final String HEADER_NAME = "CHANNEL_ID";
@@ -16,6 +18,16 @@ public class ChannelId {
         if (ChannelIdRule.isAliPayQrcode(authCode)) {
             return ALIPAY;
         } else if (ChannelIdRule.isWechatQrcode(authCode)) {
+            return WECHATPAY;
+        } else {
+            throw new RuntimeException("no such channel");
+        }
+    }
+
+    public static Long getChannelId(HttpServletRequest request) {
+        if (ChannelUserAgentUtil.isFromAliPay(request)) {
+            return ALIPAY;
+        } else if (ChannelUserAgentUtil.isFromWechat(request)) {
             return WECHATPAY;
         } else {
             throw new RuntimeException("no such channel");

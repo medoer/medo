@@ -6,11 +6,14 @@ import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelMicroPayRequest;
+import medo.payment.channel.request.ChannelPreCreateRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelPreCreateResponse;
 import medo.payment.common.ChannelRouter;
 import medo.payment.messaging.PaymentDomainEventPublisher;
-import medo.payment.web.MicroPayRequest;
-import medo.payment.web.RefundRequest;
+import medo.payment.request.MicroPayRequest;
+import medo.payment.request.PreCreateRequest;
+import medo.payment.request.RefundRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +31,15 @@ public class PaymentService {
 
     private IdGenerator idGenerator;
 
-    public String preCreate() {
+    public String preCreate(PreCreateRequest preCreateRequest) {
         // create payment record
-        ChannelBaseResponse<String> channelBaseResponse = channelRouter.preCreate(null);
-        String qrCode = channelBaseResponse.getData();
-        return qrCode;
+        ChannelPreCreateRequest channelPreCreateRequest =
+                preCreateRequest.buildChannelPreCreateRequest(idGenerator.generateId().asString());
+        ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse = channelRouter.preCreate(channelPreCreateRequest);
+         if (channelBaseResponse.isSuccess()) {
+            return channelBaseResponse.getData().getQrCode();
+         }
+         throw new RuntimeException(channelBaseResponse.getData().getMsg());
     }
 
     public Payment microPay(MicroPayRequest microPayRequest) {
@@ -47,12 +54,7 @@ public class PaymentService {
         paymentRepository.insert(payment);
 
         ChannelMicroPayRequest channelMicroPayRequest =
-                ChannelMicroPayRequest.builder()
-                        .authCode(microPayRequest.getAuthCode())
-                        .paymentId(payment.getPaymentId())
-                        .subject(microPayRequest.getDesc())
-                        .money(microPayRequest.getMoney())
-                        .build();
+                microPayRequest.buildChannelMicroPayRequest(payment.getPaymentId());
         ChannelBaseResponse<ChannelMicroPayResponse> channelMicroPayResponse =
                 channelRouter.microPay(channelMicroPayRequest);
         // TODO

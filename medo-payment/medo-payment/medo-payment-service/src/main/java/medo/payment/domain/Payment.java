@@ -14,7 +14,7 @@ import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
 import medo.payment.messaging.PaymentRefundPending;
 import medo.payment.messaging.PaymentSucceed;
-import medo.payment.web.RefundRequest;
+import medo.payment.request.RefundRequest;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
