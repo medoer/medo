@@ -1,9 +1,10 @@
-package medo.payment.web;
+package medo.payment.request;
 
-import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import medo.payment.common.domain.Money;
 import medo.payment.domain.Terminal;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class RefundRequest {

@@ -9,6 +9,7 @@ ext {
     eventuateTramVersion= '0.24.0.RELEASE'
     fastjsonVersion = '1.2.62'
     guavaVersion = '29.0-jre'
+    oauth0Version = "3.6.0"
     lombokVersion = "1.18.4"
     mysqlDriverVersion = '8.0.21'
     okhttpVersion = '4.9.0'
@@ -40,6 +41,7 @@ dependencyManagement {
         dependency "mysql:mysql-connector-java:${mysqlDriverVersion}"
         dependency "com.alibaba:fastjson:${fastjsonVersion}"
         dependency "com.google.guava:guava:${guavaVersion}"
+        dependency "com.auth0:java-jwt:${oauth0Version}"
         dependency "org.projectlombok:lombok:${lombokVersion}"
         dependency "com.squareup.okhttp3:okhttp:${okhttpVersion}"
         dependency "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}"

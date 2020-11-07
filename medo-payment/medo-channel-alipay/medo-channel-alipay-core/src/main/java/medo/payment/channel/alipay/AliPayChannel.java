@@ -7,14 +7,14 @@ import medo.common.core.exception.SupplierExceptional;
 import medo.payment.channel.ChannelClient;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
-import medo.payment.channel.response.ChannelMicroPayResponse;
-import medo.payment.channel.response.ChannelRefundResponse;
+import medo.payment.channel.response.*;
+import medo.payment.common.domain.Money;
 
 @Slf4j
 public class AliPayChannel implements ChannelClient {
 
     @Override
-    public ChannelBaseResponse generateQR(ChannelGenQRRequest channelGenQRRequest) {
+    public ChannelBaseResponse<?> generateQR(ChannelGenQRRequest channelGenQRRequest) {
 
         // TODO
 
@@ -61,14 +61,11 @@ public class AliPayChannel implements ChannelClient {
         return null;
     }
 
-    /**
-     * generate alipay qr code
-     *
-     * @param channelPreCreateRequest
-     * @return
-     */
     @Override
-    public ChannelBaseResponse preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
+    public ChannelBaseResponse<ChannelPreCreateResponse> preCreate(
+            ChannelPreCreateRequest channelPreCreateRequest) {
+        ChannelPreCreateResponse channelPreCreateResponse = ChannelPreCreateResponse.create();
+        channelPreCreateResponse.setPaymentId(channelPreCreateRequest.getPaymentId());
         return SupplierExceptional.of(
                         () ->
                                 Factory.Payment.FaceToFace()
@@ -79,26 +76,39 @@ public class AliPayChannel implements ChannelClient {
                 .map(
                         teaModel -> {
                             if (ResponseChecker.success(teaModel)) {
-                                return ChannelBaseResponse.succeed(null);
+                                channelPreCreateResponse.setQrCode(teaModel.qrCode);
+                                return ChannelBaseResponse.succeed(channelPreCreateResponse);
                             }
-                            return ChannelBaseResponse.failed(null);
+                            channelPreCreateResponse.setMsg(teaModel.msg);
+                            return ChannelBaseResponse.failed(channelPreCreateResponse);
                         },
-                        e -> ChannelBaseResponse.error(e.getMessage()))
+                        e -> {
+                            channelPreCreateResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(ChannelPreCreateResponse.create());
+                        })
                 .get();
     }
 
     @Override
-    public ChannelBaseResponse getToken(ChannelGetTokenRequest channelGetTokenRequest) {
+    public ChannelBaseResponse<ChannelTokenResponse> getToken(
+            ChannelGetTokenRequest channelGetTokenRequest) {
+        ChannelTokenResponse channelTokenResponse = ChannelTokenResponse.create();
         return SupplierExceptional.of(
                         () -> Factory.Base.OAuth().getToken(channelGetTokenRequest.getAuthCode()))
                 .map(
                         teaModel -> {
                             if (ResponseChecker.success(teaModel)) {
-                                return ChannelBaseResponse.succeed(null);
+                                channelTokenResponse.setAssessToken(teaModel.accessToken);
+                                channelTokenResponse.setRefreshToken(teaModel.refreshToken);
+                                return ChannelBaseResponse.succeed(channelTokenResponse);
                             }
-                            return ChannelBaseResponse.failed(null);
+                            channelTokenResponse.setMsg(teaModel.msg);
+                            return ChannelBaseResponse.failed(channelTokenResponse);
                         },
-                        e -> ChannelBaseResponse.error(e.getMessage()))
+                        e -> {
+                            channelTokenResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(channelTokenResponse);
+                        })
                 .get();
     }
 
@@ -117,7 +127,7 @@ public class AliPayChannel implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse authCallback() {
+    public ChannelBaseResponse<?> authCallback() {
         return null;
     }
 
@@ -142,97 +152,131 @@ public class AliPayChannel implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse fetchPayment(ChannelFetchPaymentRequest channelFetchPaymentRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            AlipayTradeQueryResponse alipayTradeQueryResponse =
-        //                                    Factory.Payment.Common().query(p);
-        //                            return aliPayResponseHandler(alipayTradeQueryResponse);
-        //                        },
-        //                        channelFetchPaymentRequest.getPaymentId());
+    public ChannelBaseResponse<ChannelFetchPaymentResponse> fetchPayment(
+            ChannelFetchPaymentRequest channelFetchPaymentRequest) {
+        ChannelFetchPaymentResponse channelFetchPaymentResponse =
+                ChannelFetchPaymentResponse.create();
+        return SupplierExceptional.of(
+                        () ->
+                                Factory.Payment.Common()
+                                        .query(channelFetchPaymentRequest.getPaymentId()))
+                .map(
+                        teaModel -> {
+                            if (ResponseChecker.success(teaModel)) {
+                                channelFetchPaymentResponse.setChannelPaymentId(teaModel.tradeNo);
+                                channelFetchPaymentResponse.setAmount(
+                                        new Money(teaModel.payAmount));
+                                //
+                                // channelFetchPaymentResponse.setFee(teaModel.transPayRate);
+                                channelFetchPaymentResponse.setStatus(teaModel.tradeStatus);
+                                return ChannelBaseResponse.succeed(channelFetchPaymentResponse);
+                            }
+                            channelFetchPaymentResponse.setMsg(teaModel.msg);
+                            return ChannelBaseResponse.failed(channelFetchPaymentResponse);
+                        },
+                        e -> {
+                            channelFetchPaymentResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(channelFetchPaymentResponse);
+                        })
+                .get();
+    }
+
+    @Override
+    public ChannelBaseResponse<ChannelFetchRefundResponse> fetchRefund(
+            ChannelFetchRefundRequest channelFetchRefundRequest) {
+        ChannelFetchRefundResponse channelFetchRefundResponse = ChannelFetchRefundResponse.create();
+        return SupplierExceptional.of(
+                        () ->
+                                Factory.Payment.Common()
+                                        .queryRefund(
+                                                channelFetchRefundRequest.getPaymentId(),
+                                                channelFetchRefundRequest.getRefundId()))
+                .map(
+                        teaModel -> {
+                            if (ResponseChecker.success(teaModel)) {
+                                // TODO 为什么没有退款 id
+                                channelFetchRefundResponse.setChannelRefundId(teaModel.tradeNo);
+                                channelFetchRefundResponse.setAmount(
+                                        new Money(teaModel.refundAmount));
+                                channelFetchRefundResponse.setStatus(teaModel.refundStatus);
+                                return ChannelBaseResponse.succeed(channelFetchRefundResponse);
+                            }
+                            channelFetchRefundResponse.setMsg(teaModel.msg);
+                            return ChannelBaseResponse.failed(channelFetchRefundResponse);
+                        },
+                        e -> {
+                            channelFetchRefundResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(channelFetchRefundResponse);
+                        })
+                .get();
+    }
+
+    @Override
+    public ChannelBaseResponse<?> prepareReconcile() {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse fetchRefund(ChannelFetchRefundRequest channelFetchRefundRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            AlipayTradeFastpayRefundQueryResponse
-        //                                    alipayTradeFastpayRefundQueryResponse =
-        //                                            Factory.Payment.Common()
-        //                                                    .queryRefund(p.getPaymentId(),
-        // p.getRefundId());
-        //                            return
-        // aliPayResponseHandler(alipayTradeFastpayRefundQueryResponse);
-        //                        },
-        //                        channelFetchRefundRequest);
+    public ChannelBaseResponse<?> uploadImage() {
         return null;
     }
 
     @Override
-    public ChannelBaseResponse prepareReconcile() {
-        return null;
+    public ChannelBaseResponse<ChannelCloseResponse> close(
+            ChannelCloseRequest channelCloseRequest) {
+        ChannelCloseResponse channelCloseResponse = ChannelCloseResponse.create();
+        return SupplierExceptional.of(
+                        () -> Factory.Payment.Common().close(channelCloseRequest.getPaymentId()))
+                .map(
+                        teaModel -> {
+                            if (ResponseChecker.success(teaModel)) {
+                                return ChannelBaseResponse.succeed(channelCloseResponse);
+                            }
+                            channelCloseResponse.setMsg(teaModel.msg);
+                            return ChannelBaseResponse.failed(channelCloseResponse);
+                        },
+                        e -> {
+                            channelCloseResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(channelCloseResponse);
+                        })
+                .get();
     }
 
     @Override
-    public ChannelBaseResponse uploadImage() {
-        return null;
+    public ChannelBaseResponse<ChannelCancelResponse> cancel(
+            ChannelCancelRequest channelCancelRequest) {
+        ChannelCancelResponse channelCancelResponse = ChannelCancelResponse.create();
+        return SupplierExceptional.of(
+                        () -> Factory.Payment.Common().cancel(channelCancelRequest.getPaymentId()))
+                .map(
+                        teaMode -> {
+                            if (ResponseChecker.success(teaMode)) {
+                                return ChannelBaseResponse.succeed(channelCancelResponse);
+                            }
+                            channelCancelResponse.setMsg(teaMode.msg);
+                            return ChannelBaseResponse.failed(channelCancelResponse);
+                        },
+                        e -> {
+                            channelCancelResponse.setMsg(e.getMessage());
+                            return ChannelBaseResponse.error(channelCancelResponse);
+                        })
+                .get();
     }
 
+    // 这个接口是 channel 提供的一个工具接口
     @Override
-    public ChannelBaseResponse close(ChannelCloseRequest channelCloseRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            AlipayTradeCloseResponse alipayTradeCloseResponse =
-        //                                    Factory.Payment.Common().close(p);
-        //                            return aliPayResponseHandler(alipayTradeCloseResponse);
-        //                        },
-        //                        channelCloseRequest.getPaymentId());
-        return null;
-    }
-
-    @Override
-    public ChannelBaseResponse cancel(ChannelCancelRequest channelCancelRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            AlipayTradeCancelResponse alipayTradeCancelResponse =
-        //                                    Factory.Payment.Common().cancel(p);
-        //                            return aliPayResponseHandler(alipayTradeCancelResponse);
-        //                        },
-        //                        channelCancelRequest.getPaymentId());
-        return null;
-    }
-
-    @Override
-    public ChannelBaseResponse verify(
+    public ChannelBaseResponse<ChannelVerifyResponse> verify(
             ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
-        //        return CommonExceptionHandler.<Throwable, ChannelBaseResponse>create()
-        //                .exceptionHandler((e) -> ChannelBaseResponse.error(e))
-        //                .run(
-        //                        (p) -> {
-        //                            Boolean verifyNotify =
-        // Factory.Payment.Common().verifyNotify(p);
-        //                            return ChannelBaseResponse.succeed(verifyNotify);
-        //                        },
-        //                        beanToMap(channelNotificationVerifyRequest));
-        return null;
+        ChannelVerifyResponse channelVerifyResponse = ChannelVerifyResponse.create();
+        return SupplierExceptional.of(() -> Factory.Payment.Common().verifyNotify(null))
+                .map(
+                        teaModel -> {
+                            channelVerifyResponse.setVerify(teaModel);
+                            return ChannelBaseResponse.succeed(channelVerifyResponse);
+                        },
+                        e -> {
+                            return ChannelBaseResponse.error(channelVerifyResponse);
+                        })
+                .get();
     }
-
-    //    private <T> ChannelBaseResponse<T> aliPayResponseHandler(TeaModel response, T data) {
-    //        if (ResponseChecker.success(response)) {
-    //            return ChannelBaseResponse.succeed(data);
-    //        } else {
-    //            log.error(JSONMapper.toJSON(response));
-    //            return ChannelBaseResponse.failed(data);
-    //        }
-    //    }
-
 }

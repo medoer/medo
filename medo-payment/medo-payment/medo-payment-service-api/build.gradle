@@ -7,4 +7,7 @@ dependencies {
     api project(":medo-framework:medo-message-spring:medo-messaging-spring-boot-starter")
     api project(":medo-framework:medo-message-spring:medo-event-publisher-spring-boot-starter")
     api project(":medo-framework:medo-message-spring:medo-event-subscriber-spring-boot-starter")
+    api project(":medo-payment:medo-channel:medo-channel-common")
+    implementation project(":medo-payment:medo-payment-common")
+    api "com.auth0:java-jwt"
 }

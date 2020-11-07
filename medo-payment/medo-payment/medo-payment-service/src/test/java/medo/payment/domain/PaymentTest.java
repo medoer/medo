@@ -7,7 +7,7 @@ import java.util.UUID;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
-import medo.payment.web.RefundRequest;
+import medo.payment.web.request.RefundRequest;
 import org.junit.Test;
 
 public class PaymentTest {

@@ -9,6 +9,7 @@ import medo.payment.channel.common.ChannelServiceURIConstant;
 import medo.payment.channel.properties.ChannelRemoteModeEndpointProperties;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelPreCreateResponse;
 import org.springframework.web.client.RestTemplate;
 
 /** Channel Router Use {@link org.springframework.web.client.RestTemplate} TODO */
@@ -46,7 +47,7 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<?> preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
+    public ChannelBaseResponse<ChannelPreCreateResponse> preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
         return null;
     }
 

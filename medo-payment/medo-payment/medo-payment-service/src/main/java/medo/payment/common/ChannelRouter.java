@@ -11,12 +11,12 @@ import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
+import medo.payment.channel.response.ChannelPreCreateResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
 import medo.payment.properties.PaymentChannelProperties;
 import org.springframework.stereotype.Service;
 
 /** Payment Channel Adapter // TODO 更优雅的适配策略 */
-@Service
 public class ChannelRouter implements ChannelClient {
 
     public static final String DEPLOY_MODE = "REMOTE";
@@ -54,8 +54,9 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
-        return null;
+    public ChannelBaseResponse<ChannelPreCreateResponse> preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
+        ChannelClient channelClient = getBean();
+        return channelClient.preCreate(channelPreCreateRequest);
     }
 
     @Override
