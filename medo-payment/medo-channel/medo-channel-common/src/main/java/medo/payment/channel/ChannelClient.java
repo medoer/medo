@@ -10,9 +10,11 @@ public interface ChannelClient {
 
     ChannelBaseResponse<?> generateQR(ChannelGenQRRequest genQRRequest);
 
-    ChannelBaseResponse<ChannelMicroPayResponse> microPay(ChannelMicroPayRequest channelMicroPayRequest);
+    ChannelBaseResponse<ChannelMicroPayResponse> microPay(
+            ChannelMicroPayRequest channelMicroPayRequest);
 
-    ChannelBaseResponse<ChannelPreCreateResponse> preCreate(ChannelPreCreateRequest channelPreCreateRequest);
+    ChannelBaseResponse<ChannelPreCreateResponse> preCreate(
+            ChannelPreCreateRequest channelPreCreateRequest);
 
     ChannelBaseResponse<?> getToken(ChannelGetTokenRequest channelGetTokenRequest);
 

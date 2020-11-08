@@ -1,14 +1,13 @@
 package medo.payment.request;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.ChannelPreCreateRequest;
 import medo.payment.common.domain.Money;
 import medo.payment.domain.Terminal;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotEmpty;
 
 @Data
 public class PreCreateRequest {
@@ -19,25 +18,26 @@ public class PreCreateRequest {
         RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, channelId);
         this.channelId = channelId;
     }
-    
-    public static PreCreateRequest create(HttpServletRequest request, GenerateQrRequest generateQrRequest) {
+
+    public PreCreateRequest() {}
+
+    public static PreCreateRequest create(
+            HttpServletRequest request, GenerateQrRequest generateQrRequest) {
         PreCreateRequest preCreateRequest = new PreCreateRequest(request);
         preCreateRequest.setDesc(generateQrRequest.getDesc());
-        preCreateRequest.setMoney(new Money(generateQrRequest.getAmount()));
+        preCreateRequest.setAmount(generateQrRequest.getAmount());
         return preCreateRequest;
     }
 
     public ChannelPreCreateRequest buildChannelPreCreateRequest(String id) {
         return ChannelPreCreateRequest.builder()
                 .paymentId(id)
-                .money(money)
+                .money(new Money(amount))
                 .subject(desc)
                 .build();
     }
 
-    private PreCreateRequest() {}
-
-    @NotEmpty private Money money;
+    @NotEmpty private String amount;
 
     private Long channelId;
 
@@ -45,4 +45,10 @@ public class PreCreateRequest {
 
     private String desc;
 
+    public void setChannelId(HttpServletRequest request) {
+        Long channelId = ChannelId.getChannelId(request);
+        // set channel id in request attribute
+        RequestContextHelper.setAttribute(ChannelId.HEADER_NAME, channelId);
+        this.channelId = channelId;
+    }
 }

@@ -30,6 +30,7 @@ logging:
 medo:
   payment:
     host-name: ${HOST_NAME:http://192.168.31.115:8080}
+    cashier-host-name: ${HOST_NAME:http://192.168.31.115:4201}
     channel:
       deploy-remote: ${CHANNEL_DEPLOY_REMOTE:false}
     message:

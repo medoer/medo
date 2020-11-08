@@ -31,15 +31,20 @@ public class PaymentService {
 
     private IdGenerator idGenerator;
 
+    /**
+     * @param preCreateRequest
+     * @return channel app's payment url
+     */
     public String preCreate(PreCreateRequest preCreateRequest) {
         // create payment record
         ChannelPreCreateRequest channelPreCreateRequest =
                 preCreateRequest.buildChannelPreCreateRequest(idGenerator.generateId().asString());
-        ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse = channelRouter.preCreate(channelPreCreateRequest);
-         if (channelBaseResponse.isSuccess()) {
+        ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse =
+                channelRouter.preCreate(channelPreCreateRequest);
+        if (channelBaseResponse.isSuccess()) {
             return channelBaseResponse.getData().getQrCode();
-         }
-         throw new RuntimeException(channelBaseResponse.getData().getMsg());
+        }
+        throw new RuntimeException(channelBaseResponse.getData().getMsg());
     }
 
     public Payment microPay(MicroPayRequest microPayRequest) {

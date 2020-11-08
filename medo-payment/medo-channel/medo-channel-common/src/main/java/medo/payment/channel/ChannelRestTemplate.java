@@ -47,7 +47,8 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<ChannelPreCreateResponse> preCreate(ChannelPreCreateRequest channelPreCreateRequest) {
+    public ChannelBaseResponse<ChannelPreCreateResponse> preCreate(
+            ChannelPreCreateRequest channelPreCreateRequest) {
         return null;
     }
 
