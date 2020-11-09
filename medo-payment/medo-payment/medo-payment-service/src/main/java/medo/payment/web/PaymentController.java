@@ -50,16 +50,18 @@ public class PaymentController {
         }
         if (generateQrRequest.isStaticQR()) {
             // redirect to payment service cashier page
-            response.sendRedirect(paymentProperties.getCashierHostName() + "/h5/payment");
+            response.sendRedirect(paymentProperties.getCashierHostName() + "/h5/payment?token=" + token);
             return ResponseEntity.ok("");
         }
         if (generateQrRequest.isDynamicQR()) {
+            // TODO check qr code if overdue
             // redirect to channel app's qr code
             String qrCode =
                     paymentService.preCreate(PreCreateRequest.create(request, generateQrRequest));
             response.sendRedirect(qrCode);
             return ResponseEntity.ok(qrCode);
         }
+        // TODO redirect to error page
         throw new RuntimeException("Unsupported QR type!");
     }
 

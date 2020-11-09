@@ -10,6 +10,8 @@ import medo.payment.channel.request.ChannelPreCreateRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
 import medo.payment.common.ChannelRouter;
+import medo.payment.common.domain.Money;
+import medo.payment.common.enums.QRType;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.request.MicroPayRequest;
 import medo.payment.request.PreCreateRequest;
@@ -35,18 +37,35 @@ public class PaymentService {
      * @param preCreateRequest
      * @return channel app's payment url
      */
+    @Transactional
     public String preCreate(PreCreateRequest preCreateRequest) {
-        // create payment record
+        String paymentId = null;
+        if (QRType.STATIC.equals(preCreateRequest.getQrType()) || QRType.FIXED_STATIC.equals(preCreateRequest.getQrType())) {
+            // create payment
+            paymentId = idGenerator.generateId().asString();
+            Payment payment =
+                    Payment.createPayment(
+                            null,
+                            new Money(preCreateRequest.getAmount()),
+                            preCreateRequest.getChannelId(),
+                            paymentId);
+            paymentRepository.insert(payment);
+        }
+        // TODO Dynamic QRType
         ChannelPreCreateRequest channelPreCreateRequest =
-                preCreateRequest.buildChannelPreCreateRequest(idGenerator.generateId().asString());
+                preCreateRequest.buildChannelPreCreateRequest(paymentId);
         ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse =
                 channelRouter.preCreate(channelPreCreateRequest);
-        if (channelBaseResponse.isSuccess()) {
-            return channelBaseResponse.getData().getQrCode();
+        if (!channelBaseResponse.isSuccess()) {
+            throw new RuntimeException(channelBaseResponse.getData().getMsg());
         }
-        throw new RuntimeException(channelBaseResponse.getData().getMsg());
+        // send a query payment result event TODO
+
+        return channelBaseResponse.getData().getQrCode();
+
     }
 
+    @Transactional
     public Payment microPay(MicroPayRequest microPayRequest) {
         Terminal terminal = microPayRequest.getTerminal();
         // create payment
@@ -64,7 +83,8 @@ public class PaymentService {
                 channelRouter.microPay(channelMicroPayRequest);
         // TODO
         if (channelMicroPayResponse.isError()) {
-            throw new RuntimeException("invoke channel error");
+            // TODO 这里不应该抛出异常，因网络原因导致的异常需要做补偿查询
+            // throw new RuntimeException("invoke channel error");
         }
         if (channelMicroPayResponse.isFail()) {
             throw new RuntimeException("invoke channel failed");
