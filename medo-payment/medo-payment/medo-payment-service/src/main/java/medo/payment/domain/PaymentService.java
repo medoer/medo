@@ -39,19 +39,23 @@ public class PaymentService {
      */
     @Transactional
     public String preCreate(PreCreateRequest preCreateRequest) {
-        String paymentId = null;
-        if (QRType.STATIC.equals(preCreateRequest.getQrType()) || QRType.FIXED_STATIC.equals(preCreateRequest.getQrType())) {
-            // create payment
-            paymentId = idGenerator.generateId().asString();
-            Payment payment =
-                    Payment.createPayment(
-                            null,
-                            new Money(preCreateRequest.getAmount()),
-                            preCreateRequest.getChannelId(),
-                            paymentId);
-            paymentRepository.insert(payment);
-        }
-        // TODO Dynamic QRType
+        String paymentId = idGenerator.generateId().asString();
+        Payment payment =
+                Payment.createPayment(
+                        null,
+                        new Money(preCreateRequest.getAmount()),
+                        preCreateRequest.getChannelId(),
+                        paymentId);
+        paymentRepository.insert(payment);
+        return preCreate(preCreateRequest, paymentId);
+    }
+
+    /**
+     * @param preCreateRequest
+     * @param paymentId
+     * @return channel app's payment url
+     */
+    private String preCreate(PreCreateRequest preCreateRequest, String paymentId) {
         ChannelPreCreateRequest channelPreCreateRequest =
                 preCreateRequest.buildChannelPreCreateRequest(paymentId);
         ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse =
@@ -97,6 +101,7 @@ public class PaymentService {
         return payment;
     }
 
+    @Transactional
     public Payment refund(RefundRequest refundRequest) {
 
         Payment payment = paymentRepository.selectByPaymentId(refundRequest.getPaymentId());

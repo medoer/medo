@@ -1,10 +1,5 @@
 package medo.payment.web;
 
-import java.io.IOException;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
 import medo.payment.properties.PaymentProperties;
@@ -14,6 +9,12 @@ import medo.payment.request.PreCreateRequest;
 import medo.payment.request.RefundRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/payment")
@@ -37,11 +38,12 @@ public class PaymentController {
     public ResponseEntity<?> scan(
             @RequestParam String token, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+        // TODO dynamic qr just can be scan once time
+        // parsing the jwt token, if is timeout throw a exception
         GenerateQrRequest generateQrRequest =
                 GenerateQrRequest.verifyToken(token, paymentProperties.getPaymentSignToken());
-        // check
         generateQrRequest.checkParam();
-        if (generateQrRequest.isFixedStaticQR()) {
+        if (generateQrRequest.isFixedStaticQR() || generateQrRequest.isDynamicQR()) {
             // redirect to channel app's qr code
             String qrCode =
                     paymentService.preCreate(PreCreateRequest.create(request, generateQrRequest));
@@ -52,14 +54,6 @@ public class PaymentController {
             // redirect to payment service cashier page
             response.sendRedirect(paymentProperties.getCashierHostName() + "/h5/payment?token=" + token);
             return ResponseEntity.ok("");
-        }
-        if (generateQrRequest.isDynamicQR()) {
-            // TODO check qr code if overdue
-            // redirect to channel app's qr code
-            String qrCode =
-                    paymentService.preCreate(PreCreateRequest.create(request, generateQrRequest));
-            response.sendRedirect(qrCode);
-            return ResponseEntity.ok(qrCode);
         }
         // TODO redirect to error page
         throw new RuntimeException("Unsupported QR type!");

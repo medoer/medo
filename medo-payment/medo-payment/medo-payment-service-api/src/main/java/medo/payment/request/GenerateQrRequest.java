@@ -27,13 +27,15 @@ public class GenerateQrRequest {
     private QRType qrType = QRType.STATIC;
 
     public String generateToken() {
+        // TODO define the duration to config
+        int duration = isDynamicQR() ? 2 : 200;
         String token =
                 JWT.create()
                         .withClaim(CLAIM_AMOUNT, amount)
                         .withClaim(DESC, desc)
                         .withClaim(QR_TYPE, qrType.name())
                         .withExpiresAt(
-                                new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(2)))
+                                new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(duration)))
                         .sign(Sign.getAlgorithm(signToken));
         return token;
     }
@@ -42,6 +44,10 @@ public class GenerateQrRequest {
         return QRType.STATIC.equals(qrType);
     }
 
+    /**
+     *
+     * @return is dynamic qr or not
+     */
     public boolean isDynamicQR() {
         return QRType.DYNAMIC.equals(qrType);
     }
