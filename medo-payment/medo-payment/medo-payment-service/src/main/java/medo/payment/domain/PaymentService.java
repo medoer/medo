@@ -58,6 +58,7 @@ public class PaymentService {
     private String preCreate(PreCreateRequest preCreateRequest, String paymentId) {
         ChannelPreCreateRequest channelPreCreateRequest =
                 preCreateRequest.buildChannelPreCreateRequest(paymentId);
+        channelPreCreateRequest.setSubject("TODO");
         ChannelBaseResponse<ChannelPreCreateResponse> channelBaseResponse =
                 channelRouter.preCreate(channelPreCreateRequest);
         if (!channelBaseResponse.isSuccess()) {

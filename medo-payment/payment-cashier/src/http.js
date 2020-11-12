@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-axios.defaults.timeout = 30000
+axios.defaults.timeout = 500000
 
 if (window.performance) {
   axios.interceptors.request.use(

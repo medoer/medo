@@ -67,12 +67,13 @@ public class PaymentController {
      */
     @PostMapping("/submit")
     public ResponseEntity<String> submit(
-            @RequestBody PreCreateRequest preCreateRequest, HttpServletRequest request) {
+            @RequestBody PreCreateRequest preCreateRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // invoke channel to create a pre payment order
         // return a token to invoke user's app to pay
         preCreateRequest.setChannelId(request);
         String qrCode = paymentService.preCreate(preCreateRequest);
-        return ResponseEntity.ok(qrCode);
+        response.sendRedirect(qrCode);
+        return ResponseEntity.ok("");
     }
 
     /**
