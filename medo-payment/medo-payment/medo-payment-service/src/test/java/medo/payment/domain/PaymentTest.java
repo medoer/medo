@@ -1,14 +1,15 @@
 package medo.payment.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
-import java.util.UUID;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.common.domain.Money;
-import medo.payment.web.request.RefundRequest;
+import medo.payment.request.RefundRequest;
 import org.junit.Test;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class PaymentTest {
 
