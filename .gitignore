@@ -35,3 +35,11 @@ logs/
 ##  docker compose
 
 .env
+
+## fontend
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+!*/payment-cashier/build/

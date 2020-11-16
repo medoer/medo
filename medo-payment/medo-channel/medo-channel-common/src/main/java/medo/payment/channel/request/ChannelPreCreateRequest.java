@@ -11,5 +11,4 @@ public class ChannelPreCreateRequest {
     private String subject;
     private String paymentId;
     private Money money;
-
 }

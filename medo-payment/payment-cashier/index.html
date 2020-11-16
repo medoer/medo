@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <style>
+    html,
+    body,
+    p {
+      padding: 0;
+      margin: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background-color: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    button,
+    span,
+    div {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    button {
+      border: 0;
+    }
+
+    body {
+      -webkit-text-size-adjust: 100% !important;
+      font-family: 'PingFang SC'
+    }
+
+    #app {
+      min-height: 100%;
+    }
+
+    ul,
+    li {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script>
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) {
+            return;
+          }
+          docEl.style.fontSize = 10 * (clientWidth / 720) + 'px';
+        };
+
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+
+      var viewportEl = document.querySelector('meta[name="viewport"]')
+      var scale = 1 / window.devicePixelRatio
+      var content = 'width=device-width, initial-scale=' + scale + ', minimum-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no';
+      if (viewportEl) {
+        viewportEl.setAttribute('content', content);
+      } else {
+        viewportEl = document.createElement('meta');
+        viewportEl.setAttribute('name', 'viewport');
+        viewportEl.setAttribute('content', content);
+        document.head.appendChild(viewportEl);
+      }
+    })(document, window)
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

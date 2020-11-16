@@ -10,8 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-
 @Configuration
 public class ChannelConfiguration {
 
@@ -28,8 +26,9 @@ public class ChannelConfiguration {
     }
 
     @Bean
-    public ChannelRouter channelRouter(PaymentChannelProperties paymentChannelProperties,
-                                       @Autowired(required = false) ChannelRestTemplate channelRestTemplate) {
+    public ChannelRouter channelRouter(
+            PaymentChannelProperties paymentChannelProperties,
+            @Autowired(required = false) ChannelRestTemplate channelRestTemplate) {
         return new ChannelRouter(paymentChannelProperties, channelRestTemplate);
     }
 }
