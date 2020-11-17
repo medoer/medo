@@ -11,7 +11,6 @@ import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
 import medo.payment.common.ChannelRouter;
 import medo.payment.common.domain.Money;
-import medo.payment.common.enums.QRType;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.request.MicroPayRequest;
 import medo.payment.request.PreCreateRequest;
@@ -67,7 +66,6 @@ public class PaymentService {
         // send a query payment result event TODO
 
         return channelBaseResponse.getData().getQrCode();
-
     }
 
     @Transactional

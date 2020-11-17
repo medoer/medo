@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/**
- * @Author: Bryce
- * @Date: 2020/11/9 22:26
- */
+/** @Author: Bryce @Date: 2020/11/9 22:26 */
 @Slf4j
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -20,5 +17,4 @@ public class ControllerExceptionHandler {
         log.error(e.getMessage(), e);
         return ResponseEntity.ok(e.getMessage());
     }
-
 }

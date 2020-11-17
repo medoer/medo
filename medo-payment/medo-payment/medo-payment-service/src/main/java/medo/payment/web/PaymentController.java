@@ -1,5 +1,10 @@
 package medo.payment.web;
 
+import java.io.IOException;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
 import medo.payment.properties.PaymentProperties;
@@ -9,12 +14,6 @@ import medo.payment.request.PreCreateRequest;
 import medo.payment.request.RefundRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/payment")
@@ -52,7 +51,8 @@ public class PaymentController {
         }
         if (generateQrRequest.isStaticQR()) {
             // redirect to payment service cashier page
-            response.sendRedirect(paymentProperties.getCashierHostName() + "/h5/payment?token=" + token);
+            response.sendRedirect(
+                    paymentProperties.getCashierHostName() + "/h5/payment?token=" + token);
             return ResponseEntity.ok("");
         }
         // TODO redirect to error page
@@ -67,7 +67,10 @@ public class PaymentController {
      */
     @PostMapping("/submit")
     public ResponseEntity<String> submit(
-            @RequestBody PreCreateRequest preCreateRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+            @RequestBody PreCreateRequest preCreateRequest,
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws IOException {
         // invoke channel to create a pre payment order
         // return a token to invoke user's app to pay
         preCreateRequest.setChannelId(request);

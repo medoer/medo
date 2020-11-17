@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  medo-service:
+    build: ./medo-payment/medo-payment-service
+    ports:
+      - "8081:8080"
+    environment:
+      JAVA_OPTS: -Xmx256m
+  payment-cashier-service:
+    ports:
+      - "80:80"
+    build: ./payment-cashier

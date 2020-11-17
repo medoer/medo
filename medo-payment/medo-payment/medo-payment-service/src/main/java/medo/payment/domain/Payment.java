@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import medo.common.mysql.model.BaseModel;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
-import medo.payment.common.enums.QRType;
 import medo.payment.messaging.PaymentRefundPending;
 import medo.payment.messaging.PaymentSucceed;
 import medo.payment.request.RefundRequest;
@@ -47,7 +46,7 @@ public class Payment extends BaseModel<Payment> {
 
     private PaymentType type;
     @Version private Integer version;
-//    private QRType qrType;
+    //    private QRType qrType;
 
     public static Payment createPayment(
             Terminal terminal, Money amount, Long channelId, String paymentId) {

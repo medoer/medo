@@ -35,7 +35,9 @@ public class GenerateQrRequest {
                         .withClaim(DESC, desc)
                         .withClaim(QR_TYPE, qrType.name())
                         .withExpiresAt(
-                                new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(duration)))
+                                new Date(
+                                        System.currentTimeMillis()
+                                                + TimeUnit.HOURS.toMillis(duration)))
                         .sign(Sign.getAlgorithm(signToken));
         return token;
     }
@@ -44,10 +46,7 @@ public class GenerateQrRequest {
         return QRType.STATIC.equals(qrType);
     }
 
-    /**
-     *
-     * @return is dynamic qr or not
-     */
+    /** @return is dynamic qr or not */
     public boolean isDynamicQR() {
         return QRType.DYNAMIC.equals(qrType);
     }
