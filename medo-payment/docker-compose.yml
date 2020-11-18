@@ -1,13 +1,17 @@
 version: '3.7'
 
 services:
-  medo-service:
+  medo-payment-service:
+    container_name: payment-service
+    image: medo/payment
     build: ./medo-payment/medo-payment-service
     ports:
       - "8081:8080"
     environment:
       JAVA_OPTS: -Xmx256m
   payment-cashier-service:
+    container_name: cashier-service
+    image: medo/cashier
     ports:
       - "80:80"
     build: ./payment-cashier
