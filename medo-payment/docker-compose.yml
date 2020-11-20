@@ -8,10 +8,23 @@ services:
     ports:
       - "8081:8080"
     environment:
-      JAVA_OPTS: -Xmx256m
+#      - JAVA_OPTS: -Xmx256m
+      - SPRING_PROFILES_ACTIVE
+      - PAYMENT_DATASOURCE_URL
+      - PAYMENT_DATASOURCE_USERNAME
+      - PAYMENT_DATASOURCE_PASSWORD
+      - PROTOCOL
+      - GATEWAY_HOST
+      - APPID
+      - MERCHANT_PRIVATE_KEY
+      - ALIPAY_PUBLIC_KEY
+      - NOTIFY_URL
+      - IS_SAND_BOX
+      - HOST_NAME
+      - HOST_NAME_CASHIER
   payment-cashier-service:
     container_name: cashier-service
     image: medo/cashier
     ports:
-      - "80:80"
+      - "80:4201"
     build: ./payment-cashier
