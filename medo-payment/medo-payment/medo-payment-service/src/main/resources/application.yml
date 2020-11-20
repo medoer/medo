@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: ${PROFILES:dev}
   application:
     name: medo-payment-service
   datasource:
