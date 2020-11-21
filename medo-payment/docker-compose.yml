@@ -22,6 +22,7 @@ services:
       - IS_SAND_BOX
       - HOST_NAME
       - HOST_NAME_CASHIER
+      - PAYMENT_MESSAGE_CCONSUMER_ENV_TEST
   payment-cashier-service:
     container_name: cashier-service
     image: medo/cashier
