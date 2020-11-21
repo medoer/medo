@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import lombok.extern.slf4j.Slf4j;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
@@ -79,10 +78,9 @@ public class PaymentController {
         // return a token to invoke user's app to pay
         preCreateRequest.setChannelId(request);
         String qrCode = paymentService.preCreate(preCreateRequest);
-        log.info("qr code: {} " ,qrCode);
-//        response.sendRedirect(qrCode);
-        return ResponseEntity.ok(PaymentSubmitResponse.builder()
-                .qrCode(qrCode).build());
+        log.info("qr code: {} ", qrCode);
+        //        response.sendRedirect(qrCode);
+        return ResponseEntity.ok(PaymentSubmitResponse.builder().qrCode(qrCode).build());
     }
 
     /**
