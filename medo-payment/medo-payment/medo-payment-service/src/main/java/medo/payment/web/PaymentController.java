@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import lombok.extern.slf4j.Slf4j;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
 import medo.payment.properties.PaymentProperties;
@@ -15,6 +17,7 @@ import medo.payment.request.RefundRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/payment")
 public class PaymentController {
@@ -75,6 +78,7 @@ public class PaymentController {
         // return a token to invoke user's app to pay
         preCreateRequest.setChannelId(request);
         String qrCode = paymentService.preCreate(preCreateRequest);
+        log.info("qr code: {} " ,qrCode);
         response.sendRedirect(qrCode);
         return ResponseEntity.ok("");
     }
