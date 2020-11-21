@@ -369,27 +369,29 @@ export default {
           alert(JSON.stringify(res))
           // if (res.data.code === '10000') {
             vm.params = res.data
-            if (vm.page.channelEn === 'wechat') {
-              vm.runWeixinJS(vm.wechatpay)
-            } else if (vm.page.channelEn === 'alipay') {
-              if (!vm.page.tradeNO) {
-                window.location.href =
-                  res.data.data.redirect +
-                  '?trxId=' +
-                  vm.params.trxId +
-                  '&hasAd=' +
-                  vm.params.hasAd
-                vm.inactivePayStatus()
-              } else {
-                vm.runAlipayJS(vm.alipay)
-              }
-            }
+            vm.runAlipayJS(vm.alipay)
+            // if (vm.page.channelEn === 'wechat') {
+            //   vm.runWeixinJS(vm.wechatpay)
+            // } else if (vm.page.channelEn === 'alipay') {
+            //   if (!vm.page.tradeNO) {
+            //     window.location.href =
+            //       res.data.data.redirect +
+            //       '?trxId=' +
+            //       vm.params.trxId +
+            //       '&hasAd=' +
+            //       vm.params.hasAd
+            //     vm.inactivePayStatus()
+            //   } else {
+            //     vm.runAlipayJS(vm.alipay)
+            //   }
+            // }
           // } else {
           //   vm.inactivePayStatus()
           //   vm.$ga.event('API return !200', JSON.stringify(res.data), '!200')
           // }
         })
         .catch(error => {
+          alert(JSON.stringify(error))
           vm.$ga.exception('postQrcode error msg: ' + JSON.stringify(error))
           vm.$ga.event('API Error', error + '', 'Exception')
           alert('Error Msg: ' + error)
