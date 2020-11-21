@@ -211,13 +211,13 @@ export default {
       this.tools = activeTools
     },
     inactivePayStatus() {
-      if (this.channelName === 'alipay') {
+      // if (this.channelName === 'alipay') {
         this.runAlipayJS(function() {
           AlipayJSBridge.call('hideLoading')
         })
-      } else {
-        this.$emit('update:paying', false)
-      }
+      // } else {
+      //   this.$emit('update:paying', false)
+      // }
       this.tools = defaultTools
     },
     runWeixinJS(cb) {
@@ -369,18 +369,19 @@ export default {
           alert(JSON.stringify(res))
           // if (res.data.code === '10000') {
             vm.params = res.data
-            vm.runAlipayJS(vm.alipay)
+
             // if (vm.page.channelEn === 'wechat') {
             //   vm.runWeixinJS(vm.wechatpay)
             // } else if (vm.page.channelEn === 'alipay') {
             //   if (!vm.page.tradeNO) {
-            //     window.location.href =
-            //       res.data.data.redirect +
-            //       '?trxId=' +
-            //       vm.params.trxId +
-            //       '&hasAd=' +
-            //       vm.params.hasAd
-            //     vm.inactivePayStatus()
+                window.location.href =
+                  res.data.qrCode
+                  //  +
+                  // '?trxId=' +
+                  // vm.params.trxId +
+                  // '&hasAd=' +
+                  // vm.params.hasAd
+                vm.inactivePayStatus()
             //   } else {
             //     vm.runAlipayJS(vm.alipay)
             //   }
