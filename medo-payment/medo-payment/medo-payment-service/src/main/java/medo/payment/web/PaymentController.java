@@ -14,6 +14,7 @@ import medo.payment.request.GenerateQrRequest;
 import medo.payment.request.MicroPayRequest;
 import medo.payment.request.PreCreateRequest;
 import medo.payment.request.RefundRequest;
+import medo.payment.response.PaymentSubmitResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +70,7 @@ public class PaymentController {
      * @return
      */
     @PostMapping("/submit")
-    public ResponseEntity<String> submit(
+    public ResponseEntity<PaymentSubmitResponse> submit(
             @RequestBody PreCreateRequest preCreateRequest,
             HttpServletRequest request,
             HttpServletResponse response)
@@ -79,8 +80,9 @@ public class PaymentController {
         preCreateRequest.setChannelId(request);
         String qrCode = paymentService.preCreate(preCreateRequest);
         log.info("qr code: {} " ,qrCode);
-        response.sendRedirect(qrCode);
-        return ResponseEntity.ok("");
+//        response.sendRedirect(qrCode);
+        return ResponseEntity.ok(PaymentSubmitResponse.builder()
+                .qrCode(qrCode).build());
     }
 
     /**
