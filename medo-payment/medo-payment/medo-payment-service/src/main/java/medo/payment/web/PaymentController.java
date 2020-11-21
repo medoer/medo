@@ -1,6 +1,7 @@
 package medo.payment.web;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import medo.payment.domain.PaymentRepository;
 import medo.payment.domain.PaymentService;
 import medo.payment.properties.PaymentProperties;
-import medo.payment.request.GenerateQrRequest;
-import medo.payment.request.MicroPayRequest;
-import medo.payment.request.PreCreateRequest;
-import medo.payment.request.RefundRequest;
+import medo.payment.request.*;
 import medo.payment.response.PaymentSubmitResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -99,9 +97,11 @@ public class PaymentController {
     @RequestMapping(
             method = {RequestMethod.GET, RequestMethod.POST},
             path = "/notify")
-    public ResponseEntity<?> paymentNotify(HttpServletRequest request) {
+    public ResponseEntity<?> paymentNotify(HttpServletRequest request, @RequestParam Map<String, String> notifyParam) {
         // use HttpServletRequest to catch all channel's notification
-        return null;
+        NotificationVerifyRequest notificationVerifyRequest = NotificationVerifyRequest.create(request, notifyParam);
+        paymentService.verifyNotify(notificationVerifyRequest);
+        return ResponseEntity.ok("");
     }
 
     @RequestMapping(

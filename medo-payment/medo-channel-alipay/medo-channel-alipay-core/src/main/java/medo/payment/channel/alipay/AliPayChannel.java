@@ -10,6 +10,9 @@ import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.*;
 import medo.payment.common.domain.Money;
+import medo.payment.common.domain.PaymentState;
+
+import java.util.Map;
 
 @Slf4j
 public class AliPayChannel implements ChannelClient {
@@ -270,10 +273,24 @@ public class AliPayChannel implements ChannelClient {
     public ChannelBaseResponse<ChannelVerifyResponse> verify(
             ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         ChannelVerifyResponse channelVerifyResponse = ChannelVerifyResponse.create();
-        return SupplierExceptional.of(() -> Factory.Payment.Common().verifyNotify(null))
+        Map<String, String> notifyParam = channelNotificationVerifyRequest.getNotifyParam();
+        return SupplierExceptional.of(() -> Factory.Payment.Common().verifyNotify(notifyParam))
                 .map(
                         teaModel -> {
                             channelVerifyResponse.setVerify(teaModel);
+                            if (teaModel) {
+                                // TODO
+                                channelVerifyResponse.setPaymentId(notifyParam.get("outTradeNo"));
+                                // TODO convert real alipay status
+                                String state = notifyParam.get("status");
+                                PaymentState paymentState = null;
+                                if ("success".equals(state)) {
+                                    paymentState = PaymentState.SUCCEED;
+                                } else {
+                                    paymentState = PaymentState.ERROR;
+                                }
+                                channelVerifyResponse.setState(paymentState);
+                            }
                             return ChannelBaseResponse.succeed(channelVerifyResponse);
                         },
                         e -> {

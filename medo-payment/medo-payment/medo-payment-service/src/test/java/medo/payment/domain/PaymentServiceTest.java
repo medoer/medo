@@ -9,6 +9,7 @@ import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
 import medo.payment.common.ChannelRouter;
 import medo.payment.common.domain.Money;
+import medo.payment.common.domain.PaymentState;
 import medo.payment.request.MicroPayRequest;
 import medo.payment.request.RefundRequest;
 import org.junit.Test;
@@ -98,4 +99,9 @@ public class PaymentServiceTest {
         Payment refund = paymentService.refund(refundRequest);
         assertThat(refund).isNotNull();
     }
+
+//    @Test
+//    public void testVerify() {
+//        paymentService.verifyNotify();
+//    }
 }

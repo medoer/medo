@@ -10,6 +10,7 @@ import medo.payment.channel.properties.ChannelRemoteModeEndpointProperties;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
+import medo.payment.channel.response.ChannelVerifyResponse;
 import org.springframework.web.client.RestTemplate;
 
 /** Channel Router Use {@link org.springframework.web.client.RestTemplate} TODO */
@@ -104,7 +105,7 @@ public class ChannelRestTemplate implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse<?> verify(
+    public ChannelBaseResponse<ChannelVerifyResponse> verify(
             ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
         return null;
     }

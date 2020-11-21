@@ -6,17 +6,23 @@ import medo.common.core.id.IdGenerator;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.ChannelMicroPayRequest;
+import medo.payment.channel.request.ChannelNotificationVerifyRequest;
 import medo.payment.channel.request.ChannelPreCreateRequest;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
+import medo.payment.channel.response.ChannelVerifyResponse;
 import medo.payment.common.ChannelRouter;
 import medo.payment.common.domain.Money;
+import medo.payment.common.domain.PaymentState;
 import medo.payment.messaging.PaymentDomainEventPublisher;
 import medo.payment.request.MicroPayRequest;
+import medo.payment.request.NotificationVerifyRequest;
 import medo.payment.request.PreCreateRequest;
 import medo.payment.request.RefundRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Transactional
@@ -125,5 +131,30 @@ public class PaymentService {
         // publish refund event
         paymentDomainEventPublisher.publish(refund, result.events);
         return refund;
+    }
+
+    @Transactional
+    public void verifyNotify(NotificationVerifyRequest notificationVerifyRequest) {
+        ChannelNotificationVerifyRequest channelNotificationVerifyRequest
+                = notificationVerifyRequest.buildChannelNotificationVerifyRequest();
+
+        ChannelBaseResponse<ChannelVerifyResponse> verifyResponseChannelBaseResponse
+                = channelRouter.verify(channelNotificationVerifyRequest);
+        if (!verifyResponseChannelBaseResponse.isSuccess()) {
+            // TODO ChannelBaseResponse add error message
+            throw new RuntimeException("verify error!");
+        }
+        ChannelVerifyResponse res = verifyResponseChannelBaseResponse.getData();
+        if (!res.isVerify()) {
+            throw new RuntimeException("verify false!");
+        }
+        Payment payment = paymentRepository.selectByPaymentId(res.getPaymentId());
+        if (PaymentState.SUCCEED.equals(res.getState())) {
+            ResultWithDomainEvents<Payment, PaymentDomainEvent> result = payment.noteSucceed();
+            paymentRepository.updateById(payment);
+            // email notification \ payment result query \ data transfer
+            paymentDomainEventPublisher.publish(result.result, result.events);
+        }
+        // TODO other state
     }
 }

@@ -1,4 +1,4 @@
-package medo.payment.domain;
+package medo.payment.common.domain;
 
 public enum PaymentState {
     PAYMENT_PENDING,

@@ -4,6 +4,7 @@ import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
+import medo.payment.channel.response.ChannelVerifyResponse;
 
 /** Channel Common Interface */
 public interface ChannelClient {
@@ -41,6 +42,6 @@ public interface ChannelClient {
     ChannelBaseResponse<?> cancel(ChannelCancelRequest channelCancelRequest);
 
     /** verify cer */
-    ChannelBaseResponse<?> verify(
+    ChannelBaseResponse<ChannelVerifyResponse> verify(
             ChannelNotificationVerifyRequest channelNotificationVerifyRequest);
 }

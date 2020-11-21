@@ -13,6 +13,7 @@ import medo.payment.channel.request.*;
 import medo.payment.channel.response.ChannelMicroPayResponse;
 import medo.payment.channel.response.ChannelPreCreateResponse;
 import medo.payment.channel.response.ChannelRefundResponse;
+import medo.payment.channel.response.ChannelVerifyResponse;
 import medo.payment.properties.PaymentChannelProperties;
 
 /** Payment Channel Adapter // TODO 更优雅的适配策略 */
@@ -112,9 +113,10 @@ public class ChannelRouter implements ChannelClient {
     }
 
     @Override
-    public ChannelBaseResponse verify(
+    public ChannelBaseResponse<ChannelVerifyResponse> verify(
             ChannelNotificationVerifyRequest channelNotificationVerifyRequest) {
-        return null;
+        ChannelClient channelClient = getBean();
+        return channelClient.verify(channelNotificationVerifyRequest);
     }
 
     private ChannelClient getBean() {

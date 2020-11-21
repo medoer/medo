@@ -1,8 +1,5 @@
 package medo.payment.domain;
 
-import static java.util.Collections.singletonList;
-import static medo.payment.domain.PaymentState.*;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -12,10 +9,14 @@ import lombok.EqualsAndHashCode;
 import medo.common.mysql.model.BaseModel;
 import medo.framework.message.event.common.ResultWithDomainEvents;
 import medo.payment.common.domain.Money;
+import medo.payment.common.domain.PaymentState;
 import medo.payment.messaging.PaymentRefundPending;
 import medo.payment.messaging.PaymentSucceed;
 import medo.payment.request.RefundRequest;
 import org.apache.commons.lang3.StringUtils;
+
+import static java.util.Collections.singletonList;
+import static medo.payment.common.domain.PaymentState.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
