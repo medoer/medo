@@ -4,6 +4,7 @@ import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.util.ResponseChecker;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.exception.SupplierExceptional;
+import medo.common.core.json.JSONMapper;
 import medo.payment.channel.ChannelClient;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.request.*;
@@ -80,6 +81,7 @@ public class AliPayChannel implements ChannelClient {
                                 return ChannelBaseResponse.succeed(channelPreCreateResponse);
                             }
                             channelPreCreateResponse.setMsg(teaModel.msg);
+                            log.error(JSONMapper.toJSON(teaModel));
                             return ChannelBaseResponse.failed(channelPreCreateResponse);
                         },
                         e -> {

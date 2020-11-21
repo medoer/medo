@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${PROFILES:dev}
+    active: ${PROFILES_ACTIVE:dev}
   application:
     name: medo-payment-service
   datasource:
@@ -36,6 +36,6 @@ medo:
     message:
       consumer:
         env:
-          test: ${PAYMENT_MESSAGE_CCONSUMER_ENV_TEST:false}
+          test: ${PAYMENT_MESSAGE_CCONSUMER_ENV_TEST:true}
   database:
     schema: ${MEDO_MESSEAGE_DATABASE:eventuate}

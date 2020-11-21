@@ -34,6 +34,7 @@ public final class SupplierExceptional<T> {
         try {
             t = supplier.get();
         } catch (Throwable throwable) {
+            log.error(throwable.getMessage(), throwable);
             R r = callback.apply(throwable);
             return new SupplierExceptional<>(() -> r);
         }
@@ -61,6 +62,7 @@ public final class SupplierExceptional<T> {
         try {
             return supplier.get();
         } catch (Throwable e) {
+            log.error(e.getMessage(), e);
             return value;
         }
     }
@@ -69,6 +71,7 @@ public final class SupplierExceptional<T> {
         try {
             return supplier.get();
         } catch (Throwable e) {
+            log.error(e.getMessage(), e);
             return other.get();
         }
     }
@@ -77,6 +80,7 @@ public final class SupplierExceptional<T> {
         try {
             return supplier.get();
         } catch (Throwable e) {
+            log.error(e.getMessage(), e);
             return other.get();
         }
     }
@@ -85,6 +89,7 @@ public final class SupplierExceptional<T> {
         try {
             return supplier.get();
         } catch (Throwable e) {
+            log.error(e.getMessage(), e);
             throw exceptionSupplier.get();
         }
     }
