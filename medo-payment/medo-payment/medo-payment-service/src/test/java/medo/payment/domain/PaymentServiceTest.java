@@ -11,14 +11,22 @@ import medo.payment.common.ChannelRouter;
 import medo.payment.common.domain.Money;
 import medo.payment.common.domain.PaymentState;
 import medo.payment.request.MicroPayRequest;
+import medo.payment.request.NotificationVerifyRequest;
 import medo.payment.request.RefundRequest;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,9 +36,19 @@ public class PaymentServiceTest {
 
     @MockBean private ChannelRouter channelRouter;
 
+    private MockHttpServletRequest mockHttpServletRequest;
+
     private String aliPayAuthCode = "286363410667260325";
 
     private String wechatAuthCode = "134662918866125527";
+
+    @Test
+    public void setUp() {
+        mockHttpServletRequest = new MockHttpServletRequest();
+        mockHttpServletRequest.addHeader("User-agent", "AlipayClient");
+        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(mockHttpServletRequest);
+        RequestContextHolder.setRequestAttributes(servletRequestAttributes);
+    }
 
     @Test
     public void testMicroPayParam() {
@@ -100,8 +118,12 @@ public class PaymentServiceTest {
         assertThat(refund).isNotNull();
     }
 
-//    @Test
-//    public void testVerify() {
-//        paymentService.verifyNotify();
-//    }
+    @Test
+    @Transactional
+    public void testVerify() {
+        NotificationVerifyRequest notificationVerifyRequest = NotificationVerifyRequest.create(mockHttpServletRequest, new HashMap<>());
+        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> {
+            paymentService.verifyNotify(notificationVerifyRequest);
+        });
+    }
 }
