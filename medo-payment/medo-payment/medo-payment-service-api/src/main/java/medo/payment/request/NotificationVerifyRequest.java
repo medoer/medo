@@ -1,17 +1,13 @@
 package medo.payment.request;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
 import medo.common.spring.request.RequestContextHelper;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.request.ChannelNotificationVerifyRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-
-/**
- * @Author: Bryce
- * @Date: 2020/11/21 21:21
- */
+/** @Author: Bryce @Date: 2020/11/21 21:21 */
 @Data
 public class NotificationVerifyRequest {
 
@@ -24,16 +20,18 @@ public class NotificationVerifyRequest {
         this.request = request;
     }
 
-    public static NotificationVerifyRequest create(HttpServletRequest request, Map<String, String> notifyParam) {
-        NotificationVerifyRequest notificationVerifyRequest = new NotificationVerifyRequest(request);
+    public static NotificationVerifyRequest create(
+            HttpServletRequest request, Map<String, String> notifyParam) {
+        NotificationVerifyRequest notificationVerifyRequest =
+                new NotificationVerifyRequest(request);
         notificationVerifyRequest.setNotifyParam(notifyParam);
         return notificationVerifyRequest;
     }
 
     public ChannelNotificationVerifyRequest buildChannelNotificationVerifyRequest() {
-        ChannelNotificationVerifyRequest channelNotificationVerifyRequest = new ChannelNotificationVerifyRequest();
+        ChannelNotificationVerifyRequest channelNotificationVerifyRequest =
+                new ChannelNotificationVerifyRequest();
         channelNotificationVerifyRequest.setNotifyParam(this.notifyParam);
         return channelNotificationVerifyRequest;
     }
-
 }

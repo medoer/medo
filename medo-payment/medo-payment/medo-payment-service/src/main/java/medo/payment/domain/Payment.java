@@ -1,5 +1,8 @@
 package medo.payment.domain;
 
+import static java.util.Collections.singletonList;
+import static medo.payment.common.domain.PaymentState.*;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
@@ -14,9 +17,6 @@ import medo.payment.messaging.PaymentRefundPending;
 import medo.payment.messaging.PaymentSucceed;
 import medo.payment.request.RefundRequest;
 import org.apache.commons.lang3.StringUtils;
-
-import static java.util.Collections.singletonList;
-import static medo.payment.common.domain.PaymentState.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
