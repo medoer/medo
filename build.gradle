@@ -20,6 +20,7 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+
 repositories {
     mavenCentral()
 }
@@ -39,9 +40,9 @@ subprojects {
 
     repositories {
         mavenCentral()
-        // eventuate central
-        maven { url "https://dl.bintray.com/eventuateio-oss/eventuate-maven-release" }
-        maven { url "https://snapshots.repositories.eventuate.io/repository" }
+        jcenter()
+        // eventuate central 仓库连不上 jcenter 中下载成功
+//        eventuateMavenRepoUrl.split(',').each { repoUrl -> maven { url repoUrl } }
     }
 
     tasks.withType(JavaCompile) {
