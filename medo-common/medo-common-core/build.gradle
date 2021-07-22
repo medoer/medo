@@ -2,5 +2,6 @@ description = ''
 
 dependencies {
     api "org.apache.commons:commons-lang3"
+    api "commons-io:commons-io"
     implementation "org.springframework.boot:spring-boot-starter-web"
 }

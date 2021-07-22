@@ -56,6 +56,7 @@ dependencyManagement {
     }
     imports {
         //spring bom helps us to declare dependencies without specifying config numbers.
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+
 }

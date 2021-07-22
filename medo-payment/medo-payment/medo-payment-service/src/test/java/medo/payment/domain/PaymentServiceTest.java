@@ -3,6 +3,7 @@ package medo.payment.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.util.HashMap;
 import medo.payment.channel.common.ChannelBaseResponse;
 import medo.payment.channel.common.ChannelId;
 import medo.payment.channel.response.ChannelMicroPayResponse;
@@ -26,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.HashMap;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PaymentServiceTest {
@@ -46,7 +45,8 @@ public class PaymentServiceTest {
     public void setUp() {
         mockHttpServletRequest = new MockHttpServletRequest();
         mockHttpServletRequest.addHeader("User-agent", "AlipayClient");
-        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(mockHttpServletRequest);
+        ServletRequestAttributes servletRequestAttributes =
+                new ServletRequestAttributes(mockHttpServletRequest);
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
@@ -121,9 +121,12 @@ public class PaymentServiceTest {
     @Test
     @Transactional
     public void testVerify() {
-        NotificationVerifyRequest notificationVerifyRequest = NotificationVerifyRequest.create(mockHttpServletRequest, new HashMap<>());
-        Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> {
-            paymentService.verifyNotify(notificationVerifyRequest);
-        });
+        NotificationVerifyRequest notificationVerifyRequest =
+                NotificationVerifyRequest.create(mockHttpServletRequest, new HashMap<>());
+        Assertions.assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(
+                        () -> {
+                            paymentService.verifyNotify(notificationVerifyRequest);
+                        });
     }
 }

@@ -97,9 +97,11 @@ public class PaymentController {
     @RequestMapping(
             method = {RequestMethod.GET, RequestMethod.POST},
             path = "/notify")
-    public ResponseEntity<?> paymentNotify(HttpServletRequest request, @RequestParam Map<String, String> notifyParam) {
+    public ResponseEntity<?> paymentNotify(
+            HttpServletRequest request, @RequestParam Map<String, String> notifyParam) {
         // use HttpServletRequest to catch all channel's notification
-        NotificationVerifyRequest notificationVerifyRequest = NotificationVerifyRequest.create(request, notifyParam);
+        NotificationVerifyRequest notificationVerifyRequest =
+                NotificationVerifyRequest.create(request, notifyParam);
         paymentService.verifyNotify(notificationVerifyRequest);
         return ResponseEntity.ok("");
     }

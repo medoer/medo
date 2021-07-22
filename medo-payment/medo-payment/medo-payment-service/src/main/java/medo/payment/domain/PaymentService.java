@@ -22,8 +22,6 @@ import medo.payment.request.RefundRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Slf4j
 @Transactional
 @AllArgsConstructor
@@ -135,11 +133,11 @@ public class PaymentService {
 
     @Transactional
     public void verifyNotify(NotificationVerifyRequest notificationVerifyRequest) {
-        ChannelNotificationVerifyRequest channelNotificationVerifyRequest
-                = notificationVerifyRequest.buildChannelNotificationVerifyRequest();
+        ChannelNotificationVerifyRequest channelNotificationVerifyRequest =
+                notificationVerifyRequest.buildChannelNotificationVerifyRequest();
 
-        ChannelBaseResponse<ChannelVerifyResponse> verifyResponseChannelBaseResponse
-                = channelRouter.verify(channelNotificationVerifyRequest);
+        ChannelBaseResponse<ChannelVerifyResponse> verifyResponseChannelBaseResponse =
+                channelRouter.verify(channelNotificationVerifyRequest);
         if (!verifyResponseChannelBaseResponse.isSuccess()) {
             // TODO ChannelBaseResponse add error message
             throw new RuntimeException("verify error!");

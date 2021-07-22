@@ -16,5 +16,4 @@ public class IdGeneratorTest {
         Int128 int128 = idGenerator.generateId();
         Assertions.assertThat(int128).isNotNull();
     }
-
 }

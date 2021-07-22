@@ -2,6 +2,7 @@ package medo.payment.channel.alipay;
 
 import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.util.ResponseChecker;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import medo.common.core.exception.SupplierExceptional;
 import medo.common.core.json.JSONMapper;
@@ -11,8 +12,6 @@ import medo.payment.channel.request.*;
 import medo.payment.channel.response.*;
 import medo.payment.common.domain.Money;
 import medo.payment.common.domain.PaymentState;
-
-import java.util.Map;
 
 @Slf4j
 public class AliPayChannel implements ChannelClient {
