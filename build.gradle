@@ -14,14 +14,17 @@ allprojects {
     apply plugin: 'java-library'
 }
 
-group 'tech.medo'
+group 'medo'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+// java.lang.BootstrapMethodError: java.lang.NoClassDefFoundError: org/junit/platform/engine/EngineDiscoveryListener
+ext['junit-jupiter.version'] = '5.6.0'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -30,26 +33,31 @@ bootJar.enabled = false
 
 subprojects {
 
+    apply plugin: "io.spring.dependency-management"
+
     dependencies {
+        api platform('org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE')
+        api platform('org.springframework.boot:spring-boot-dependencies:2.2.6.RELEASE')
+        api platform('medo:medo-dependencies:1.0.0-SNAPSHOT')
          // lombok
-        compileOnly "org.projectlombok:lombok"
-        annotationProcessor "org.projectlombok:lombok"
-        testAnnotationProcessor 'org.projectlombok:lombok'
-        testCompileOnly 'org.projectlombok:lombok'
+        compileOnly "org.projectlombok:lombok:1.18.4"
+        annotationProcessor "org.projectlombok:lombok:1.18.4"
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.4'
+        testCompile 'org.projectlombok:lombok:1.18.4'
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
-        // eventuate central 仓库连不上 jcenter 中下载成功
-//        eventuateMavenRepoUrl.split(',').each { repoUrl -> maven { url repoUrl } }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
+
     // global dependencies jar version
-    apply from: "${rootDir}/gradle/config/dependencies.gradle"
+//    apply from: "${rootDir}/gradle/config/dependencies.gradle"
 
     // spotless config
     apply from: "${rootDir}/gradle/config/spotless.gradle"

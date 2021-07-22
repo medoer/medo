@@ -154,7 +154,11 @@ medo
 | 实现基于数据库 polling 的 message relay       | ---                                                                    | 低     |
 | 支持更多的消息代理                            | ---                                                                    | 低     |
 
-## 快速启动
+## 快速启动t
+
+### build medo dependencies
+
+run `maven clean install` to deploy medo-dependencies(bom) to local maven rep
 
 ### docker compose 本地环境
 
