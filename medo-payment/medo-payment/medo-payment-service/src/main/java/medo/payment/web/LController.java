@@ -1,7 +1,10 @@
 package medo.payment.web;
 
 import javax.annotation.Resource;
+
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
+import medo.common.spring.request.RequestContextHelper;
 import medo.payment.domain.LhRepository;
 import medo.payment.domain.Ll;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +20,9 @@ public class LController {
 
     @GetMapping
     public void generateQR(String type) {
+        String clientIP = ServletUtil.getClientIP(RequestContextHelper.getHttpServletRequest());
         Ll ll = new Ll();
-        ll.setType(type);
+        ll.setType(type + clientIP);
         lhRepository.insert(ll);
     }
 }
