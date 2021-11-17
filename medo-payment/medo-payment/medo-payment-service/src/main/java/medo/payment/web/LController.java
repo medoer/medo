@@ -20,8 +20,8 @@ public class LController {
     @Resource private LhRepository lhRepository;
 
     @GetMapping
-    public void generateQR(String type) {
-        String clientIP = ServletUtil.getClientIP(RequestContextHelper.getHttpServletRequest());
+    public void generateQR(String type, HttpServletRequest httpServletRequest) {
+        String clientIP = ServletUtil.getClientIP(httpServletRequest);
         log.info("ip: {}", clientIP);
         Ll ll = new Ll();
         ll.setType(type + clientIP);
